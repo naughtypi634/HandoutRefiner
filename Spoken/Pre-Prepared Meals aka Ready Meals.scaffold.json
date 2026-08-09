@@ -1,0 +1,120 @@
+{
+  "groups": [
+    {
+      "name": "Personal Eating Habits",
+      "aim": "先聊聊你自己的日常饮食与做饭习惯",
+      "questions": [
+        "Do you eat at home or go to the restaurant?",
+        "How often do you cook?",
+        "Do you ever prepare meals in advance at home? How is it different from buying ready meals from a store?",
+        "What level of pre-preparedness can you accept?"
+      ]
+    },
+    {
+      "name": "Ready Meals: Pros & Cons",
+      "aim": "从便利、价格与健康三个角度权衡预加工食品",
+      "questions": [
+        "Why are pre-prepared meals popular? What are the downsides?"
+      ]
+    },
+    {
+      "name": "The Xibei Case",
+      "aim": "结合新闻案例：你知道什么，大家怎么看，你怎么看",
+      "questions": [
+        "Have you been following the news on 西贝?",
+        "What do you know about it? What are people talking about?",
+        "What is your take on the issue?"
+      ]
+    },
+    {
+      "name": "Reflection",
+      "aim": "讨论之后，回头审视自己的立场有没有变化",
+      "questions": [
+        "Has your opinion on Ready Meals changed after discussion? Explain if possible.",
+        "If you can't accept it, what can you do about it?"
+      ]
+    }
+  ],
+  "scaffolds": {
+    "Do you eat at home or go to the restaurant?": {
+      "segments": ["Do you eat at home", "or go to the restaurant?"],
+      "hint": "说说你平时更常在家吃还是下馆子，并说明原因。",
+      "words": ["home-style meals", "food delivery", "takeaway", "convenience"],
+      "phrases": ["cook from scratch", "eat out more often", "grab a quick bite", "sit down for a proper meal"],
+      "idiom": { "text": "a creature of habit", "gloss": "习惯使然" },
+      "frames": ["These days I mostly …, but on weekends I …", "I'd say I …, because …"]
+    },
+    "How often do you cook?": {
+      "segments": ["How often do you cook?"],
+      "hint": "说说你做饭的频率，并描述最近一次做饭的情况。",
+      "words": ["meal prep", "leftovers", "takeaway", "convenience"],
+      "phrases": ["whip up a quick dinner", "eat in more often", "order takeout", "stock the fridge at the weekend"],
+      "idiom": { "text": "rustle something up", "gloss": "随手凑一顿" },
+      "frames": ["I manage to cook about … times a week.", "If I have time, I …, otherwise I …"]
+    },
+    "Do you ever prepare meals in advance at home? How is it different from buying ready meals from a store?": {
+      "segments": ["Do you ever prepare meals in advance", "at home?", "How is it different", "from buying ready meals from a store?"],
+      "hint": "先对比提前备餐和买现成餐食的差别，再举例说明。",
+      "words": ["from scratch", "timesaving", "processed food", "fresh ingredients"],
+      "phrases": ["cook a big batch", "freeze portions for later", "buy ready-made dishes", "save time during the week"],
+      "idiom": { "text": "on the fly", "gloss": "临时现做" },
+      "frames": ["Compared with store-bought ones, …", "Preparing ahead means …, while picking up a meal at the shop means …"]
+    },
+    "What level of pre-preparedness can you accept?": {
+      "segments": ["What level of pre-preparedness", "can you accept?"],
+      "hint": "说明你能接受哪种程度的半成品，并划出你的底线。",
+      "words": ["trade-off", "nutritional value", "taste preference", "cost"],
+      "phrases": ["a happy medium", "weigh the pros and cons", "find a balance", "read the label"],
+      "idiom": { "text": "meet me halfway", "gloss": "各让一步" },
+      "frames": ["For me, the line is …", "I can accept …, as long as …"]
+    },
+    "Why are pre-prepared meals popular? What are the downsides?": {
+      "segments": ["Why are pre-prepared meals popular?", "What are the downsides?"],
+      "hint": "从便利、价格与健康三个角度分别给理由，再总结你的立场。",
+      "words": ["convenience", "preservatives", "nutritional value", "processed food", "home-cooked"],
+      "phrases": ["save time on cooking", "a balanced diet", "cut down on additives", "check the ingredient list"],
+      "idiom": { "text": "a double-edged sword", "gloss": "双刃剑" },
+      "frames": ["On the one hand …, but on the other hand …", "The main reason is …, and the downside is …"]
+    },
+    "Have you been following the news on 西贝?": {
+      "segments": ["Have you been following the news", "on 西贝?"],
+      "hint": "说说你从哪里看到的消息、关注了哪些细节。",
+      "words": ["public opinion", "controversy", "food safety", "brand image"],
+      "phrases": ["blow up on social media", "get mixed reactions", "be in the spotlight", "follow the story closely"],
+      "idiom": { "text": "the talk of the town", "gloss": "街谈巷议的话题" },
+      "frames": ["I've seen some buzz about it — …", "From what I gather, …"]
+    },
+    "What do you know about it? What are people talking about?": {
+      "segments": ["What do you know about it?", "What are people talking about?"],
+      "hint": "复述你了解到的信息，并区分事实和大家的议论。",
+      "words": ["reactions", "comments", "concerns", "rumors"],
+      "phrases": ["people are saying that …", "a heated discussion", "the story behind it", "on everyone's lips"],
+      "idiom": { "text": "heard it through the grapevine", "gloss": "从小道消息听说" },
+      "frames": ["From what I've read, …", "The conversation seems to center on …"]
+    },
+    "What is your take on the issue?": {
+      "segments": ["What is your take", "on the issue?"],
+      "hint": "表态 + 至少两个理由 + 一个例子。",
+      "words": ["standpoint", "insight", "fairness", "evidence"],
+      "phrases": ["look at both sides", "reserve judgment", "form an opinion", "in the long run"],
+      "idiom": { "text": "the jury is still out", "gloss": "尚无定论" },
+      "frames": ["As far as I'm concerned, …", "I'd hold off on a final view until …"]
+    },
+    "Has your opinion on Ready Meals changed after discussion? Explain if possible.": {
+      "segments": ["Has your opinion on Ready Meals changed", "after discussion?", "Explain if possible."],
+      "hint": "对比讨论前后的观点，说明是什么让你改变或坚持。",
+      "words": ["perspective", "reconsider", "convincing", "evidence"],
+      "phrases": ["see things differently", "come around to the idea", "shift my view", "open my eyes to"],
+      "idiom": { "text": "do an about-face", "gloss": "彻底转变态度" },
+      "frames": ["Before, I thought …, but after hearing …, I …", "The discussion made me realize that …"]
+    },
+    "If you can't accept it, what can you do about it?": {
+      "segments": ["If you can't accept it,", "what can you do about it?"],
+      "hint": "提出一个现实可行的方案，并说明本周可以怎么开始。",
+      "words": ["taste preference", "alternative", "compromise", "budget"],
+      "phrases": ["cook more at home", "swap … for …", "carve out time for it", "build the habit gradually"],
+      "idiom": { "text": "make do with", "gloss": "将就着用" },
+      "frames": ["Instead of …, I could …", "One practical step would be to …"]
+    }
+  }
+}

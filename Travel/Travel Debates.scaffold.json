@@ -1,0 +1,147 @@
+{
+  "curated": true,
+  "groups": [
+    {
+      "name": "Car vs. Bus",
+      "questions": [
+        "Car or bus: which do you prefer?"
+      ]
+    },
+    {
+      "name": "Beaches vs. Mountains",
+      "questions": [
+        "Beaches or mountains: which do you prefer?"
+      ]
+    },
+    {
+      "name": "Hotels vs. Hostels",
+      "questions": [
+        "Hotels or hostels: which do you like?"
+      ]
+    },
+    {
+      "name": "Summer Travel",
+      "questions": [
+        "Summer or winter travel: which is better?"
+      ]
+    },
+    {
+      "name": "Flying vs. Train",
+      "questions": [
+        "Do you enjoy train window views?"
+      ]
+    },
+    {
+      "name": "Alone vs. With Friends",
+      "questions": [
+        "Alone or with friends: which is more fun?"
+      ]
+    },
+    {
+      "name": "Souvenirs",
+      "questions": [
+        "Do souvenirs help remember trips?"
+      ]
+    },
+    {
+      "name": "Travel to Learn Cultures",
+      "questions": [
+        "Do you make friends while traveling?"
+      ]
+    },
+    {
+      "name": "Social Media's Impact",
+      "questions": [
+        "Can you have authentic experiences while posting?"
+      ]
+    },
+    {
+      "name": "Travel vs. Classroom",
+      "questions": [
+        "What can travel teach that school can't?"
+      ]
+    }
+  ],
+  "scaffolds": {
+    "Car or bus: which do you prefer?": {
+      "segments": ["Car or bus,", "which do you prefer?"],
+      "hint": "表态并给出至少两个理由，结合日常通勤场景举例。",
+      "words": ["commute", "flexibility", "peak hours", "cost-effective"],
+      "phrases": ["door-to-door convenience", "beat the traffic", "run on schedule", "packed at rush hour"],
+      "idiom": { "text": "in the driver's seat", "gloss": "占据主导" },
+      "frames": ["For me, … wins, because …", "If I'm in a hurry, I …, but otherwise I …"]
+    },
+    "Beaches or mountains: which do you prefer?": {
+      "segments": ["Beaches or mountains,", "which do you prefer?"],
+      "hint": "对比海滩与山地的活动、花费和心情，再说你的选择。",
+      "words": ["scenery", "hiking trail", "seaside", "crowd"],
+      "phrases": ["soak up the sun", "breathe fresh air", "get away from it all", "escape the heat"],
+      "idiom": { "text": "the best of both worlds", "gloss": "两全其美" },
+      "frames": ["Beaches are great for …, while mountains suit …", "If I had to pick one, I'd choose … because …"]
+    },
+    "Hotels or hostels: which do you like?": {
+      "segments": ["Hotels or hostels,", "which do you like?"],
+      "hint": "比较两种住宿的价格、氛围和适合人群，再给出建议。",
+      "words": ["privacy", "budget", "social vibe", "amenities"],
+      "phrases": ["private bathroom", "bunk bed", "common area", "front desk service"],
+      "idiom": { "text": "on a shoestring", "gloss": "穷游" },
+      "frames": ["A hotel is worth it when …", "I'd pick a hostel if …"]
+    },
+    "Summer or winter travel: which is better?": {
+      "segments": ["Summer or winter travel,", "which is better?"],
+      "hint": "对比两个季节的天气、行李和玩法，说出你的偏好。",
+      "words": ["peak season", "itinerary", "heatwave", "layering"],
+      "phrases": ["travel light", "pack for all weather", "dodge the crowds", "soak up some sun"],
+      "idiom": { "text": "sit on the fence", "gloss": "举棋不定" },
+      "frames": ["Summer is better because …, but winter has …", "It depends on whether you want … or …"]
+    },
+    "Do you enjoy train window views?": {
+      "segments": ["Do you enjoy", "train window views?"],
+      "hint": "说说你坐火车时爱看什么，为什么窗外风景吸引人。",
+      "words": ["scenery", "countryside", "slow travel", "panoramic views"],
+      "phrases": ["watch the world go by", "pass through small towns", "rolling hills", "let my mind wander"],
+      "idiom": { "text": "take the scenic route", "gloss": "走风景路线，慢慢享受" },
+      "frames": ["I love watching …", "The view from the window makes the trip … because …"]
+    },
+    "Alone or with friends: which is more fun?": {
+      "segments": ["Alone or with friends,", "which is more fun?"],
+      "hint": "对比独自旅行和结伴旅行的乐趣与麻烦，举一次经历。",
+      "words": ["itinerary", "spontaneous", "compromise", "bonding"],
+      "phrases": ["go with the flow", "split the cost", "take charge", "have each other's back"],
+      "idiom": { "text": "on the same page", "gloss": "意见一致" },
+      "frames": ["Traveling alone means …, while going with friends means …", "The fun part is …"]
+    },
+    "Do souvenirs help remember trips?": {
+      "segments": ["Do souvenirs help", "remember trips?"],
+      "hint": "说明纪念品对记忆的作用，并举例你会买什么。",
+      "words": ["keepsake", "memento", "meaningful", "clutter"],
+      "phrases": ["carry a little piece home", "take me right back", "gather dust on the shelf", "skip the souvenir shops"],
+      "idiom": { "text": "a trip down memory lane", "gloss": "重温回忆" },
+      "frames": ["Every time I see it, I …", "For me, what matters most is … because …"]
+    },
+    "Do you make friends while traveling?": {
+      "segments": ["Do you make friends", "while traveling?"],
+      "hint": "讲讲你旅途中认识朋友的方式和一次真实经历。",
+      "words": ["fellow traveler", "small talk", "common ground", "stay in touch"],
+      "phrases": ["strike up a conversation", "exchange contact info", "join forces for a day", "drift apart later"],
+      "idiom": { "text": "hit it off", "gloss": "一拍即合" },
+      "frames": ["I usually start by …", "What brings people together is …"]
+    },
+    "Can you have authentic experiences while posting?": {
+      "segments": ["Can you have authentic experiences", "while posting?"],
+      "hint": "表态 + 举例说明发照片和真实体验能否兼得。",
+      "words": ["highlight reel", "off the beaten path", "curated", "wanderlust"],
+      "phrases": ["post first, enjoy later", "live in the moment", "stage a photo", "put the phone down"],
+      "idiom": { "text": "keep it real", "gloss": "保持真实" },
+      "frames": ["I share online, but I still manage to …", "The genuine experience happens when …"]
+    },
+    "What can travel teach that school can't?": {
+      "segments": ["What can travel teach", "that school can't?"],
+      "hint": "说一个课堂学不到的东西，用旅行经历支撑。",
+      "words": ["street smarts", "adaptability", "real-world problems", "independence"],
+      "phrases": ["figure things out on your own", "deal with the unexpected", "learn by doing", "pick up practical skills"],
+      "idiom": { "text": "trial by fire", "gloss": "实战磨炼" },
+      "frames": ["School teaches …, but experience teaches …", "The biggest lesson travel gave me was …"]
+    }
+  }
+}
