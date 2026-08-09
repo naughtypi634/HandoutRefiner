@@ -15,6 +15,9 @@ Content comes from the MD (source of truth) plus an optional sidecar
 
 Usage:
     python scripts/md_to_pdf.py "path/to/handout.md"
+
+Questions-only variant (no scaffold blocks, elegant black-and-white list):
+    python scripts/md_to_pdf.py --questions-only "path/to/handout.md"
 """
 
 from __future__ import annotations
@@ -127,6 +130,18 @@ def build_questions(sections, scaffold_data: dict) -> list[dict]:
                 ordered.append({"text": item["text"], "scaffold": None})
                 covered.add(norm(item["text"]))
     return ordered
+
+
+def build_sections_questions(sections) -> list[tuple[str, list[str]]]:
+    """Return (section, [question texts]) pairs for questions-only output."""
+    groups = []
+    for name, items in sections:
+        qs = [item["text"] for item in items
+              if item["kind"] in ("question", "bullet")
+              and item["text"].strip().endswith("?")]
+        if qs:
+            groups.append((name, qs))
+    return groups
 
 
 def scaffold_lines(scaffold: dict | None) -> str:
@@ -242,6 +257,67 @@ body {{
 </body></html>"""
 
 
+def render_questions_html(title: str, groups, q_font: float,
+                          lh: float, gap: float) -> str:
+    """Questions-only layout: masthead, numbered sections, plain questions."""
+    sections_html = []
+    for idx, (name, qs) in enumerate(groups, start=1):
+        items = "".join(
+            f'<li><span class="qt">{html.escape(q)}</span></li>' for q in qs
+        )
+        sections_html.append(
+            f'<section class="sec">'
+            f'<h2>{html.escape(name)}</h2>'
+            f'<ol>{"".join(items)}</ol></section>'
+        )
+    return f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><style>
+@page {{
+  size: A4 portrait;
+  margin: 16mm 17mm 21mm 17mm;
+  @bottom-right {{
+    content: counter(page) "/" counter(pages);
+    font: 7.5pt "Calibri", "Microsoft YaHei", sans-serif;
+    color: #777;
+  }}
+}}
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+html, body {{ background: #fff; }}
+body {{
+  font-family: "Calibri", "Microsoft YaHei", sans-serif;
+  color: #111;
+  font-size: {q_font}pt;
+}}
+.masthead {{
+  padding-bottom: 1mm; margin-bottom: 6mm;
+}}
+h1 {{
+  font-family: "Georgia", serif; font-weight: normal;
+  font-size: 24pt; color: #000; line-height: 1.05;
+  text-align: center;
+}}
+.sec {{ margin-top: 6mm; }}
+h2 {{
+  break-after: avoid; page-break-after: avoid;
+  font-family: "Georgia", serif; font-size: 11.5pt; font-weight: bold;
+  color: #000; margin-bottom: 2.8mm; padding-bottom: 1.3mm;
+  border-bottom: .5pt solid #000;
+}}
+ol {{ list-style: none; }}
+li {{
+  margin-bottom: {gap:.2f}mm;
+  line-height: {lh}; text-align: justify;
+}}
+li:last-child {{ margin-bottom: 0; }}
+</style></head>
+<body>
+  <div class="masthead">
+    <h1>{html.escape(title)}</h1>
+  </div>
+  {''.join(sections_html)}
+</body></html>"""
+
+
 def page_count(html_str: str) -> int:
     return len(HTML(string=html_str).render().pages)
 
@@ -267,11 +343,32 @@ def fit_layout(render) -> tuple[float, float, float]:
     return 10.0, 7.0, 2.0
 
 
+def fit_questions_layout(render) -> tuple[float, float, float]:
+    """Find question font, line-height and row gap for exactly 2 pages."""
+    for q_font, lh in [(10.5, 1.45), (10.0, 1.42), (9.5, 1.40), (9.0, 1.38)]:
+        lo, hi = 2.0, 5.0
+        if render(q_font, lh, 2.0) > 2:
+            continue
+        best = 2.0
+        while hi - lo > 0.2:
+            mid = (lo + hi) / 2
+            if render(q_font, lh, mid) <= 2:
+                best = mid
+                lo = mid
+            else:
+                hi = mid
+        if render(q_font, lh, best) == 2:
+            return q_font, lh, best
+    return 9.0, 1.38, 2.0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("md_file", type=Path, help="Input .md handout")
     parser.add_argument("--keep-html", action="store_true",
                         help="Also write the final HTML to the temp dir (QA).")
+    parser.add_argument("--questions-only", action="store_true",
+                        help="Render only the questions (no scaffold blocks).")
     args = parser.parse_args()
 
     md_path = args.md_file.resolve()
@@ -282,22 +379,38 @@ def main() -> int:
     text = md_path.read_text(encoding="utf-8-sig")
     md_title, sections = parse_md(text)
     title = clean_title(md_title, md_path.stem)
-    scaffold_data = load_scaffolds(md_path)
-    questions = build_questions(sections, scaffold_data)
+    if args.questions_only:
+        groups = build_sections_questions(sections)
 
-    def render(q_font, scaf_font, gap):
-        return page_count(render_html(title, questions, q_font, scaf_font, gap))
+        def render(q_font, lh, gap):
+            return page_count(render_questions_html(
+                title, groups, q_font, lh, gap))
 
-    q_font, scaf_font, gap = fit_layout(render)
-    final_html = render_html(title, questions, q_font, scaf_font, gap)
+        q_font, lh, gap = fit_questions_layout(render)
+        final_html = render_questions_html(title, groups, q_font, lh, gap)
+        layout_desc = f"q {q_font}pt, line-height {lh}, row gap {gap:.1f}mm"
+    else:
+        scaffold_data = load_scaffolds(md_path)
+        questions = build_questions(sections, scaffold_data)
+
+        def render(q_font, scaf_font, gap):
+            return page_count(
+                render_html(title, questions, q_font, scaf_font, gap))
+
+        q_font, scaf_font, gap = fit_layout(render)
+        final_html = render_html(title, questions, q_font, scaf_font, gap)
+        layout_desc = (f"q {q_font}pt, scaffold {scaf_font}pt, "
+                       f"row gap {gap:.1f}mm")
     pages = page_count(final_html)
     out = md_path.with_suffix(".pdf")
     HTML(string=final_html).write_pdf(out)
 
     print(f"PDF written: {out}")
     print(f"Title     : {title}")
-    print(f"Questions : {len(questions)}")
-    print(f"Layout    : q {q_font}pt, scaffold {scaf_font}pt, row gap {gap:.1f}mm")
+    count = (sum(len(qs) for _, qs in groups)
+             if args.questions_only else len(questions))
+    print(f"Questions : {count}")
+    print(f"Layout    : {layout_desc}")
     print(f"Pages     : {pages}")
     if args.keep_html:
         html_out = Path(tempfile.gettempdir()) / (md_path.stem + ".qa.html")
