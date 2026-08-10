@@ -138,7 +138,7 @@ def build_sections_questions(sections) -> list[tuple[str, list[str]]]:
     for name, items in sections:
         qs = [item["text"] for item in items
               if item["kind"] in ("question", "bullet")
-              and item["text"].strip().endswith("?")]
+              and "?" in item["text"]]
         if qs:
             groups.append((name, qs))
     return groups
@@ -260,6 +260,7 @@ body {{
 def render_questions_html(title: str, groups, q_font: float,
                           lh: float, gap: float) -> str:
     """Questions-only layout: masthead, numbered sections, plain questions."""
+    h2_font = q_font + 1.0
     sections_html = []
     for idx, (name, qs) in enumerate(groups, start=1):
         items = "".join(
@@ -299,14 +300,14 @@ h1 {{
 .sec {{ margin-top: 6mm; }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
-  font-family: "Georgia", serif; font-size: 11.5pt; font-weight: bold;
+  font-family: "Georgia", serif; font-size: {h2_font:.1f}pt; font-weight: bold;
   color: #000; margin-bottom: 2.8mm; padding-bottom: 1.3mm;
   border-bottom: .5pt solid #000;
 }}
 ol {{ list-style: none; }}
 li {{
   margin-bottom: {gap:.2f}mm;
-  line-height: {lh}; text-align: justify;
+  line-height: {lh}; text-align: left;
 }}
 li:last-child {{ margin-bottom: 0; }}
 </style></head>
@@ -343,14 +344,40 @@ def fit_layout(render) -> tuple[float, float, float]:
     return 10.0, 7.0, 2.0
 
 
-def fit_questions_layout(render) -> tuple[float, float, float]:
-    """Find question font, line-height and row gap for exactly 2 pages."""
-    for q_font, lh in [(10.5, 1.45), (10.0, 1.42), (9.5, 1.40), (9.0, 1.38)]:
-        lo, hi = 2.0, 5.0
-        if render(q_font, lh, 2.0) > 2:
+def one_line_max_font(questions: list[str]) -> float:
+    """Largest font (pt) that keeps every question on a single line."""
+    width_pt = 176.0 * 72.0 / 25.4  # A4 210mm minus 17mm side margins
+    try:
+        from fontTools.ttLib import TTFont
+
+        font = TTFont(r"C:\Windows\Fonts\calibri.ttf")
+        cmap = font.getBestCmap()
+        upem = font["head"].unitsPerEm
+        hmtx = font["hmtx"]
+        fallback = cmap.get(ord(" "))
+        max_ratio = 0.0
+        for q in questions:
+            width = sum(hmtx[cmap.get(ord(ch), fallback)][0] for ch in q)
+            max_ratio = max(max_ratio, width / upem)
+        return width_pt * 0.96 / max_ratio
+    except Exception:
+        return 11.0
+
+
+def fit_questions_layout(render, questions) -> tuple[float, float, float]:
+    """Largest one-line font and widest row gap that still yield 2 pages."""
+    max_font = one_line_max_font(questions)
+    fonts = [max_font]
+    f = max_font
+    while f - 0.5 > 9.0:
+        f -= 0.5
+        fonts.append(round(f, 1))
+    for q_font in fonts:
+        lh = 1.5
+        if render(q_font, lh, 0.5) > 2:
             continue
-        best = 2.0
-        while hi - lo > 0.2:
+        lo, hi, best = 0.5, 20.0, 0.5
+        while hi - lo > 0.1:
             mid = (lo + hi) / 2
             if render(q_font, lh, mid) <= 2:
                 best = mid
@@ -359,7 +386,7 @@ def fit_questions_layout(render) -> tuple[float, float, float]:
                 hi = mid
         if render(q_font, lh, best) == 2:
             return q_font, lh, best
-    return 9.0, 1.38, 2.0
+    return 9.5, 1.45, 3.0
 
 
 def main() -> int:
@@ -381,12 +408,13 @@ def main() -> int:
     title = clean_title(md_title, md_path.stem)
     if args.questions_only:
         groups = build_sections_questions(sections)
+        flat = [q for _, qs in groups for q in qs]
 
         def render(q_font, lh, gap):
             return page_count(render_questions_html(
                 title, groups, q_font, lh, gap))
 
-        q_font, lh, gap = fit_questions_layout(render)
+        q_font, lh, gap = fit_questions_layout(render, flat)
         final_html = render_questions_html(title, groups, q_font, lh, gap)
         layout_desc = f"q {q_font}pt, line-height {lh}, row gap {gap:.1f}mm"
     else:
