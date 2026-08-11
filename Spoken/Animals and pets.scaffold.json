@@ -1,0 +1,197 @@
+{
+  "groups": [
+    {
+      "name": "Pets and daily life",
+      "questions": [
+        "Do you have a pet? If so, could you tell your partners about it?",
+        "What unusual or exotic pets have you heard of?",
+        "If you had a pet, what kind would you choose?",
+        "Would you rather adopt an abandoned animal or buy a pet from a pet store?",
+        "Which animals make the best pets? Why?"
+      ]
+    },
+    {
+      "name": "Animals and society",
+      "questions": [
+        "What is your favorite animal, and why?",
+        "What makes humans different from animals?",
+        "Are zoos good or cruel for animals?",
+        "What do you think of aquariums and marine parks?",
+        "Would cage-free eggs influence your buying choice?"
+      ]
+    }
+  ],
+  "scaffolds": {
+    "Do you have a pet? If so, could you tell your partners about it?": {
+      "segments": ["Do you have a pet", "If so", "could you tell your partners about it"],
+      "words": ["fur", "routine", "vaccination"],
+      "phrases": ["look after an animal", "follow a daily routine", "keep up with vaccinations"],
+      "idiom": {"text": "a family member", "gloss": "家庭成员"},
+      "frames": ["My pet is ... because ...", "The hardest part is ..."]
+    },
+    "What unusual or exotic pets have you heard of?": {
+      "segments": ["What unusual pets", "or exotic pets", "have you heard of"],
+      "words": ["reptile", "rodent", "enclosure"],
+      "phrases": ["keep a pet legally", "need special care", "provide a suitable enclosure"],
+      "idiom": {"text": "not for everyone", "gloss": "不是适合所有人的"},
+      "frames": ["One unusual example is ...", "It might be difficult because ..."]
+    },
+    "If you had a pet, what kind would you choose?": {
+      "segments": ["If you had a pet", "what kind", "would you choose"],
+      "words": ["companionship", "noise", "allergy"],
+      "phrases": ["fit my lifestyle", "make a long-term commitment", "handle the daily routine"],
+      "idiom": {"text": "a lot to take on", "gloss": "需要承担很多责任"},
+      "frames": ["I would choose ...", "It would fit my life because ..."]
+    },
+    "Would you rather adopt an abandoned animal or buy a pet from a pet store?": {
+      "segments": ["Would you rather", "adopt an abandoned animal", "or buy a pet from a pet store"],
+      "words": ["adoption", "shelter", "welfare"],
+      "phrases": ["give an animal a home", "visit a local shelter", "make an informed choice"],
+      "idiom": {"text": "give someone a second chance", "gloss": "给某人第二次机会"},
+      "frames": ["I would rather ... because ...", "One concern is ..."]
+    },
+    "Which animals make the best pets? Why?": {
+      "segments": ["Which animals", "make the best pets", "and why"],
+      "words": ["gentle", "trainable", "independent"],
+      "phrases": ["be easy to train", "need little space", "match an owner's lifestyle"],
+      "idiom": {"text": "a good fit", "gloss": "很合适"},
+      "frames": ["The best choice is ...", "This animal suits ... because ..."]
+    },
+    "Would you allow your pet to sleep on your bed? Why or why not?": {
+      "words": ["hygiene", "fur", "boundary"],
+      "phrases": ["share the bed", "set a clear rule"],
+      "idiom": {"text": "draw the line", "gloss": "划定界限"},
+      "frames": ["I would allow it if ...", "I would not allow it because ..."]
+    },
+    "Why are cat memes so popular? Are dog memes less popular?": {
+      "words": ["relatable", "expression", "algorithm"],
+      "phrases": ["share a post", "make people laugh"],
+      "idiom": {"text": "go viral", "gloss": "迅速走红"},
+      "frames": ["People enjoy them because ...", "Compared with dog memes, they are ..."]
+    },
+    "Can people and pets communicate?": {
+      "words": ["gesture", "tone", "response"],
+      "phrases": ["read body language", "respond to a voice"],
+      "idiom": {"text": "understand each other", "gloss": "互相理解"},
+      "frames": ["Pets may understand ...", "They cannot understand ..."]
+    },
+    "Should pet owners treat pets like children?": {
+      "words": ["attachment", "responsibility", "treatment"],
+      "phrases": ["treat an animal like family", "take full responsibility"],
+      "idiom": {"text": "part of the family", "gloss": "家庭的一员"},
+      "frames": ["I can understand this view because ...", "However, pets are still ..."]
+    },
+    "What do you think of pets wearing clothes or having dyed fur?": {
+      "words": ["comfort", "safety", "grooming"],
+      "phrases": ["keep an animal warm", "put appearance first"],
+      "idiom": {"text": "cross the line", "gloss": "越过界限"},
+      "frames": ["It is acceptable when ...", "It becomes a problem if ..."]
+    },
+    "How much should people spend on pet care?": {
+      "words": ["budget", "supplies", "veterinary"],
+      "phrases": ["cover monthly costs", "plan for medical bills"],
+      "idiom": {"text": "add up", "gloss": "累计起来"},
+      "frames": ["The main costs are ...", "A responsible owner should ..."]
+    },
+    "Some people let their dog lick their face and lips. What do you think?": {
+      "words": ["bacteria", "hygiene", "boundary"],
+      "phrases": ["share close contact", "wash your hands"],
+      "idiom": {"text": "not my thing", "gloss": "不是我喜欢的事"},
+      "frames": ["I would be comfortable with ...", "I would avoid it because ..."]
+    },
+    "What are your responsibilities if you are to keep a pet?": {
+      "segments": ["What are your responsibilities", "if you are to keep a pet", "in the long term"],
+      "words": ["shelter", "exercise", "healthcare", "nutrition", "training", "budget"],
+      "phrases": ["provide daily care", "keep vaccinations up to date", "arrange regular checkups", "cover unexpected costs", "make time for exercise", "plan for the future"],
+      "idioms": [
+        {"text": "for the long haul", "gloss": "长期坚持"},
+        {"text": "take full responsibility", "gloss": "承担全部责任"},
+        {"text": "be in it for the long term", "gloss": "长期投入"}
+      ],
+      "frames": ["An owner needs to ...", "This responsibility lasts ..."]
+    },
+    "What is your favorite animal, and why?": {
+      "segments": ["What is your favorite animal", "and why", "in particular"],
+      "words": ["appearance", "habitat", "personality"],
+      "phrases": ["be fascinated by", "remind me of", "learn more about"],
+      "idiom": {"text": "stand out", "gloss": "脱颖而出；格外显眼"},
+      "frames": ["My favorite is ...", "What attracts me is ..."]
+    },
+    "What makes humans different from animals?": {
+      "segments": ["What makes humans different", "from animals", "in your view"],
+      "words": ["language", "culture", "reasoning"],
+      "phrases": ["share basic needs", "develop complex societies", "solve problems together"],
+      "idiom": {"text": "a matter of degree", "gloss": "程度上的差异"},
+      "frames": ["Humans are different because ...", "At the same time, both ..."]
+    },
+    "Are zoos good or cruel for animals?": {
+      "segments": ["Are zoos good", "or cruel", "for animals"],
+      "words": ["enclosure", "education", "welfare"],
+      "phrases": ["protect an endangered species", "provide enough space", "meet animal welfare standards"],
+      "idiom": {"text": "a double-edged sword", "gloss": "有利有弊的事物"},
+      "frames": ["Zoos can help by ...", "The main ethical concern is ..."]
+    },
+    "What do you think of aquariums and marine parks?": {
+      "segments": ["What do you think", "of aquariums and marine parks", "as learning spaces"],
+      "words": ["captivity", "conservation", "ocean"],
+      "phrases": ["learn about wildlife", "keep animals in captivity", "protect marine species"],
+      "idiom": {"text": "the bigger picture", "gloss": "整体情况"},
+      "frames": ["I support them when ...", "They should improve ..."]
+    },
+    "Would cage-free eggs influence your buying choice?": {
+      "segments": ["Would cage-free eggs influence", "your buying choice", "at the supermarket"],
+      "words": ["label", "standard", "consumer"],
+      "phrases": ["read a product label", "pay a higher price", "check animal welfare standards"],
+      "idiom": {"text": "vote with your wallet", "gloss": "用消费选择表达立场"},
+      "frames": ["The label would influence me if ...", "I would still check ..."]
+    },
+    "Which animal is most helpful to humans?": {
+      "words": ["guide", "pollination", "transport"],
+      "phrases": ["support human life", "work alongside people"],
+      "idiom": {"text": "make a difference", "gloss": "产生重要影响"},
+      "frames": ["I would choose ... because ...", "Without this animal ..."]
+    },
+    "Why are some animals endangered?": {
+      "segments": ["Why are some animals endangered", "because of human activity", "and what can we do"],
+      "words": ["poaching", "ecosystem", "population", "deforestation", "pollution", "extinction"],
+      "phrases": ["lose a natural habitat", "protect a species", "reduce illegal hunting", "restore damaged ecosystems", "raise public awareness", "protect breeding grounds"],
+      "idioms": [
+        {"text": "on the brink of extinction", "gloss": "濒临灭绝"},
+        {"text": "take action", "gloss": "采取行动"},
+        {"text": "make a lasting difference", "gloss": "产生持久影响"}
+      ],
+      "frames": ["The biggest cause is ...", "Governments and individuals can ..."]
+    },
+    "How should cities deal with stray cats and dogs?": {
+      "segments": ["How should cities deal", "with stray cats and dogs", "in a humane way"],
+      "words": ["rehome", "neuter", "shelter", "rescue", "volunteer", "funding"],
+      "phrases": ["run an adoption program", "reduce the stray population", "provide temporary shelter", "organize vaccination drives", "work with local volunteers", "create a humane policy"],
+      "idioms": [
+        {"text": "a long-term solution", "gloss": "长期解决方案"},
+        {"text": "a win-win situation", "gloss": "双赢局面"},
+        {"text": "start from scratch", "gloss": "从头开始"}
+      ],
+      "frames": ["Cities should first ...", "This would work because ..."]
+    },
+    "If you could be any animal, which animal would you like to be?": {
+      "words": ["freedom", "strength", "adaptation"],
+      "phrases": ["live in the wild", "see the world differently"],
+      "idiom": {"text": "in someone else's shoes", "gloss": "设身处地"},
+      "frames": ["I would become ...", "The best part would be ..."]
+    },
+    "Can the law of the jungle apply to human society?": {
+      "words": ["survival", "competition", "cooperation"],
+      "phrases": ["compete for resources", "follow social rules"],
+      "idiom": {"text": "survival of the fittest", "gloss": "适者生存"},
+      "frames": ["The comparison is useful when ...", "It breaks down because ..."]
+    },
+    "Should human lives always come first?": {
+      "words": ["priority", "ethics", "emergency"],
+      "phrases": ["weigh two competing values", "make a difficult choice"],
+      "idiom": {"text": "a grey area", "gloss": "模糊地带；难以判断的情况"},
+      "frames": ["In an emergency, I would ...", "My answer depends on ..."]
+    }
+  },
+  "lead_in": "",
+  "curated": true
+}

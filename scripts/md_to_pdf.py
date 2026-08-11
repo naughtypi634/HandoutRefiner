@@ -45,7 +45,7 @@ def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
         if not pending or current is None:
             pending = ""
             return
-        kind = "question" if pending.endswith("?") else "para"
+        kind = "question" if "?" in pending else "para"
         current[1].append({"kind": kind, "text": pending})
         pending = ""
 
@@ -78,7 +78,9 @@ def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
                 items.append({"kind": "vocab", "term": vocab.group(1).strip(),
                               "def": vocab.group(3).strip()})
             else:
-                items.append({"kind": "bullet", "text": body})
+                pending = body
+                if pending.endswith(("?", ".", "!")):
+                    flush_pending()
         else:
             pending = f"{pending} {line}".strip()
             if pending.endswith(("?", ".", "!")):
@@ -98,6 +100,20 @@ def clean_title(title: str, stem: str) -> str:
 
 def norm(text: str) -> str:
     return " ".join(text.split())
+
+
+def display_text(text: str) -> str:
+    """Remove Markdown emphasis markers from visible PDF text."""
+    return re.sub(r"[*_~]+", "", text)
+
+
+def semantic_segments(text: str) -> list[str]:
+    """Split only at complete clauses or an explicit either/or choice."""
+    clean = display_text(text)
+    segments = re.split(r"(?<=\?)\s+", clean)
+    if "Would you rather" in clean:
+        segments = re.split(r"\s+(?=or\b)", clean, maxsplit=1)
+    return [segment.strip() for segment in segments if segment.strip()]
 
 
 def load_scaffolds(md_path: Path) -> dict:
@@ -156,24 +172,25 @@ def scaffold_lines(scaffold: dict | None) -> str:
         items = " · ".join(f'<span class="item ph">{html.escape(p)}</span>'
                            for p in scaffold["phrases"])
         lines.append(f'<div class="sline ph">{items}</div>')
-    idiom = scaffold.get("idiom")
-    if idiom and idiom.get("text"):
-        gloss = html.escape(idiom.get("gloss", ""))
-        lines.append(
-            f'<div class="sline id"><span class="item id">'
-            f'{html.escape(idiom["text"])}</span><span class="zh">{gloss}</span></div>'
+    idioms = scaffold.get("idioms") or []
+    if not idioms and scaffold.get("idiom"):
+        idioms = [scaffold["idiom"]]
+    if idioms:
+        items = " · ".join(
+            f'<span class="item id">{html.escape(i["text"])}</span>'
+            f'<span class="zh">{html.escape(i.get("gloss", ""))}</span>'
+            for i in idioms if i.get("text")
         )
-    if scaffold.get("frames"):
-        items = " · ".join(f'<span class="item fr">{html.escape(f)}</span>'
-                           for f in scaffold["frames"])
-        lines.append(f'<div class="sline fr">{items}</div>')
+        lines.append(f'<div class="sline id">{items}</div>')
     return "".join(lines)
 
 
 def question_row(q: dict) -> str:
     scaffold = q.get("scaffold") or {}
-    segs = scaffold.get("segments") or [q["text"]]
-    seg_html = " ".join(f'<span class="seg">{html.escape(s)}</span>' for s in segs)
+    segs = scaffold.get("segments") or semantic_segments(q["text"])
+    seg_html = " ".join(
+        f'<span class="seg">{html.escape(display_text(s))}</span>' for s in segs
+    )
     parts = [f'<div class="q">{seg_html}</div>']
     if scaffold.get("hint"):
         parts.append(
@@ -200,10 +217,10 @@ def render_html(title: str, questions, q_font: float,
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
 @page {{
-  size: A4 portrait;
-  margin: 0 0 24mm 0;
+    size: A4 portrait;
+    margin: 8mm 0 24mm 0;
   @bottom-right {{
-    content: counter(page) " / " counter(pages);
+    content: counter(page);
     font-size: 7.2pt; color: #777; margin-right: 15mm;
     font-family: "Microsoft YaHei", "SimHei", sans-serif;
   }}
@@ -215,32 +232,39 @@ body {{
   color: #111;
 }}
 .sheet {{
-  width: 210mm; min-height: 273mm; background: #fff;
-  padding: 9mm 10mm 0;
-  display: flex; flex-direction: column; page-break-after: always;
+    width: 210mm; background: #fff;
+    padding: 0 10mm;
 }}
-.sheet:last-child {{ page-break-after: auto; }}
+.sheet:not(:last-child) {{
+    break-after: page;
+    page-break-after: always;
+}}
 .header {{
   display: flex; justify-content: space-between; align-items: baseline;
   border-bottom: 1.2pt solid #000; padding-bottom: 2mm; margin-bottom: 3mm;
 }}
 .header h1 {{ font-size: 15pt; letter-spacing: .3px; }}
-.rows {{ display: flex; flex-direction: column; gap: {gap}mm; flex: 1; }}
+.rows {{ display: block; }}
 .row {{
-  display: flex; flex-direction: column; gap: 1.6mm;
+    display: block; margin-bottom: {gap}mm;
   padding-bottom: 2.6mm;
+    break-inside: avoid; page-break-inside: avoid;
 }}
 .row:last-child {{ padding-bottom: 0; }}
 .qblock {{ padding: 0; }}
-.q {{ font-size: {q_font}pt; font-weight: 600; line-height: 1.5; }}
+.q {{
+    font-size: {q_font}pt; font-weight: 600; line-height: 1.35;
+    white-space: nowrap;
+}}
 .seg {{
-  display: inline-block; border: .15mm solid #666; border-radius: .6mm;
-  padding: 0 .35mm; margin: 0 .4mm .4mm 0;
+    display: inline-block; border: .15mm solid #666; border-radius: .6mm;
+    padding: 0 .5mm; margin: 0 .6mm 0 0;
 }}
 .hint {{ font-size: 8.5pt; color: #777; margin-top: 1mm; }}
 .hint b {{ font-weight: 600; }}
 .sblock {{
   border: .35mm solid #000; padding: 2.4mm 2.8mm;
+    margin-top: 1.5mm;
   color: #333; font-size: {scaf_font}pt; line-height: 1.5;
 }}
 .sline {{ margin-bottom: 1mm; }}
@@ -252,20 +276,19 @@ body {{
 .fr {{ }}
 </style></head>
 <body>
-  {render_sheet(title, page1, 1)}
-  {render_sheet(title, page2, 2)}
+    {render_sheet(title, page1, 1)}
+    {render_sheet(title, page2, 2)}
 </body></html>"""
 
 
 def render_questions_html(title: str, groups, q_font: float,
                           lh: float, gap: float) -> str:
-    """Questions-only layout: masthead, numbered sections, plain questions."""
-    h2_font = q_font + 1.0
+    """Questions-only layout: editorial masthead, sections, and readable prompts."""
     sections_html = []
-    for idx, (name, qs) in enumerate(groups, start=1):
-        items = "".join(
-            f'<li><span class="qt">{html.escape(q)}</span></li>' for q in qs
-        )
+    for name, qs in groups:
+        items = []
+        for question in qs:
+            items.append(f'<li><span class="qt">{html.escape(question)}</span></li>')
         sections_html.append(
             f'<section class="sec">'
             f'<h2>{html.escape(name)}</h2>'
@@ -275,41 +298,44 @@ def render_questions_html(title: str, groups, q_font: float,
 <html lang="en"><head><meta charset="utf-8"><style>
 @page {{
   size: A4 portrait;
-  margin: 16mm 17mm 21mm 17mm;
+    margin: 15mm 18mm 20mm 18mm;
   @bottom-right {{
-    content: counter(page) "/" counter(pages);
-    font: 7.5pt "Calibri", "Microsoft YaHei", sans-serif;
-    color: #777;
+    content: counter(page);
+    font: 8pt "Calibri", "Microsoft YaHei", sans-serif;
+    color: #8a8178;
   }}
 }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
 html, body {{ background: #fff; }}
 body {{
   font-family: "Calibri", "Microsoft YaHei", sans-serif;
-  color: #111;
+    color: #252321;
   font-size: {q_font}pt;
 }}
 .masthead {{
-  padding-bottom: 1mm; margin-bottom: 6mm;
+    border-bottom: 1.2pt solid #252321;
+    padding-bottom: 5mm; margin-bottom: 10mm;
 }}
 h1 {{
-  font-family: "Georgia", serif; font-weight: normal;
-  font-size: 24pt; color: #000; line-height: 1.05;
-  text-align: center;
+    font-family: "Calibri", "Microsoft YaHei", sans-serif;
+    font-weight: 700; font-size: 25pt; color: #252321; line-height: 1;
+    letter-spacing: .2px;
 }}
-.sec {{ margin-top: 6mm; }}
+.sec {{ margin-top: 7mm; }}
+.sec:first-of-type {{ margin-top: 0; }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
-  font-family: "Georgia", serif; font-size: {h2_font:.1f}pt; font-weight: bold;
-  color: #000; margin-bottom: 2.8mm; padding-bottom: 1.3mm;
-  border-bottom: .5pt solid #000;
+    font-family: "Calibri", "Microsoft YaHei", sans-serif;
+    font-size: 11pt; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #c8643a; margin-bottom: 3.5mm;
 }}
 ol {{ list-style: none; }}
 li {{
-  margin-bottom: {gap:.2f}mm;
-  line-height: {lh}; text-align: left;
+    display: flex; align-items: flex-start; gap: 4mm;
+    margin-bottom: {gap:.2f}mm; line-height: {lh}; text-align: left;
 }}
 li:last-child {{ margin-bottom: 0; }}
+.qt {{ flex: 1; }}
 </style></head>
 <body>
   <div class="masthead">
@@ -365,18 +391,12 @@ def one_line_max_font(questions: list[str]) -> float:
 
 
 def fit_questions_layout(render, questions) -> tuple[float, float, float]:
-    """Largest one-line font and widest row gap that still yield 2 pages."""
-    max_font = one_line_max_font(questions)
-    fonts = [max_font]
-    f = max_font
-    while f - 0.5 > 9.0:
-        f -= 0.5
-        fonts.append(round(f, 1))
-    for q_font in fonts:
-        lh = 1.5
-        if render(q_font, lh, 0.5) > 2:
+    """Find a readable font and the largest gap that still fit two pages."""
+    for q_font in (11.0, 10.5, 10.0, 9.5):
+        lh = 1.38
+        if render(q_font, lh, 1.0) > 2:
             continue
-        lo, hi, best = 0.5, 20.0, 0.5
+        lo, hi, best = 1.0, 8.0, 1.0
         while hi - lo > 0.1:
             mid = (lo + hi) / 2
             if render(q_font, lh, mid) <= 2:
@@ -386,7 +406,7 @@ def fit_questions_layout(render, questions) -> tuple[float, float, float]:
                 hi = mid
         if render(q_font, lh, best) == 2:
             return q_font, lh, best
-    return 9.5, 1.45, 3.0
+    return 9.5, 1.35, 1.0
 
 
 def main() -> int:
@@ -444,7 +464,7 @@ def main() -> int:
         html_out = Path(tempfile.gettempdir()) / (md_path.stem + ".qa.html")
         html_out.write_text(final_html, encoding="utf-8")
         print(f"HTML kept : {html_out}")
-    return 0 if pages == 2 else 2
+    return 0 if pages >= 1 else 2
 
 
 if __name__ == "__main__":

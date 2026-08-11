@@ -2,77 +2,57 @@
 
 List as many animals as you can in two minutes with your partner.
 
-**Discussion**
+**Pets and daily life**
 
-- Do you have a pet? If so, describe your pet to your partners.
+- Do you have a pet? If so, could you tell your partners about it?
 
-- Cats and dogs are the most common types of pets. What are some unusual
-  or exotic pets that you have heard of?
+- What unusual or exotic pets have you heard of?
 
-- If you don\'t have a pet, do you want one? What kind of pet would you
-  like to get?
+- If you had a pet, what kind would you choose?
 
-- Do you want to buy a pet from the pet store, or do you want an
-  abandoned or unwanted animal?
+- Would you rather adopt an abandoned animal or buy a pet from a pet store?
 
 - Which animals make the best pets? Why?
 
 - Would you allow your pet to sleep on your bed? Why or why not?
 
-- ~~What are the cats thinking?~~
+- Why are cat memes so popular? Are dog memes less popular?
 
-- Do you have many cat memes? Why are they so popular now? Are dog memes
-  less popular? How come?
+- Can people and pets communicate?
 
-- Some people talk to their pets. Do you think people and their pets can
-  communicate?
+- Should pet owners treat pets like children?
 
-- Some pet owners prefer to see themselves as parents to their
-  \'children\', the pets. What do you think?
+- What do you think of pets wearing clothes or having dyed fur?
 
-- Dogs and cats are sometimes dressed in clothes or decorated. What do
-  you think when you see a dog wearing a sweater or a dog with purple
-  hair?
-
-- What's your take on the so-called pet economy, do you spend a lot of
-  money on pet food/home/etc.?
+- How much should people spend on pet care?
 
 - Some people let their dog lick their face and lips. What do you think?
 
 - What are your responsibilities if you are to keep a pet?
 
-  ------------------------------------------------------------------------
+**Animals and society**
 
-------------------------------------------------------------------------
+- What is your favorite animal, and why?
 
-- What is your favorite animal and why?
+- What makes humans different from animals?
 
-- What separates humans from animals? Do you consider humans to be a
-  kind of animal?
+- Are zoos good or cruel for animals?
 
-- Do you enjoy going to the zoo? Some people consider zoos to be cruel
-  environments for animals. What do you think?
+- What do you think of aquariums and marine parks?
 
-- What do you think of wildlife parks? Sea world/ Aquariums?
-
-- What's your take on companies like McDonald's promoting
-  '***cage-free*** (not kept in battery cages) chicken'?
+- Would cage-free eggs influence your buying choice?
 
 - Which animal is most helpful to humans?
 
-- Some animal species are ***endangered*** because of illegal hunting/
-  habitat destruction. How do you feel about this issue?
+- Why are some animals endangered?
 
-- What's your take on stray cats and dogs? Should they be put down?
+- How should cities deal with stray cats and dogs?
 
 - If you could be any animal, which animal would you like to be?
 
-- Have you heard of *the law of the jungle*? How do you feel about the
-  idea that in nature, animals kill or be killed? How does it translate
-  into human society?
+- Can the law of the jungle apply to human society?
 
-- Whose life is more valuable? A panda or a murderer? What about a
-  thief?
+- Should human lives always come first?
 
 Vocabulary to describe animals and pets
 
