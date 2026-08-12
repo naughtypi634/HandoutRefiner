@@ -283,7 +283,8 @@ body {{
 
 def render_questions_html(title: str, groups, q_font: float,
                           lh: float, gap: float) -> str:
-    """Questions-only layout: editorial masthead, sections, and readable prompts."""
+    """Questions-only layout: black-and-white masthead, numbered sections."""
+    h2_font = q_font + 2.5
     sections_html = []
     for name, qs in groups:
         items = []
@@ -302,39 +303,44 @@ def render_questions_html(title: str, groups, q_font: float,
   @bottom-right {{
     content: counter(page);
     font: 8pt "Calibri", "Microsoft YaHei", sans-serif;
-    color: #8a8178;
+    color: #777;
   }}
 }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
 html, body {{ background: #fff; }}
 body {{
   font-family: "Calibri", "Microsoft YaHei", sans-serif;
-    color: #252321;
+    color: #111;
   font-size: {q_font}pt;
 }}
 .masthead {{
-    border-bottom: 1.2pt solid #252321;
-    padding-bottom: 5mm; margin-bottom: 10mm;
+    border-bottom: 1.2pt solid #000;
+    padding-bottom: 4mm; margin-bottom: 8mm;
 }}
 h1 {{
     font-family: "Calibri", "Microsoft YaHei", sans-serif;
-    font-weight: 700; font-size: 25pt; color: #252321; line-height: 1;
-    letter-spacing: .2px;
+    font-weight: 700; font-size: 24pt; color: #000; line-height: 1.05;
 }}
 .sec {{ margin-top: 7mm; }}
 .sec:first-of-type {{ margin-top: 0; }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
     font-family: "Calibri", "Microsoft YaHei", sans-serif;
-    font-size: 11pt; font-weight: 700; text-transform: uppercase;
-    letter-spacing: .8px; color: #c8643a; margin-bottom: 3.5mm;
+    font-size: {h2_font:.1f}pt; font-weight: 700; color: #000;
+    margin-bottom: 3mm;
 }}
-ol {{ list-style: none; }}
+ol {{ list-style: none; counter-reset: q; }}
 li {{
-    display: flex; align-items: flex-start; gap: 4mm;
+    display: flex; align-items: baseline; gap: 3mm;
+    counter-increment: q;
     margin-bottom: {gap:.2f}mm; line-height: {lh}; text-align: left;
 }}
 li:last-child {{ margin-bottom: 0; }}
+li::before {{
+    content: counter(q) ".";
+    flex: 0 0 7mm; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}}
 .qt {{ flex: 1; }}
 </style></head>
 <body>
