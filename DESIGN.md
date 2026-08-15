@@ -24,6 +24,23 @@ awesome-design-md 是一份从真实网站提取的 DESIGN.md 设计系统合集
 3. 告诉 agent 使用该设计系统生成页面。
 4. 同一项目内保持风格统一，不要混用多款。
 
+## 渲染器对接（scripts/md_to_pdf.py）
+
+讲义 PDF 的视觉样式直接读取合集里所选风格的 YAML token 前端块
+（colors / typography / rounded），**不再参考 ESL Assistant 样式**。
+
+    python scripts/md_to_pdf.py --design claude "Spoken/Animals and pets.md"
+    python scripts/md_to_pdf.py --design notion --questions-only "Spoken/Discussion on Education.md"
+
+- 风格名 = `design-md/` 下的子文件夹名；默认 `claude`。
+- 合集 74 款中 64 款带结构化 YAML token，可自动套用；其余 10 款
+  （kraken / lamborghini / lovable / mastercard / runwayml / sanity /
+  spotify / starbucks / tesla / theverge）无 token，无法自动渲染。
+- token 映射：canvas→页面底色，ink→标题/强调文字，body→正文，
+  muted→辅助文字与页码，hairline→边框，primary→强调色（标题下划线、
+  提示标签、题号），display 字体→标题，body 字体→正文。
+- 换风格只需改 `--design` 参数；同一项目内保持风格统一，不要混用。
+
 ## 风格清单（分类摘要）
 
 - AI / LLM：Claude、Cohere、ElevenLabs、Minimax、Mistral、Ollama、OpenCode、Replicate、Runway、Together AI、VoltAgent、xAI

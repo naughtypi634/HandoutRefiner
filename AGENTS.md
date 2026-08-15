@@ -4,6 +4,8 @@
 
 Refines and renders ESL handout Markdown (Business / Spoken / Travel / Beginner) into print-ready PDFs via `scripts/md_to_pdf.py`. Course introductions live in `课程介绍.md`.
 
+讲义 PDF 的视觉样式由 `scripts/md_to_pdf.py` 按本地 awesome-design-md 合集的 YAML 设计 token 渲染（默认 `claude` 风格），不再参考 ESL Assistant 样式。
+
 ## 内容原则
 
 - **受众与时代定位**：所有内容面向 **2026 年的中国成年英语学习者（A1–B1）**。例句、讨论题、练习场景必须贴近当代中国成年人生活（外卖、地铁通勤、加班、面试、租房、微信等），不用过时或陌生场景。

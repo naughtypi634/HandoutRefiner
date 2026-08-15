@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
-"""Render HandoutRefiner MD content into the ESL Assistant V2 PDF format.
+"""Render HandoutRefiner MD content into print-ready A4 PDFs.
 
-The layout mirrors the reference worksheet (ESL Assistant Version2, e.g.
-spoken/habits/B1/Habits.pdf):
-  - Two A4 pages; header with title + italic lead-in; footer page number.
+The visual style comes from the awesome-design-md design-system collection
+(local sibling repo ../awesome-design-md/design-md/). The renderer reads the
+YAML token frontmatter of the chosen DESIGN.md (colors / typography /
+rounded) and maps it onto the worksheet layout -- no ESL Assistant styling.
+  - Two A4 pages; header with title + accent rule; footer page number.
   - One row per question: chunked question (question_segments) + answer hint
     on top, bordered scaffold block below; full-width row separator.
   - Scaffold typography only (no labels): keywords regular, phrases italic,
     idioms bold + Chinese gloss, frames with ellipsis.
-  - Black-and-white, no fills, no icons.
 
 Content comes from the MD (source of truth) plus an optional sidecar
 "<name>.scaffold.json" that adds segments, hints and scaffolds per question.
 
 Usage:
     python scripts/md_to_pdf.py "path/to/handout.md"
+    python scripts/md_to_pdf.py --design claude "path/to/handout.md"
+    python scripts/md_to_pdf.py --design notion --questions-only "path/to/handout.md"
 
-Questions-only variant (no scaffold blocks, elegant black-and-white list):
+Questions-only variant (no scaffold blocks, elegant question list):
     python scripts/md_to_pdf.py --questions-only "path/to/handout.md"
 """
 
@@ -30,7 +33,93 @@ import sys
 import tempfile
 from pathlib import Path
 
+import yaml
 from weasyprint import HTML
+
+
+# Local awesome-design-md collection, sibling of the HandoutRefiner repo.
+DESIGN_REPO = (Path(__file__).resolve().parents[2]
+               / "awesome-design-md" / "design-md")
+DEFAULT_DESIGN = "claude"
+
+
+def font_stack(family: str, generic: str) -> str:
+    """Append print-safe fallbacks to a design-system font stack."""
+    parts = [p.strip() for p in family.split(",") if p.strip()]
+    parts = [p for p in parts if p.lower() not in ("serif", "sans-serif")]
+    if generic == "serif":
+        fallback = ("Georgia, 'Times New Roman', 'Microsoft YaHei', "
+                    "'SimSun', serif")
+    else:
+        fallback = ("'Segoe UI', 'Microsoft YaHei', 'PingFang SC', "
+                    "sans-serif")
+    return ", ".join(parts + [fallback])
+
+
+def resolve_design_path(spec: str) -> Path:
+    """Resolve --design to a DESIGN.md: direct file path or collection name."""
+    direct = Path(spec)
+    if direct.is_file():
+        return direct
+    candidate = DESIGN_REPO / spec / "DESIGN.md"
+    if candidate.is_file():
+        return candidate
+    names = sorted(d.name for d in DESIGN_REPO.iterdir()
+                   if (d / "DESIGN.md").is_file())
+    raise SystemExit(
+        f"Design '{spec}' not found. Pass a DESIGN.md path or one of:\n"
+        + ", ".join(names))
+
+
+def load_design(spec: str) -> dict:
+    """Load the YAML token frontmatter of a design-system DESIGN.md."""
+    path = resolve_design_path(spec)
+    text = path.read_text(encoding="utf-8")
+    m = re.match(r"\A---\s*\n(.*?)\n---", text, re.S)
+    if not m:
+        raise SystemExit(
+            f"{path} has no YAML token frontmatter; it cannot be applied "
+            "automatically.")
+    data = yaml.safe_load(m.group(1)) or {}
+    return {
+        "name": data.get("name") or path.parent.name,
+        "source": str(path),
+        "colors": data.get("colors") or {},
+        "typography": data.get("typography") or {},
+        "rounded": data.get("rounded") or {},
+    }
+
+
+def design_tokens(design: dict) -> dict:
+    """Flatten the tokens the worksheet CSS needs, with safe fallbacks."""
+    c, t, r = (design["colors"], design["typography"],
+               design.get("rounded", {}))
+    ink = c.get("ink") or "#111111"
+    body = c.get("body") or ink
+    surface_soft = c.get("surface-soft") or c.get("surface-card") or "#f5f5f5"
+    display = (t.get("display-md") or t.get("display-sm")
+               or t.get("title-lg") or {})
+    body_face = (t.get("body-md") or t.get("body-sm")
+                 or t.get("title-sm") or {})
+    return {
+        "canvas": c.get("canvas") or "#ffffff",
+        "ink": ink,
+        "body": body,
+        "muted": c.get("muted") or "#777777",
+        "hairline": c.get("hairline") or "#dddddd",
+        "surface_soft": surface_soft,
+        "surface_card": c.get("surface-card") or surface_soft,
+        "accent": c.get("primary") or "#0066cc",
+        "radius_lg": r.get("lg") or "12px",
+        "radius_md": r.get("md") or "8px",
+        "font_display": font_stack(
+            display.get("fontFamily", "Georgia, 'Times New Roman', serif"),
+            "serif"),
+        "font_body": font_stack(
+            body_face.get("fontFamily",
+                          "'Segoe UI', 'Microsoft YaHei', sans-serif"),
+            "sans-serif"),
+    }
 
 
 def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
@@ -209,30 +298,26 @@ def render_sheet(title: str, rows_html: str, page_no: int) -> str:
 </div>"""
 
 
-def render_html(title: str, questions, q_font: float,
-                scaf_font: float, gap: float) -> str:
-    half = (len(questions) + 1) // 2
-    page1 = "".join(question_row(q) for q in questions[:half])
-    page2 = "".join(question_row(q) for q in questions[half:])
-    return f"""<!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8"><style>
+def worksheet_css(tok: dict, q_font: float, scaf_font: float,
+                  gap: float) -> str:
+    return f"""
 @page {{
     size: A4 portrait;
     margin: 8mm 0 24mm 0;
   @bottom-right {{
     content: counter(page);
-    font-size: 7.2pt; color: #777; margin-right: 15mm;
-    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    font-size: 7.2pt; color: {tok['muted']}; margin-right: 15mm;
+    font-family: {tok['font_body']};
   }}
 }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-html, body {{ background: #ffffff; }}
+html, body {{ background: {tok['canvas']}; }}
 body {{
-  font-family: "Microsoft YaHei", "SimHei", sans-serif;
-  color: #111;
+  font-family: {tok['font_body']};
+  color: {tok['body']};
 }}
 .sheet {{
-    width: 210mm; background: #fff;
+    width: 210mm; background: {tok['canvas']};
     padding: 0 10mm;
 }}
 .sheet:not(:last-child) {{
@@ -241,9 +326,16 @@ body {{
 }}
 .header {{
   display: flex; justify-content: space-between; align-items: baseline;
-  border-bottom: 1.2pt solid #000; padding-bottom: 2mm; margin-bottom: 3mm;
+  border-bottom: 1pt solid {tok['hairline']};
+  padding-bottom: 2.5mm; margin-bottom: 3mm;
 }}
-.header h1 {{ font-size: 15pt; letter-spacing: .3px; }}
+.header h1 {{
+  font-family: {tok['font_display']};
+  font-size: 17pt; font-weight: 400;
+  color: {tok['ink']};
+  border-bottom: 2.5pt solid {tok['accent']};
+  display: inline-block; padding-bottom: 1mm;
+}}
 .rows {{ display: block; }}
 .row {{
     display: block; margin-bottom: {gap}mm;
@@ -251,82 +343,70 @@ body {{
     break-inside: avoid; page-break-inside: avoid;
 }}
 .row:last-child {{ padding-bottom: 0; }}
-.qblock {{ padding: 0; }}
 .q {{
-    font-size: {q_font}pt; font-weight: 600; line-height: 1.35;
+    font-size: {q_font}pt; font-weight: 500; line-height: 1.35;
+    color: {tok['ink']};
     white-space: nowrap;
 }}
 .seg {{
-    display: inline-block; border: .15mm solid #666; border-radius: .6mm;
+    display: inline-block; border: 1pt solid {tok['hairline']};
+    background: {tok['surface_soft']}; border-radius: {tok['radius_md']};
     padding: 0 .5mm; margin: 0 .6mm 0 0;
 }}
-.hint {{ font-size: 8.5pt; color: #777; margin-top: 1mm; }}
-.hint b {{ font-weight: 600; }}
+.hint {{ font-size: 8.5pt; color: {tok['muted']}; margin-top: 1mm; }}
+.hint b {{ font-weight: 600; color: {tok['accent']}; }}
 .sblock {{
-  border: .35mm solid #000; padding: 2.4mm 2.8mm;
+  background: {tok['surface_card']}; border: 1pt solid {tok['hairline']};
+  border-radius: {tok['radius_lg']}; padding: 2.4mm 2.8mm;
     margin-top: 1.5mm;
-  color: #333; font-size: {scaf_font}pt; line-height: 1.5;
+  font-family: {tok['font_body']};
+  color: {tok['body']}; font-size: {scaf_font}pt; line-height: 1.5;
 }}
 .sline {{ margin-bottom: 1mm; }}
 .sline:last-child {{ margin-bottom: 0; }}
 .ph {{ font-style: italic; }}
-.id {{ font-weight: 700; }}
-.id .zh {{ font-weight: 400; }}
-.zh {{ color: #333; font-size: {scaf_font}pt; margin-left: .8mm; }}
-.fr {{ }}
-</style></head>
-<body>
-    {render_sheet(title, page1, 1)}
-    {render_sheet(title, page2, 2)}
-</body></html>"""
+.id {{ font-weight: 700; color: {tok['ink']}; }}
+.id .zh {{ font-weight: 400; color: {tok['muted']}; }}
+.zh {{ color: {tok['muted']}; margin-left: .8mm; }}
+"""
 
 
-def render_questions_html(title: str, groups, q_font: float,
-                          lh: float, gap: float) -> str:
-    """Questions-only layout: black-and-white masthead, numbered sections."""
+def questions_css(tok: dict, q_font: float, lh: float, gap: float) -> str:
     h2_font = q_font + 2.5
-    sections_html = []
-    for name, qs in groups:
-        items = []
-        for question in qs:
-            items.append(f'<li><span class="qt">{html.escape(question)}</span></li>')
-        sections_html.append(
-            f'<section class="sec">'
-            f'<h2>{html.escape(name)}</h2>'
-            f'<ol>{"".join(items)}</ol></section>'
-        )
-    return f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><style>
+    return f"""
 @page {{
   size: A4 portrait;
     margin: 15mm 18mm 20mm 18mm;
   @bottom-right {{
     content: counter(page);
-    font: 8pt "Calibri", "Microsoft YaHei", sans-serif;
-    color: #777;
+    font: 8pt {tok['font_body']};
+    color: {tok['muted']};
   }}
 }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-html, body {{ background: #fff; }}
+html, body {{ background: {tok['canvas']}; }}
 body {{
-  font-family: "Calibri", "Microsoft YaHei", sans-serif;
-    color: #111;
+  font-family: {tok['font_body']};
+    color: {tok['body']};
   font-size: {q_font}pt;
 }}
 .masthead {{
-    border-bottom: 1.2pt solid #000;
+    border-bottom: 1pt solid {tok['hairline']};
     padding-bottom: 4mm; margin-bottom: 8mm;
 }}
 h1 {{
-    font-family: "Calibri", "Microsoft YaHei", sans-serif;
-    font-weight: 700; font-size: 24pt; color: #000; line-height: 1.05;
+    font-family: {tok['font_display']};
+    font-weight: 400; font-size: 24pt; color: {tok['ink']};
+    line-height: 1.05;
+    border-bottom: 2.5pt solid {tok['accent']};
+    display: inline-block; padding-bottom: 2mm;
 }}
 .sec {{ margin-top: 7mm; }}
 .sec:first-of-type {{ margin-top: 0; }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
-    font-family: "Calibri", "Microsoft YaHei", sans-serif;
-    font-size: {h2_font:.1f}pt; font-weight: 700; color: #000;
+    font-family: {tok['font_display']};
+    font-size: {h2_font:.1f}pt; font-weight: 500; color: {tok['ink']};
     margin-bottom: 3mm;
 }}
 ol {{ list-style: none; counter-reset: q; }}
@@ -340,8 +420,46 @@ li::before {{
     content: counter(q) ".";
     flex: 0 0 7mm; font-weight: 700;
     font-variant-numeric: tabular-nums;
+    color: {tok['accent']};
 }}
-.qt {{ flex: 1; }}
+.qt {{ flex: 1; color: {tok['ink']}; }}
+"""
+
+
+def render_html(title: str, questions, q_font: float,
+                scaf_font: float, gap: float, design: dict) -> str:
+    tok = design_tokens(design)
+    half = (len(questions) + 1) // 2
+    page1 = "".join(question_row(q) for q in questions[:half])
+    page2 = "".join(question_row(q) for q in questions[half:])
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+{worksheet_css(tok, q_font, scaf_font, gap)}
+</style></head>
+<body>
+    {render_sheet(title, page1, 1)}
+    {render_sheet(title, page2, 2)}
+</body></html>"""
+
+
+def render_questions_html(title: str, groups, q_font: float,
+                          lh: float, gap: float, design: dict) -> str:
+    """Questions-only layout: design-system masthead, numbered sections."""
+    tok = design_tokens(design)
+    sections_html = []
+    for name, qs in groups:
+        items = []
+        for question in qs:
+            items.append(
+                f'<li><span class="qt">{html.escape(question)}</span></li>')
+        sections_html.append(
+            f'<section class="sec">'
+            f'<h2>{html.escape(name)}</h2>'
+            f'<ol>{"".join(items)}</ol></section>'
+        )
+    return f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><style>
+{questions_css(tok, q_font, lh, gap)}
 </style></head>
 <body>
   <div class="masthead">
@@ -418,6 +536,10 @@ def fit_questions_layout(render, questions) -> tuple[float, float, float]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("md_file", type=Path, help="Input .md handout")
+    parser.add_argument(
+        "--design", default=DEFAULT_DESIGN,
+        help="Design-system name in ../awesome-design-md/design-md/ or a "
+             f"DESIGN.md path (default: {DEFAULT_DESIGN})")
     parser.add_argument("--keep-html", action="store_true",
                         help="Also write the final HTML to the temp dir (QA).")
     parser.add_argument("--questions-only", action="store_true",
@@ -428,6 +550,7 @@ def main() -> int:
     if not md_path.exists():
         print(f"File not found: {md_path}", file=sys.stderr)
         return 1
+    design = load_design(args.design)
 
     text = md_path.read_text(encoding="utf-8-sig")
     md_title, sections = parse_md(text)
@@ -438,10 +561,11 @@ def main() -> int:
 
         def render(q_font, lh, gap):
             return page_count(render_questions_html(
-                title, groups, q_font, lh, gap))
+                title, groups, q_font, lh, gap, design))
 
         q_font, lh, gap = fit_questions_layout(render, flat)
-        final_html = render_questions_html(title, groups, q_font, lh, gap)
+        final_html = render_questions_html(
+            title, groups, q_font, lh, gap, design)
         layout_desc = f"q {q_font}pt, line-height {lh}, row gap {gap:.1f}mm"
     else:
         scaffold_data = load_scaffolds(md_path)
@@ -449,10 +573,12 @@ def main() -> int:
 
         def render(q_font, scaf_font, gap):
             return page_count(
-                render_html(title, questions, q_font, scaf_font, gap))
+                render_html(
+                    title, questions, q_font, scaf_font, gap, design))
 
         q_font, scaf_font, gap = fit_layout(render)
-        final_html = render_html(title, questions, q_font, scaf_font, gap)
+        final_html = render_html(
+            title, questions, q_font, scaf_font, gap, design)
         layout_desc = (f"q {q_font}pt, scaffold {scaf_font}pt, "
                        f"row gap {gap:.1f}mm")
     pages = page_count(final_html)
@@ -461,6 +587,7 @@ def main() -> int:
 
     print(f"PDF written: {out}")
     print(f"Title     : {title}")
+    print(f"Design    : {design['name']} ({design['source']})")
     count = (sum(len(qs) for _, qs in groups)
              if args.questions_only else len(questions))
     print(f"Questions : {count}")
