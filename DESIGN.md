@@ -32,13 +32,16 @@ awesome-design-md 是一份从真实网站提取的 DESIGN.md 设计系统合集
     python scripts/md_to_pdf.py --design claude "Spoken/Animals and pets.md"
     python scripts/md_to_pdf.py --design notion --questions-only "Spoken/Discussion on Education.md"
 
-- 风格名 = `design-md/` 下的子文件夹名；默认 `claude`。
+- 风格名 = `design-md/` 下的子文件夹名；默认 `cal`（偏黑白色调）。
+  其他黑白风格可直接切换：`wired` / `figma` / `uber` / `mintlify` 等。
 - 合集 74 款中 64 款带结构化 YAML token，可自动套用；其余 10 款
   （kraken / lamborghini / lovable / mastercard / runwayml / sanity /
   spotify / starbucks / tesla / theverge）无 token，无法自动渲染。
 - token 映射：canvas→页面底色，ink→标题/强调文字，body→正文，
   muted→辅助文字与页码，hairline→边框，primary→强调色（标题下划线、
   提示标签、题号），display 字体→标题，body 字体→正文。
+- 无问题的表格型词汇表会自动渲染为双栏词汇对照 PDF；表格 + 讨论题的
+  混合讲义（如 `Spoken/English for WeChat.md`）则第 1 页词汇表、第 2 页讨论。
 - 换风格只需改 `--design` 参数；同一项目内保持风格统一，不要混用。
 
 ## 风格清单（分类摘要）

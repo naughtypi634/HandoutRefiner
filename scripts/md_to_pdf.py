@@ -10,6 +10,10 @@ rounded) and maps it onto the worksheet layout -- no ESL Assistant styling.
     on top, bordered scaffold block below; full-width row separator.
   - Scaffold typography only (no labels): keywords regular, phrases italic,
     idioms bold + Chinese gloss, frames with ellipsis.
+  - Vocabulary reference sheets (two-column MD tables, no questions) render
+    automatically as a table sheet in the same design tokens; sheets with
+    both tables and questions render vocab on page 1 and discussion on
+    page 2.
 
 Content comes from the MD (source of truth) plus an optional sidecar
 "<name>.scaffold.json" that adds segments, hints and scaffolds per question.
@@ -18,6 +22,7 @@ Usage:
     python scripts/md_to_pdf.py "path/to/handout.md"
     python scripts/md_to_pdf.py --design claude "path/to/handout.md"
     python scripts/md_to_pdf.py --design notion --questions-only "path/to/handout.md"
+    python scripts/md_to_pdf.py "Spoken/English for WeChat.md"  # vocab + discussion
 
 Questions-only variant (no scaffold blocks, elegant question list):
     python scripts/md_to_pdf.py --questions-only "path/to/handout.md"
@@ -40,7 +45,7 @@ from weasyprint import HTML
 # Local awesome-design-md collection, sibling of the HandoutRefiner repo.
 DESIGN_REPO = (Path(__file__).resolve().parents[2]
                / "awesome-design-md" / "design-md")
-DEFAULT_DESIGN = "claude"
+DEFAULT_DESIGN = "cal"
 
 
 def font_stack(family: str, generic: str) -> str:
@@ -49,10 +54,10 @@ def font_stack(family: str, generic: str) -> str:
     parts = [p for p in parts if p.lower() not in ("serif", "sans-serif")]
     if generic == "serif":
         fallback = ("Georgia, 'Times New Roman', 'Microsoft YaHei', "
-                    "'SimSun', serif")
+                    "'SimSun', 'Segoe UI Emoji', serif")
     else:
         fallback = ("'Segoe UI', 'Microsoft YaHei', 'PingFang SC', "
-                    "sans-serif")
+                    "'Segoe UI Emoji', sans-serif")
     return ", ".join(parts + [fallback])
 
 
@@ -122,21 +127,48 @@ def design_tokens(design: dict) -> dict:
     }
 
 
+def split_aligned_row(line: str) -> list[str]:
+    """Split an aligned-table row into cells on column gaps (>=2 spaces)."""
+    return [p.strip() for p in re.split(r"\s{2,}", line) if p.strip()]
+
+
+PIPE_SEP = re.compile(r"^[\s|+\-=]+$")
+DASH_SEP = re.compile(r"^[\s\-—]+$")
+
+
 def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
-    """Parse the markdown into (title, [(section_name, items)])."""
+    """Parse the markdown into (title, [(section_name, items)]).
+
+    Besides questions/paragraphs, two-column reference tables are parsed
+    from aligned dash tables and pipe tables as items with
+    {"kind": "table", "rows": [[cn, en], ...]}.
+    """
     title = ""
     sections: list[tuple[str, list[dict]]] = []
     current: tuple[str, list[dict]] | None = None
     pending = ""
+    pending_lines: list[str] = []
+    table_rows: list[list[str]] | None = None
+    in_aligned = False
 
     def flush_pending() -> None:
-        nonlocal pending
+        nonlocal pending, pending_lines
         if not pending or current is None:
             pending = ""
+            pending_lines = []
             return
         kind = "question" if "?" in pending else "para"
         current[1].append({"kind": kind, "text": pending})
         pending = ""
+        pending_lines = []
+
+    def flush_table() -> None:
+        nonlocal table_rows, in_aligned
+        if table_rows and current is not None:
+            current[1].append({"kind": "table", "rows": table_rows})
+        table_rows = None
+        in_aligned = False
+        pending_lines = []
 
     for raw in text.splitlines():
         line = raw.strip()
@@ -150,12 +182,68 @@ def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
         m = re.fullmatch(r"\*\*(.+?)\*\*", line)
         if m:
             flush_pending()
+            flush_table()
             sections.append((m.group(1).strip(), []))
             current = sections[-1]
             continue
         if current is None:
             current = ("Content", [])
             sections.append(current)
+
+        if "|" in line or line.startswith("+"):
+            flush_pending()
+            if PIPE_SEP.fullmatch(line):
+                continue
+            cells = [c.strip() for c in line.strip("|").split("|")]
+            if table_rows is None:
+                flush_table()
+                table_rows = []
+            if cells and not cells[0] and len(cells) > 1:
+                if table_rows:
+                    table_rows[-1][1] = (
+                        table_rows[-1][1] + " " + cells[1]).strip()
+            else:
+                table_rows.append([cells[0] if cells else "",
+                                   " ".join(cells[1:]).strip()])
+            in_aligned = False
+            continue
+
+        if DASH_SEP.fullmatch(line):
+            runs = re.findall(r"-+", line)
+            if len(runs) >= 2 and table_rows is None:
+                rows_buf: list[list[str]] = []
+                for bl in pending_lines:
+                    cells = split_aligned_row(bl)
+                    if len(cells) >= 2:
+                        rows_buf.append(cells)
+                    elif cells and rows_buf:
+                        rows_buf[-1][-1] = (
+                            rows_buf[-1][-1] + " " + cells[0]).strip()
+                if rows_buf:
+                    table_rows = rows_buf
+                    pending = ""
+                    pending_lines = []
+            flush_pending()
+            if len(runs) >= 2:
+                if table_rows is None:
+                    table_rows = []
+                in_aligned = True
+            continue
+
+        if in_aligned:
+            flush_pending()
+            cells = split_aligned_row(line)
+            if len(cells) >= 2:
+                if table_rows is None:
+                    table_rows = []
+                table_rows.append(cells)
+                continue
+            if cells and table_rows:
+                table_rows[-1][-1] = (
+                    table_rows[-1][-1] + " " + cells[0]).strip()
+                continue
+            flush_table()
+
         if re.fullmatch(r"[\-–—.…\s]+", line):
             continue
         items = current[1]
@@ -172,8 +260,10 @@ def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
                     flush_pending()
         else:
             pending = f"{pending} {line}".strip()
+            pending_lines.append(line)
             if pending.endswith(("?", ".", "!")):
                 flush_pending()
+    flush_table()
     flush_pending()
 
     return title, sections
@@ -426,6 +516,206 @@ li::before {{
 """
 
 
+def tables_css(tok: dict, body_font: float) -> str:
+    return f"""
+@page {{
+  size: A4 portrait;
+  margin: 14mm 16mm 18mm 16mm;
+  @bottom-right {{
+    content: counter(page);
+    font: 8pt {tok['font_body']};
+    color: {tok['muted']};
+  }}
+}}
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+html, body {{ background: {tok['canvas']}; }}
+body {{
+  font-family: {tok['font_body']};
+  color: {tok['body']};
+  font-size: {body_font}pt;
+}}
+.masthead {{
+  border-bottom: 1pt solid {tok['hairline']};
+  padding-bottom: 3.5mm; margin-bottom: 6mm;
+}}
+h1 {{
+  font-family: {tok['font_display']};
+  font-weight: 400; font-size: 22pt; color: {tok['ink']};
+  line-height: 1.08;
+  border-bottom: 2.5pt solid {tok['accent']};
+  display: inline-block; padding-bottom: 1.5mm;
+}}
+.sec {{ margin-bottom: 5mm; }}
+h2 {{
+  break-after: avoid; page-break-after: avoid;
+  font-family: {tok['font_display']};
+  font-size: 13pt; font-weight: 500; color: {tok['ink']};
+  margin: 0 0 2.2mm 0;
+}}
+table {{ width: 100%; border-collapse: collapse; }}
+tr {{ break-inside: avoid; page-break-inside: avoid; }}
+td {{
+  border: 0.55pt solid {tok['hairline']};
+  padding: 1.3mm 2.4mm; vertical-align: top;
+  line-height: 1.35;
+}}
+td.cn {{ width: 40%; color: {tok['ink']}; }}
+td.en {{ width: 60%; color: {tok['body']}; }}
+tr:nth-child(even) td {{ background: {tok['surface_soft']}; }}
+"""
+
+
+def render_tables_html(title: str, sections, design: dict,
+                       body_font: float = 9.0) -> str:
+    """Table reference sheet: masthead + per-section two-column tables."""
+    tok = design_tokens(design)
+    sections_html = []
+    for name, items in sections:
+        tables = [it for it in items if it.get("kind") == "table"]
+        if not tables:
+            continue
+        rows = []
+        for it in tables:
+            for row in it["rows"]:
+                cn = html.escape(row[0])
+                en = html.escape(row[1] if len(row) > 1 else "")
+                rows.append(f'<tr><td class="cn">{cn}</td>'
+                            f'<td class="en">{en}</td></tr>')
+        sections_html.append(
+            f'<section class="sec"><h2>{html.escape(name)}</h2>'
+            f'<table>{"".join(rows)}</table></section>')
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+{tables_css(tok, body_font)}
+</style></head>
+<body>
+  <div class="masthead">
+    <h1>{html.escape(title)}</h1>
+  </div>
+  {''.join(sections_html)}
+</body></html>"""
+
+
+def hybrid_css(tok: dict, table_font: float, q_font: float,
+               li_margin: float = 6.0) -> str:
+    return f"""
+@page {{
+  size: A4 portrait;
+  margin: 11mm 13mm 16mm 13mm;
+  @bottom-right {{
+    content: counter(page);
+    font: 8pt {tok['font_body']};
+    color: {tok['muted']};
+  }}
+}}
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+html, body {{ background: {tok['canvas']}; }}
+body {{
+  font-family: {tok['font_body']};
+  color: {tok['body']};
+  font-size: {q_font}pt;
+}}
+.sheet {{
+  break-after: page;
+  page-break-after: always;
+}}
+.sheet:last-child {{
+  break-after: auto;
+  page-break-after: auto;
+}}
+.masthead {{
+  padding-bottom: 2.2mm; margin-bottom: 3.0mm;
+}}
+h1 {{
+  font-family: {tok['font_display']};
+  font-weight: 400; font-size: 18pt; color: {tok['ink']};
+  line-height: 1.08;
+  border-bottom: 2.5pt solid {tok['accent']};
+  display: inline-block; padding-bottom: 1.2mm;
+}}
+.tables {{
+  display: flex;
+  flex-wrap: wrap;
+}}
+.sec {{
+  width: 48.5%;
+  margin: 0 1.2mm 1.2mm 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}}
+.sec:nth-child(2n) {{
+  margin-right: 0;
+}}
+h2 {{
+  break-after: avoid; page-break-after: avoid;
+  font-family: {tok['font_display']};
+  font-size: 11pt; font-weight: 500; color: {tok['ink']};
+  margin: 0 0 1.0mm 0;
+}}
+table {{ width: 100%; border-collapse: collapse; }}
+tr {{ break-inside: avoid; page-break-inside: avoid; }}
+td {{
+  border: 0.5pt solid {tok['hairline']};
+  padding: 0.4mm 1.4mm; vertical-align: top;
+  font-size: {table_font}pt; line-height: 1.1;
+  white-space: nowrap;
+}}
+td.cn {{ width: 36%; color: {tok['ink']}; }}
+td.en {{ width: 64%; color: {tok['body']}; }}
+tr:nth-child(even) td {{ background: {tok['surface_soft']}; }}
+ol {{ list-style: none; }}
+li {{
+  margin-bottom: {li_margin:.1f}mm; line-height: 1.45;
+}}
+.qt {{ color: {tok['ink']}; white-space: nowrap; }}
+"""
+
+
+def render_hybrid_html(title: str, sections, design: dict,
+                       table_font: float, q_font: float) -> str:
+    """Two-page sheet: page 1 vocab tables, page 2 discussion questions."""
+    tok = design_tokens(design)
+    tables_html = []
+    for name, items in sections:
+        tables = [it for it in items if it.get("kind") == "table"]
+        if not tables:
+            continue
+        rows = []
+        for it in tables:
+            for row in it["rows"]:
+                cn = html.escape(row[0])
+                en = html.escape(row[1] if len(row) > 1 else "")
+                rows.append(f'<tr><td class="cn">{cn}</td>'
+                            f'<td class="en">{en}</td></tr>')
+        tables_html.append(
+            f'<section class="sec"><h2>{html.escape(name)}</h2>'
+            f'<table>{"".join(rows)}</table></section>')
+    questions = [it["text"] for _, items in sections
+                 for it in items if it["kind"] == "question"]
+    n = len(questions)
+    line_h = q_font * 0.3528 * 1.45
+    start_mm = 24.0
+    target_mm = 297.0 * 0.8
+    li_margin = (max(0.0, target_mm - start_mm - n * line_h)
+                 / max(1, n - 1)) if n > 1 else 8.0
+    q_items = "".join(
+        f'<li><span class="qt">{html.escape(q)}</span></li>' for q in questions)
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+{hybrid_css(tok, table_font, q_font, li_margin)}
+</style></head>
+<body>
+  <div class="sheet">
+    <div class="masthead"><h1>{html.escape(title)}</h1></div>
+    <div class="tables">{''.join(tables_html)}</div>
+  </div>
+  <div class="sheet">
+    <div class="masthead"><h1>Discussion</h1></div>
+    <ol>{q_items}</ol>
+  </div>
+</body></html>"""
+
+
 def render_html(title: str, questions, q_font: float,
                 scaf_font: float, gap: float, design: dict) -> str:
     tok = design_tokens(design)
@@ -533,6 +823,84 @@ def fit_questions_layout(render, questions) -> tuple[float, float, float]:
     return 9.5, 1.35, 1.0
 
 
+def fit_tables_layout(render) -> float:
+    """Largest readable table font that still fits two pages."""
+    for body_font in (9.5, 9.0, 8.5, 8.0):
+        if render(body_font) <= 2:
+            return body_font
+    return 9.0
+
+
+def hybrid_cells_fit(rows: list[tuple[str, str]], table_font: float) -> bool:
+    """True if every cn/en cell fits its column on one line at this font."""
+    try:
+        from PIL import ImageFont
+    except ImportError:
+        return True
+    cn_mm = 184.0 * 0.485 * 0.36 - 3.4
+    en_mm = 184.0 * 0.485 * 0.64 - 3.4
+    fonts: dict[str, object] = {}
+
+    def width(text: str) -> float:
+        total = 0.0
+        for ch in text:
+            key = "cjk" if ord(ch) >= 0x2E80 else "latin"
+            f = fonts.get(key)
+            if f is None:
+                path = (r"C:\Windows\Fonts\msyh.ttc" if key == "cjk"
+                        else r"C:\Windows\Fonts\segoeui.ttf")
+                f = ImageFont.truetype(path, 100)
+                fonts[key] = f
+            total += f.getlength(ch)
+        return total * table_font / 100.0 * 25.4 / 72.0
+
+    return all(width(cn) <= cn_mm and width(en) <= en_mm
+               for cn, en in rows)
+
+
+def hybrid_layout_issues(path: Path, n_questions: int) -> int:
+    """Return bitmask: 1 = page-1 text overflows, 2 = page-2 wraps/overflows."""
+    try:
+        import pdfplumber
+    except ImportError:
+        return 0
+    right = 595.2756 - 13.0 * 72 / 25.4 + 2.0
+    issues = 0
+    with pdfplumber.open(path) as pdf:
+        if len(pdf.pages) != 2:
+            return 3
+        for w in pdf.pages[0].extract_words():
+            if w["x1"] > right:
+                issues |= 1
+                break
+        words2 = pdf.pages[1].extract_words()
+        for w in words2:
+            if w["x1"] > right:
+                issues |= 2
+                break
+        disc_top = next((w["bottom"] for w in words2
+                         if w["text"] == "Discussion"), None)
+        if disc_top is not None:
+            q_words = [w for w in words2
+                       if w["top"] >= disc_top - 2 and w["bottom"] < 780]
+            tops = {round(w["top"]) for w in q_words}
+            if len(tops) != n_questions:
+                issues |= 2
+    return issues
+
+
+def fit_hybrid_layout(render, rows) -> tuple[float, float]:
+    """Find table/discussion fonts that yield exactly two pages."""
+    for table_font in (12.0, 11.5, 11.0, 10.5, 10.0, 9.5, 9.0, 8.5,
+                       8.0, 7.5, 7.0, 6.5, 6.0):
+        if not hybrid_cells_fit(rows, table_font):
+            continue
+        for q_font in (11.0, 10.5, 10.0):
+            if render(table_font, q_font) == 2:
+                return table_font, q_font
+    return 10.5, 10.0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("md_file", type=Path, help="Input .md handout")
@@ -555,6 +923,67 @@ def main() -> int:
     text = md_path.read_text(encoding="utf-8-sig")
     md_title, sections = parse_md(text)
     title = clean_title(md_title, md_path.stem)
+    has_questions = any(
+        item["kind"] == "question"
+        for _, items in sections for item in items)
+    has_tables = any(
+        item["kind"] == "table"
+        for _, items in sections for item in items)
+    has_scaffold = md_path.with_suffix(".scaffold.json").exists()
+    if has_tables and not has_scaffold and not args.questions_only:
+        if has_questions:
+            # Hybrid: page 1 vocab tables, page 2 discussion questions.
+            all_rows = [(r[0], r[1] if len(r) > 1 else "")
+                        for _, items in sections
+                        for it in items if it["kind"] == "table"
+                        for r in it["rows"]]
+            count = sum(1 for _, items in sections
+                        for it in items if it["kind"] == "question")
+
+            def render(table_font, q_font):
+                return page_count(render_hybrid_html(
+                    title, sections, design, table_font, q_font))
+
+            table_font, q_font = fit_hybrid_layout(render, all_rows)
+            out = md_path.with_suffix(".pdf")
+            for _ in range(6):
+                final_html = render_hybrid_html(
+                    title, sections, design, table_font, q_font)
+                HTML(string=final_html).write_pdf(out)
+                issues = hybrid_layout_issues(out, count)
+                if not issues:
+                    break
+                if issues & 1:
+                    table_font = max(6.0, table_font - 0.5)
+                if issues & 2:
+                    q_font = max(8.0, q_font - 0.5)
+            layout_desc = f"table {table_font}pt + discussion {q_font}pt"
+        else:
+            # Tables-only vocabulary reference sheet.
+            def render(body_font):
+                return page_count(render_tables_html(
+                    title, sections, design, body_font))
+
+            body_font = fit_tables_layout(render)
+            final_html = render_tables_html(
+                title, sections, design, body_font)
+            layout_desc = f"table {body_font}pt"
+            count = sum(len(it["rows"]) for _, items in sections
+                        for it in items if it["kind"] == "table")
+        pages = page_count(final_html)
+        out = md_path.with_suffix(".pdf")
+        HTML(string=final_html).write_pdf(out)
+        print(f"PDF written: {out}")
+        print(f"Title     : {title}")
+        print(f"Design    : {design['name']} ({design['source']})")
+        print(f"Questions : {count}")
+        print(f"Layout    : {layout_desc}")
+        print(f"Pages     : {pages}")
+        if args.keep_html:
+            html_out = Path(tempfile.gettempdir()) / (md_path.stem + ".qa.html")
+            html_out.write_text(final_html, encoding="utf-8")
+            print(f"HTML kept : {html_out}")
+        return 0 if pages >= 1 else 2
     if args.questions_only:
         groups = build_sections_questions(sections)
         flat = [q for _, qs in groups for q in qs]

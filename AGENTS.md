@@ -4,7 +4,7 @@
 
 Refines and renders ESL handout Markdown (Business / Spoken / Travel / Beginner) into print-ready PDFs via `scripts/md_to_pdf.py`. Course introductions live in `课程介绍.md`.
 
-讲义 PDF 的视觉样式由 `scripts/md_to_pdf.py` 按本地 awesome-design-md 合集的 YAML 设计 token 渲染（默认 `claude` 风格），不再参考 ESL Assistant 样式。
+讲义 PDF 的视觉样式由 `scripts/md_to_pdf.py` 按本地 awesome-design-md 合集的 YAML 设计 token 渲染（默认 `cal` 风格，偏黑白色调），不再参考 ESL Assistant 样式。
 
 ## 内容原则
 
