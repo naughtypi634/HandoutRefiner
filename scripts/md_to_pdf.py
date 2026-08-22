@@ -26,6 +26,9 @@ Usage:
 
 Questions-only variant (no scaffold blocks, elegant question list):
     python scripts/md_to_pdf.py --questions-only "path/to/handout.md"
+    python scripts/md_to_pdf.py --questions-only --no-numbers "path/to/handout.md"
+    python scripts/md_to_pdf.py --questions-only --no-numbers --gap-mm 12 \
+        "path/to/handout.md"
 """
 
 from __future__ import annotations
@@ -416,11 +419,10 @@ body {{
 }}
 .header {{
   display: flex; justify-content: space-between; align-items: baseline;
-  border-bottom: 1pt solid {tok['hairline']};
   padding-bottom: 2.5mm; margin-bottom: 3mm;
 }}
 .header h1 {{
-  font-family: {tok['font_display']};
+  font-family: {tok['font_body']};
   font-size: 17pt; font-weight: 400;
   color: {tok['ink']};
   border-bottom: 2.5pt solid {tok['accent']};
@@ -461,8 +463,23 @@ body {{
 """
 
 
-def questions_css(tok: dict, q_font: float, lh: float, gap: float) -> str:
+def questions_css(tok: dict, q_font: float, lh: float, gap: float,
+                  no_numbers: bool = False,
+                  category_gap: float | None = None) -> str:
     h2_font = q_font + 2.5
+    li_gap = "0" if no_numbers else "3mm"
+    sec_margin = category_gap if category_gap is not None else 7.0
+    counter_css = ""
+    if not no_numbers:
+        counter_css = f"""
+ol {{ counter-reset: q; }}
+li {{ counter-increment: q; }}
+li::before {{
+    content: counter(q) ".";
+    flex: 0 0 7mm; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: {tok['accent']};
+}}"""
     return f"""
 @page {{
   size: A4 portrait;
@@ -481,37 +498,30 @@ body {{
   font-size: {q_font}pt;
 }}
 .masthead {{
-    border-bottom: 1pt solid {tok['hairline']};
     padding-bottom: 4mm; margin-bottom: 8mm;
 }}
 h1 {{
-    font-family: {tok['font_display']};
+    font-family: {tok['font_body']};
     font-weight: 400; font-size: 24pt; color: {tok['ink']};
     line-height: 1.05;
     border-bottom: 2.5pt solid {tok['accent']};
     display: inline-block; padding-bottom: 2mm;
 }}
-.sec {{ margin-top: 7mm; }}
+.sec {{ margin-top: {sec_margin:.1f}mm; }}
 .sec:first-of-type {{ margin-top: 0; }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
-    font-family: {tok['font_display']};
+    font-family: {tok['font_body']};
     font-size: {h2_font:.1f}pt; font-weight: 500; color: {tok['ink']};
     margin-bottom: 3mm;
 }}
-ol {{ list-style: none; counter-reset: q; }}
+ol {{ list-style: none; }}
 li {{
-    display: flex; align-items: baseline; gap: 3mm;
-    counter-increment: q;
+    display: flex; align-items: baseline; gap: {li_gap};
     margin-bottom: {gap:.2f}mm; line-height: {lh}; text-align: left;
 }}
 li:last-child {{ margin-bottom: 0; }}
-li::before {{
-    content: counter(q) ".";
-    flex: 0 0 7mm; font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    color: {tok['accent']};
-}}
+{counter_css}
 .qt {{ flex: 1; color: {tok['ink']}; }}
 """
 
@@ -535,11 +545,10 @@ body {{
   font-size: {body_font}pt;
 }}
 .masthead {{
-  border-bottom: 1pt solid {tok['hairline']};
   padding-bottom: 3.5mm; margin-bottom: 6mm;
 }}
 h1 {{
-  font-family: {tok['font_display']};
+  font-family: {tok['font_body']};
   font-weight: 400; font-size: 22pt; color: {tok['ink']};
   line-height: 1.08;
   border-bottom: 2.5pt solid {tok['accent']};
@@ -548,7 +557,7 @@ h1 {{
 .sec {{ margin-bottom: 5mm; }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
-  font-family: {tok['font_display']};
+  font-family: {tok['font_body']};
   font-size: 13pt; font-weight: 500; color: {tok['ink']};
   margin: 0 0 2.2mm 0;
 }}
@@ -627,7 +636,7 @@ body {{
   padding-bottom: 2.2mm; margin-bottom: 3.0mm;
 }}
 h1 {{
-  font-family: {tok['font_display']};
+  font-family: {tok['font_body']};
   font-weight: 400; font-size: 18pt; color: {tok['ink']};
   line-height: 1.08;
   border-bottom: 2.5pt solid {tok['accent']};
@@ -648,7 +657,7 @@ h1 {{
 }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
-  font-family: {tok['font_display']};
+  font-family: {tok['font_body']};
   font-size: 11pt; font-weight: 500; color: {tok['ink']};
   margin: 0 0 1.0mm 0;
 }}
@@ -733,7 +742,9 @@ def render_html(title: str, questions, q_font: float,
 
 
 def render_questions_html(title: str, groups, q_font: float,
-                          lh: float, gap: float, design: dict) -> str:
+                          lh: float, gap: float, design: dict,
+                          no_numbers: bool = False,
+                          category_gap: float | None = None) -> str:
     """Questions-only layout: design-system masthead, numbered sections."""
     tok = design_tokens(design)
     sections_html = []
@@ -749,7 +760,7 @@ def render_questions_html(title: str, groups, q_font: float,
         )
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><style>
-{questions_css(tok, q_font, lh, gap)}
+{questions_css(tok, q_font, lh, gap, no_numbers, category_gap)}
 </style></head>
 <body>
   <div class="masthead">
@@ -854,8 +865,13 @@ def hybrid_cells_fit(rows: list[tuple[str, str]], table_font: float) -> bool:
             total += f.getlength(ch)
         return total * table_font / 100.0 * 25.4 / 72.0
 
-    return all(width(cn) <= cn_mm and width(en) <= en_mm
-               for cn, en in rows)
+    try:
+        return all(width(cn) <= cn_mm and width(en) <= en_mm
+                   for cn, en in rows)
+    except OSError:
+        # Fonts used for measuring are optional (Windows-only paths);
+        # skip the width check when they are unavailable.
+        return True
 
 
 def hybrid_layout_issues(path: Path, n_questions: int) -> int:
@@ -912,6 +928,14 @@ def main() -> int:
                         help="Also write the final HTML to the temp dir (QA).")
     parser.add_argument("--questions-only", action="store_true",
                         help="Render only the questions (no scaffold blocks).")
+    parser.add_argument("--no-numbers", action="store_true",
+                        help="Questions-only: hide the list numbering.")
+    parser.add_argument("--gap-mm", type=float, default=None,
+                        help="Questions-only: override the row gap in mm "
+                             "(default: auto-fitted).")
+    parser.add_argument("--category-gap-mm", type=float, default=None,
+                        help="Questions-only: space above each category "
+                             "heading in mm (default: 1.4x --gap-mm, or 7mm).")
     args = parser.parse_args()
 
     md_path = args.md_file.resolve()
@@ -990,11 +1014,19 @@ def main() -> int:
 
         def render(q_font, lh, gap):
             return page_count(render_questions_html(
-                title, groups, q_font, lh, gap, design))
+                title, groups, q_font, lh, gap, design,
+                no_numbers=args.no_numbers))
 
         q_font, lh, gap = fit_questions_layout(render, flat)
+        if args.gap_mm is not None:
+            gap = args.gap_mm
+        category_gap = args.category_gap_mm
+        if category_gap is None and args.gap_mm is not None:
+            category_gap = gap * 1.4
         final_html = render_questions_html(
-            title, groups, q_font, lh, gap, design)
+            title, groups, q_font, lh, gap, design,
+            no_numbers=args.no_numbers,
+            category_gap=category_gap)
         layout_desc = f"q {q_font}pt, line-height {lh}, row gap {gap:.1f}mm"
     else:
         scaffold_data = load_scaffolds(md_path)
