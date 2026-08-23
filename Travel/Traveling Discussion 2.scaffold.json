@@ -1,0 +1,257 @@
+{
+  "curated": true,
+  "groups": [
+    {
+      "name": "Recent Trip",
+      "questions": [
+        "Where and when was your most recent trip, and who did you go with?"
+      ]
+    },
+    {
+      "name": "Memorable Highlights",
+      "questions": [
+        "What was the most memorable dish or moment from your favorite trip?"
+      ]
+    },
+    {
+      "name": "Travel Mishaps",
+      "questions": [
+        "What is the most annoying mishap you have experienced while traveling?"
+      ]
+    },
+    {
+      "name": "Transport Choices",
+      "questions": [
+        "When traveling across China, do you prefer high-speed rail, flying, or a road trip?"
+      ]
+    },
+    {
+      "name": "Accommodation",
+      "questions": [
+        "Do you usually book a standard hotel, a boutique homestay, or a budget chain?"
+      ]
+    },
+    {
+      "name": "Travel Pace",
+      "questions": [
+        "Do you prefer fast-paced sightseeing or a chill, slow-paced vacation?"
+      ]
+    },
+    {
+      "name": "Budget Breakdown",
+      "questions": [
+        "What takes up the largest part of your travel budget: transport, hotel, food, or shopping?"
+      ]
+    },
+    {
+      "name": "Planning & Guides",
+      "questions": [
+        "Do you follow social media travel guides, or do you prefer spontaneous exploration?"
+      ]
+    },
+    {
+      "name": "Peak vs. Off-Peak",
+      "questions": [
+        "Do you prefer off-peak travel, or do you travel during Golden Weeks?"
+      ]
+    },
+    {
+      "name": "Upcoming Getaway",
+      "questions": [
+        "If you had a free 3-day weekend next month, where would you go to recharge?"
+      ]
+    }
+  ],
+  "scaffolds": {
+    "Where and when was your most recent trip, and who did you go with?": {
+      "segments": [
+        "Where and when was your most recent trip,",
+        "and who did you go with?"
+      ],
+      "hint": "交代出发时间、目的地和同行人，简单说一句整体印象。",
+      "words": ["destination", "getaway", "itinerary", "scenery"],
+      "phrases": [
+        "take a weekend trip",
+        "travel with friends",
+        "book in advance",
+        "have a blast"
+      ],
+      "idiom": { "text": "hit the road", "gloss": "启程出发" },
+      "frames": [
+        "My last trip was to ... with ...",
+        "We went there because ..."
+      ]
+    },
+    "What was the most memorable dish or moment from your favorite trip?": {
+      "segments": [
+        "What was the most memorable dish or moment",
+        "from your favorite trip?"
+      ],
+      "hint": "选一个具体画面（一道地道美食、日落景色或特别体验）展开描述。",
+      "words": ["specialty", "local delicacy", "unforgettable", "vibe"],
+      "phrases": [
+        "try authentic food",
+        "take in the view",
+        "stumble upon a cafe",
+        "leave a deep impression"
+      ],
+      "idiom": { "text": "feast for the eyes", "gloss": "大饱眼福" },
+      "frames": [
+        "The highlight of the trip was ...",
+        "I'll never forget the moment when ..."
+      ]
+    },
+    "What is the most annoying mishap you have experienced while traveling?": {
+      "segments": [
+        "What is the most annoying mishap",
+        "you have experienced while traveling?"
+      ],
+      "hint": "描述一次突发小意外（延误/丢行李/被宰/天气差）及当时的应对方式。",
+      "words": ["delay", "luggage", "bad weather", "refund"],
+      "phrases": [
+        "flight delay",
+        "get ripped off",
+        "ruin the mood",
+        "solve the problem"
+      ],
+      "idiom": { "text": "tourist trap", "gloss": "宰客/过度商业化景点" },
+      "frames": [
+        "Once, my flight was delayed for ...",
+        "It was stressful, but luckily we ..."
+      ]
+    },
+    "When traveling across China, do you prefer high-speed rail, flying, or a road trip?": {
+      "segments": [
+        "When traveling across China,",
+        "do you prefer high-speed rail, flying, or a road trip?"
+      ],
+      "hint": "比较两者的性价比、时间与舒适度，说明你的出行偏好。",
+      "words": ["high-speed train", "flight", "road trip", "punctual"],
+      "phrases": [
+        "avoid airport security",
+        "enjoy window views",
+        "travel light",
+        "save travel time"
+      ],
+      "idiom": { "text": "smooth sailing", "gloss": "一帆风顺/十分顺利" },
+      "frames": [
+        "I prefer high-speed rail because ...",
+        "For long distances, flying is definitely ..."
+      ]
+    },
+    "Do you usually book a standard hotel, a boutique homestay, or a budget chain?": {
+      "segments": [
+        "Do you usually book a standard hotel,",
+        "a boutique homestay, or a budget chain?"
+      ],
+      "hint": "从卫生、地理位置、服务和预算等维度说明你的偏好。",
+      "words": ["homestay", "amenities", "cleanliness", "location"],
+      "phrases": [
+        "close to the subway",
+        "value for money",
+        "good customer service",
+        "feel like home"
+      ],
+      "idiom": { "text": "home away from home", "gloss": "宾至如归的住所" },
+      "frames": [
+        "I usually go for ... because location matters most.",
+        "As long as the room is clean and quiet, ..."
+      ]
+    },
+    "Do you prefer fast-paced sightseeing or a chill, slow-paced vacation?": {
+      "segments": [
+        "Do you prefer fast-paced sightseeing",
+        "or a chill, slow-paced vacation?"
+      ],
+      "hint": "对比“特种兵打卡式”与“躺平度假式”的体验感受与精力消耗。",
+      "words": ["sightseeing", "pace", "exhausting", "relaxed"],
+      "phrases": [
+        "pack the schedule",
+        "sleep in late",
+        "wander around",
+        "soak up the atmosphere"
+      ],
+      "idiom": { "text": "take it easy", "gloss": "从容放松 / 不慌不忙" },
+      "frames": [
+        "I used to prefer ..., but now I enjoy ...",
+        "A vacation should be about ..., not rushing."
+      ]
+    },
+    "What takes up the largest part of your travel budget: transport, hotel, food, or shopping?": {
+      "segments": [
+        "What takes up the largest part of your travel budget:",
+        "transport, hotel, food, or shopping?"
+      ],
+      "hint": "谈谈你在哪项上最舍得花钱，哪项上会尽量节省。",
+      "words": ["budget", "accommodation", "splurge", "reasonable"],
+      "phrases": [
+        "cut down on costs",
+        "spend money on food",
+        "worth every penny",
+        "tight budget"
+      ],
+      "idiom": { "text": "bang for the buck", "gloss": "性价比高 / 物超所值" },
+      "frames": [
+        "Most of my budget goes to ... because ...",
+        "I try to save on ..., but I won't compromise on ..."
+      ]
+    },
+    "Do you follow social media travel guides, or do you prefer spontaneous exploration?": {
+      "segments": [
+        "Do you follow social media travel guides,",
+        "or do you prefer spontaneous exploration?"
+      ],
+      "hint": "讲讲社交媒体攻略的实用性与潜在踩雷风险，以及你平时的做攻略习惯。",
+      "words": ["itinerary", "recommendation", "guide", "spontaneous"],
+      "phrases": [
+        "check online reviews",
+        "step off the beaten track",
+        "plan every detail",
+        "go with the flow"
+      ],
+      "idiom": { "text": "hidden gem", "gloss": "小众宝藏地点" },
+      "frames": [
+        "I like checking guides for ..., but I also leave time to ...",
+        "Sometimes online recommendations turn out to be ..."
+      ]
+    },
+    "Do you prefer off-peak travel, or do you travel during Golden Weeks?": {
+      "segments": [
+        "Do you prefer off-peak travel,",
+        "or do you travel during Golden Weeks?"
+      ],
+      "hint": "结合工作年假、出行人潮和机酒价格，分享错峰出行或节假日出游的体验。",
+      "words": ["off-peak", "holiday crowd", "annual leave", "surcharge"],
+      "phrases": [
+        "avoid the rush",
+        "packed with people",
+        "skyrocketing prices",
+        "take annual leave"
+      ],
+      "idiom": { "text": "beat the crowd", "gloss": "避开人潮" },
+      "frames": [
+        "If possible, I always try to ... to avoid ...",
+        "During Golden Week, tourist spots are usually ..."
+      ]
+    },
+    "If you had a free 3-day weekend next month, where would you go to recharge?": {
+      "segments": [
+        "If you had a free 3-day weekend next month,",
+        "where would you go to recharge?"
+      ],
+      "hint": "规划一个 3 天短途放松路线（目的地、交通、必做的一两件事）。",
+      "words": ["weekend getaway", "recharge", "nature", "refreshing"],
+      "phrases": [
+        "escape the city",
+        "recharge my batteries",
+        "enjoy local cuisine",
+        "clear my head"
+      ],
+      "idiom": { "text": "breath of fresh air", "gloss": "令人耳目一新的放松体验" },
+      "frames": [
+        "I'd love to take a quick trip to ...",
+        "It would be the perfect way to ..."
+      ]
+    }
+  }
+}

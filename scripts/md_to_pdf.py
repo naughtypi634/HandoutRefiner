@@ -364,6 +364,11 @@ def scaffold_lines(scaffold: dict | None) -> str:
             for i in idioms if i.get("text")
         )
         lines.append(f'<div class="sline id">{items}</div>')
+    frames = scaffold.get("frames") or []
+    if frames:
+        items = " · ".join(f'<span class="item fr">{html.escape(f)}</span>'
+                           for f in frames)
+        lines.append(f'<div class="sline fr">{items}</div>')
     return "".join(lines)
 
 
@@ -423,43 +428,42 @@ body {{
 }}
 .header h1 {{
   font-family: {tok['font_body']};
-  font-size: 17pt; font-weight: 400;
-  color: {tok['ink']};
-  border-bottom: 2.5pt solid {tok['accent']};
+  font-size: 17pt; font-weight: 500;
+  color: #000000;
+  border-bottom: 2pt solid #000000;
   display: inline-block; padding-bottom: 1mm;
 }}
 .rows {{ display: block; }}
 .row {{
     display: block; margin-bottom: {gap}mm;
-  padding-bottom: 2.6mm;
+  padding-bottom: 1.5mm;
     break-inside: avoid; page-break-inside: avoid;
 }}
 .row:last-child {{ padding-bottom: 0; }}
 .q {{
-    font-size: {q_font}pt; font-weight: 500; line-height: 1.35;
-    color: {tok['ink']};
+    font-size: {q_font}pt; font-weight: 600; line-height: 1.35;
+    color: #000000;
     white-space: nowrap;
 }}
 .seg {{
-    display: inline-block; border: 1pt solid {tok['hairline']};
-    background: {tok['surface_soft']}; border-radius: {tok['radius_md']};
-    padding: 0 .5mm; margin: 0 .6mm 0 0;
+    display: inline;
 }}
-.hint {{ font-size: 8.5pt; color: {tok['muted']}; margin-top: 1mm; }}
-.hint b {{ font-weight: 600; color: {tok['accent']}; }}
+.hint {{ font-size: 8.5pt; color: #555555; margin-top: 1mm; }}
+.hint b {{ font-weight: 600; color: #000000; }}
 .sblock {{
-  background: {tok['surface_card']}; border: 1pt solid {tok['hairline']};
-  border-radius: {tok['radius_lg']}; padding: 2.4mm 2.8mm;
-    margin-top: 1.5mm;
+  background: transparent; border: none;
+  padding: 1mm 0 0 0;
+  margin-top: 1.2mm;
   font-family: {tok['font_body']};
-  color: {tok['body']}; font-size: {scaf_font}pt; line-height: 1.5;
+  color: #222222; font-size: {scaf_font}pt; line-height: 1.55;
 }}
-.sline {{ margin-bottom: 1mm; }}
+.sline {{ margin-bottom: 0.8mm; }}
 .sline:last-child {{ margin-bottom: 0; }}
-.ph {{ font-style: italic; }}
-.id {{ font-weight: 700; color: {tok['ink']}; }}
-.id .zh {{ font-weight: 400; color: {tok['muted']}; }}
-.zh {{ color: {tok['muted']}; margin-left: .8mm; }}
+.ph {{ font-style: italic; color: #333333; }}
+.id {{ font-weight: 700; color: #000000; }}
+.id .zh {{ font-weight: 400; color: #555555; }}
+.zh {{ color: #555555; margin-left: .8mm; }}
+.fr {{ color: #333333; }}
 """
 
 
