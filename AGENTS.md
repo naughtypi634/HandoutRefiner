@@ -4,7 +4,11 @@
 
 Refines and renders ESL handout Markdown (Business / Spoken / Travel / Beginner) into print-ready PDFs via `scripts/md_to_pdf.py`. Course introductions live in `课程介绍.md`.
 
-讲义 PDF 的视觉样式由 `scripts/md_to_pdf.py` 按本地 awesome-design-md 合集的 YAML 设计 token 渲染（默认 `cal` 风格，偏黑白色调），不再参考 ESL Assistant 样式。
+## 文档修订规则
+
+- 文档只保留标题、表格、练习和讨论问题本身。
+- 不出现课程介绍、每节引导句、说明性标签或过渡文字（如“先认识……”“用这些句型开头”“你的版本”“完整示范”）。
+- 这一规则适用于所有文档的生成、修订和重排版，任何时候都不得添加这类内容。
 
 ## 内容原则
 
@@ -12,3 +16,7 @@ Refines and renders ESL handout Markdown (Business / Spoken / Travel / Beginner)
 - **习语必须当代、真实在用**：只选 2020 年代英语口语中真实高频的习语/俚语，避免教科书式、老套、过时的表达（如 over the moon、raining cats and dogs、down in the dumps 之类）。拿不准就先查证再写。
 - **例句要有具体画面**：每条例句必须包含具体场景、人物和动作，让读者能立刻在脑中成像并代入（如 "I'm in a good mood — my coffee was free today."），禁止写干巴巴的通用例句（如 "I'm happy today."）。
 - **内容要求不得明文标注**：用户给出的选题或措辞要求（如“无关痛痒”“不敏感”“轻松有趣”）只作为生成准则，禁止原样写进文档标题、正文或引导句（如不要写 “Some common, harmless examples:” 这类给作者看的说明文字）。
+
+## 视觉设计
+
+- 讲义 PDF 的视觉样式与渲染规则见 [DESIGN.md](DESIGN.md)（awesome-design-md YAML token，默认 `cal` 风格，偏黑白色调）。
