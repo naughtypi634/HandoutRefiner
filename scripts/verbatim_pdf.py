@@ -138,6 +138,41 @@ def parse_verbatim(text: str, stem: str) -> tuple[str, list]:
     return title or clean_title("", stem), sections
 
 
+def parse_idiom_blocks(text: str, stem: str) -> tuple[str, list]:
+    """Parse '# Title' plus '## Category' headers and three-line idiom blocks.
+
+    Every non-header line is grouped into three-line blocks
+    (idiom, Chinese gloss, example). Returns a flat list of blocks where each
+    block is either ("header", name) or ("entry", en, zh, ex). Malformed
+    trailing lines (fewer than three) are dropped so the renderer never shows
+    a half-finished entry.
+    """
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    title = ""
+    if lines and lines[0].startswith("# "):
+        title = lines[0][2:].strip()
+        lines = lines[1:]
+    blocks: list = []
+    pending: list[str] = []
+
+    def flush() -> None:
+        nonlocal pending
+        if len(pending) == 3:
+            blocks.append(("entry", pending[0], pending[1], pending[2]))
+        pending = []
+
+    for ln in lines:
+        if ln.startswith("## "):
+            flush()
+            blocks.append(("header", ln[3:].strip()))
+        else:
+            pending.append(ln)
+            if len(pending) == 3:
+                flush()
+    flush()
+    return title or clean_title("", stem), blocks
+
+
 def render_html(title: str, sections: list, tok: dict) -> str:
     body = []
     for name, blocks in sections:
@@ -225,6 +260,103 @@ ul.sub > li::before {{
 </body></html>"""
 
 
+def render_idiom_html(title: str, blocks: list,
+                      tok: dict, per_page: int = 10) -> str:
+    """Minimal black-and-white list: one styled block per idiom, N per page.
+
+    Category headers flow inline between entries; a header is never left at
+    the bottom of a full page (it starts the next page instead).
+    """
+    def entry_count(page_blocks: list) -> int:
+        return sum(1 for b in page_blocks if b[0] == "entry")
+
+    pages: list[list] = []
+    page: list = []
+    for block in blocks:
+        if block[0] == "header" and entry_count(page) == per_page:
+            pages.append(page)
+            page = []
+        elif block[0] == "entry" and entry_count(page) == per_page:
+            pages.append(page)
+            page = []
+        page.append(block)
+    if page:
+        pages.append(page)
+
+    pages_html = []
+    for page_blocks in pages:
+        items = []
+        for block in page_blocks:
+            if block[0] == "header":
+                items.append(
+                    f'<div class="cat">{html.escape(block[1])}</div>')
+            else:
+                _, en, zh, ex = block
+                items.append(
+                    '<div class="entry">'
+                    f'<div class="id">{inline(en)}</div>'
+                    f'<div class="zh">{html.escape(zh)}</div>'
+                    f'<div class="ex">{html.escape(ex)}</div>'
+                    '</div>')
+        pages_html.append('<div class="page">' + "".join(items) + "</div>")
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+@page {{
+  size: A4 portrait;
+  margin: 14mm 17mm 16mm 17mm;
+  @bottom-right {{
+    content: counter(page);
+    font: 8pt {tok['font_body']};
+    color: {tok['muted']};
+  }}
+}}
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+html, body {{ background: {tok['canvas']}; }}
+body {{
+  font-family: {tok['font_body']};
+  color: {tok['body']};
+  font-size: 10pt;
+  line-height: 1.45;
+}}
+.masthead {{ padding-bottom: 3.5mm; margin-bottom: 6mm; }}
+h1 {{
+  font-family: {tok['font_body']};
+  font-weight: 400; font-size: 21pt; color: {tok['ink']};
+  line-height: 1.08;
+  border-bottom: 2.5pt solid {tok['accent']};
+  display: inline-block; padding-bottom: 1.8mm;
+}}
+.page {{ break-after: page; page-break-after: always; }}
+.page:last-child {{ break-after: auto; page-break-after: auto; }}
+.cat {{
+  break-after: avoid; page-break-after: avoid;
+  font-size: 12pt; font-weight: 600; color: {tok['ink']};
+  margin: 4mm 0 3.2mm 0; padding-bottom: 1.2mm;
+  border-bottom: 0.5pt solid {tok['hairline']};
+}}
+.page > .cat:first-child {{ margin-top: 0; }}
+.entry {{
+  break-inside: avoid; page-break-inside: avoid;
+  margin-bottom: 5mm;
+}}
+.entry:last-child {{ margin-bottom: 0; }}
+.id {{
+  font-weight: 700; font-size: 10.5pt; color: {tok['ink']};
+}}
+.zh {{
+  font-size: 9.5pt; color: {tok['muted']};
+  margin: 0.5mm 0;
+}}
+.ex {{
+  font-size: 9.5pt; color: {tok['body']};
+}}
+</style></head>
+<body>
+  <div class="masthead"><h1>{html.escape(title)}</h1></div>
+  {''.join(pages_html)}
+</body></html>"""
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("md_file", type=Path, help="Input .md handout")
@@ -234,6 +366,13 @@ def main() -> int:
     parser.add_argument(
         "--out", type=Path, default=None,
         help="Output PDF path (default: next to the MD, same stem)")
+    parser.add_argument(
+        "--idiom-list", action="store_true",
+        help="Parse '# Title', '## Category' headers and three-line idiom "
+             "blocks (idiom / gloss / example), N per page.")
+    parser.add_argument(
+        "--per-page", type=int, default=10,
+        help="Idioms per page in --idiom-list mode (default: 10)")
     args = parser.parse_args()
 
     md_path = args.md_file.resolve()
@@ -243,15 +382,23 @@ def main() -> int:
     design = load_design(args.design)
     tok = design_tokens(design)
     text = md_path.read_text(encoding="utf-8-sig")
-    title, sections = parse_verbatim(text, md_path.stem)
-    final_html = render_html(title, sections, tok)
+    if args.idiom_list:
+        title, blocks = parse_idiom_blocks(text, md_path.stem)
+        final_html = render_idiom_html(title, blocks, tok, args.per_page)
+    else:
+        title, sections = parse_verbatim(text, md_path.stem)
+        final_html = render_html(title, sections, tok)
     out = (args.out.resolve() if args.out else md_path.with_suffix(".pdf"))
     HTML(string=final_html).write_pdf(out)
     pages = len(HTML(string=final_html).render().pages)
     print(f"PDF written: {out}")
     print(f"Title     : {title}")
     print(f"Design    : {design['name']} ({design['source']})")
-    print(f"Sections  : {len(sections)}")
+    if args.idiom_list:
+        count = sum(1 for b in blocks if b[0] == "entry")
+        print(f"Idioms    : {count}")
+    else:
+        print(f"Sections  : {len(sections)}")
     print(f"Pages     : {pages}")
     return 0
 
