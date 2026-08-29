@@ -632,6 +632,10 @@ body {{
   break-after: page;
   page-break-after: always;
 }}
+.discussion {{
+  break-before: page;
+  page-break-before: always;
+}}
 .sheet:last-child {{
   break-after: auto;
   page-break-after: auto;
@@ -647,17 +651,11 @@ h1 {{
   display: inline-block; padding-bottom: 1.2mm;
 }}
 .tables {{
-  display: flex;
-  flex-wrap: wrap;
+  display: block;
 }}
 .sec {{
-  width: 48.5%;
-  margin: 0 1.2mm 1.2mm 0;
-  break-inside: avoid;
-  page-break-inside: avoid;
-}}
-.sec:nth-child(2n) {{
-  margin-right: 0;
+  width: 100%;
+  margin: 0 0 3.2mm 0;
 }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
@@ -671,10 +669,10 @@ td {{
   border: 0.5pt solid {tok['hairline']};
   padding: 0.4mm 1.4mm; vertical-align: top;
   font-size: {table_font}pt; line-height: 1.1;
-  white-space: nowrap;
 }}
-td.cn {{ width: 36%; color: {tok['ink']}; }}
-td.en {{ width: 64%; color: {tok['body']}; }}
+td.cn {{ width: 22%; color: {tok['ink']}; }}
+td.en {{ width: 38%; color: {tok['body']}; }}
+td.gl {{ width: 40%; color: {tok['body']}; }}
 tr:nth-child(even) td {{ background: {tok['surface_soft']}; }}
 ol {{ list-style: none; }}
 li {{
@@ -698,8 +696,10 @@ def render_hybrid_html(title: str, sections, design: dict,
             for row in it["rows"]:
                 cn = html.escape(row[0])
                 en = html.escape(row[1] if len(row) > 1 else "")
+                gl = html.escape(row[2] if len(row) > 2 else "")
                 rows.append(f'<tr><td class="cn">{cn}</td>'
-                            f'<td class="en">{en}</td></tr>')
+                            f'<td class="en">{en}</td>'
+                            f'<td class="gl">{gl}</td></tr>')
         tables_html.append(
             f'<section class="sec"><h2>{html.escape(name)}</h2>'
             f'<table>{"".join(rows)}</table></section>')
@@ -718,11 +718,9 @@ def render_hybrid_html(title: str, sections, design: dict,
 {hybrid_css(tok, table_font, q_font, li_margin)}
 </style></head>
 <body>
-  <div class="sheet">
-    <div class="masthead"><h1>{html.escape(title)}</h1></div>
-    <div class="tables">{''.join(tables_html)}</div>
-  </div>
-  <div class="sheet">
+  <div class="masthead"><h1>{html.escape(title)}</h1></div>
+  <div class="tables">{''.join(tables_html)}</div>
+  <div class="discussion">
     <div class="masthead"><h1>Discussion</h1></div>
     <ol>{q_items}</ol>
   </div>
@@ -776,6 +774,101 @@ def render_questions_html(title: str, groups, q_font: float,
 
 def page_count(html_str: str) -> int:
     return len(HTML(string=html_str).render().pages)
+
+
+def notes_groups(sections) -> list[tuple[str, list[str]]]:
+    """Flatten each section's vocab tables and questions into plain text lines.
+
+    Used by --notes mode: renders entries as ordinary text (no table borders).
+    """
+    groups = []
+    for name, items in sections:
+        lines = []
+        for it in items:
+            if it.get("kind") == "table":
+                for row in it["rows"]:
+                    cn = row[0] if len(row) > 0 else ""
+                    en = row[1] if len(row) > 1 else ""
+                    gl = row[2] if len(row) > 2 else ""
+                    if gl:
+                        lines.append(f"{cn} · {en} — {gl}")
+                    elif en:
+                        lines.append(f"{cn} · {en}")
+                    else:
+                        lines.append(cn)
+            elif it.get("kind") in ("question", "bullet", "para"):
+                if it.get("text"):
+                    lines.append(it["text"])
+            elif it.get("kind") == "vocab":
+                term = it.get("term", "")
+                tdef = it.get("def", "")
+                lines.append(f"{term} — {tdef}" if tdef else term)
+        if lines:
+            groups.append((name, lines))
+    return groups
+
+
+def render_notes_html(title: str, groups, q_font: float, lh: float,
+                      gap: float, design: dict,
+                      category_gap: float | None = None,
+                      disc_gap: float | None = None) -> str:
+    """Plain-text handout: design-system masthead + per-section text lines."""
+    tok = design_tokens(design)
+    sections_html = []
+    for name, qs in groups:
+        is_disc = name.strip().lower() == "discussion"
+        items = "".join(
+            f'<li><span class="qt">{html.escape(q)}</span></li>' for q in qs)
+        ol_cls = ' class="disc"' if is_disc else ""
+        sections_html.append(
+            f'<section class="sec"><h2>{html.escape(name)}</h2>'
+            f'<ol{ol_cls}>{items}</ol></section>')
+    if disc_gap is None:
+        disc_gap = gap
+    if category_gap is None:
+        category_gap = gap * 1.4
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+{questions_css(tok, q_font, lh, gap, True, category_gap)}
+.sec {{ break-inside: avoid; page-break-inside: avoid; }}
+section h2 {{
+  font-family: {tok['font_body']};
+  font-size: {q_font + 5.0:.1f}pt; font-weight: 700; color: {tok['ink']};
+  border-bottom: 1.5pt solid {tok['hairline']};
+  padding-bottom: 1.4mm; margin-bottom: {category_gap:.1f}mm;
+}}
+.sec ol.disc li {{ margin-bottom: {disc_gap:.2f}mm; }}
+.sec ol.disc li:last-child {{ margin-bottom: 0; }}
+</style></head>
+<body>
+  <div class="masthead">
+    <h1>{html.escape(title)}</h1>
+  </div>
+  {''.join(sections_html)}
+</body></html>"""
+
+
+def fit_notes_layout(render, n_lines: int) -> tuple[float, float, float]:
+    """Find a font and the largest row gap that still fits the available pages.
+
+    Maximizing the gap spreads the lines out so the final line falls near the
+    bottom of the page instead of leaving a large empty tail.
+    """
+    for q_font in (13.0, 12.5, 12.0, 11.5, 11.0, 10.5, 10.0):
+        lh = 1.35
+        if render(q_font, lh, 1.0) > 2:
+            continue
+        lo, hi, best = 1.0, 14.0, 1.0
+        while hi - lo > 0.1:
+            mid = (lo + hi) / 2
+            if render(q_font, lh, mid) <= 2:
+                best = mid
+                lo = mid
+            else:
+                hi = mid
+        if render(q_font, lh, best) <= 2:
+            return q_font, lh, best
+    return 10.0, 1.3, 4.0
 
 
 def fit_layout(render) -> tuple[float, float, float]:
@@ -852,8 +945,8 @@ def hybrid_cells_fit(rows: list[tuple[str, str]], table_font: float) -> bool:
         from PIL import ImageFont
     except ImportError:
         return True
-    cn_mm = 184.0 * 0.485 * 0.36 - 3.4
-    en_mm = 184.0 * 0.485 * 0.64 - 3.4
+    cn_mm = 184.0 * 0.22 - 3.0
+    en_mm = 184.0 * 0.38 - 3.0
     fonts: dict[str, object] = {}
 
     def width(text: str) -> float:
@@ -940,6 +1033,12 @@ def main() -> int:
     parser.add_argument("--category-gap-mm", type=float, default=None,
                         help="Questions-only: space above each category "
                              "heading in mm (default: 1.4x --gap-mm, or 7mm).")
+    parser.add_argument("--notes", action="store_true",
+                        help="Render vocabulary entries as plain text lines "
+                             "(no table borders) instead of a table.")
+    parser.add_argument("--bw", action="store_true",
+                        help="Force a black-and-white palette: override the "
+                             "design accent to ink so the output is monochrome.")
     args = parser.parse_args()
 
     md_path = args.md_file.resolve()
@@ -947,6 +1046,12 @@ def main() -> int:
         print(f"File not found: {md_path}", file=sys.stderr)
         return 1
     design = load_design(args.design)
+    if args.bw:
+        # Force a monochrome palette: accent/strike → ink, keep gray neutrals.
+        colors = design["colors"]
+        ink = colors.get("ink") or "#111111"
+        colors["primary"] = ink
+        colors["link"] = ink
 
     text = md_path.read_text(encoding="utf-8-sig")
     md_title, sections = parse_md(text)
@@ -958,6 +1063,50 @@ def main() -> int:
         item["kind"] == "table"
         for _, items in sections for item in items)
     has_scaffold = md_path.with_suffix(".scaffold.json").exists()
+    if args.notes:
+        groups = notes_groups(sections)
+        flat = [q for _, qs in groups for q in qs]
+
+        def render(q_font, lh, gap, disc_gap):
+            return page_count(render_notes_html(
+                title, groups, q_font, lh, gap, design,
+                disc_gap=disc_gap))
+
+        q_font, lh, gap = fit_notes_layout(
+            lambda f, h, g: render(f, h, g, None), len(flat))
+        if args.gap_mm is not None:
+            gap = args.gap_mm
+        category_gap = args.category_gap_mm if args.category_gap_mm is not None \
+            else gap * 1.4
+        # Maximize the Discussion row gap so page 2 fills toward the bottom.
+        lo, hi, best = gap, 30.0, gap
+        while hi - lo > 0.2:
+            mid = (lo + hi) / 2
+            if render(q_font, lh, gap, mid) <= 2:
+                best = mid
+                lo = mid
+            else:
+                hi = mid
+        disc_gap = max(gap, best)
+        final_html = render_notes_html(
+            title, groups, q_font, lh, gap, design,
+            category_gap=category_gap, disc_gap=disc_gap)
+        layout_desc = (f"notes {q_font}pt, line-height {lh}, "
+                       f"gap {gap:.1f}mm, discussion gap {disc_gap:.1f}mm")
+        pages = page_count(final_html)
+        out = md_path.with_suffix(".pdf")
+        HTML(string=final_html).write_pdf(out)
+        print(f"PDF written: {out}")
+        print(f"Title     : {title}")
+        print(f"Design    : {design['name']} ({design['source']})")
+        print(f"Questions : {sum(len(qs) for _, qs in groups)}")
+        print(f"Layout    : {layout_desc}")
+        print(f"Pages     : {pages}")
+        if args.keep_html:
+            html_out = Path(tempfile.gettempdir()) / (md_path.stem + ".qa.html")
+            html_out.write_text(final_html, encoding="utf-8")
+            print(f"HTML kept : {html_out}")
+        return 0 if pages >= 1 else 2
     if has_tables and not has_scaffold and not args.questions_only:
         if has_questions:
             # Hybrid: page 1 vocab tables, page 2 discussion questions.
