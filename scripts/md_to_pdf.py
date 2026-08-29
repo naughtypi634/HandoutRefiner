@@ -811,7 +811,8 @@ def notes_groups(sections) -> list[tuple[str, list[str]]]:
 def render_notes_html(title: str, groups, q_font: float, lh: float,
                       gap: float, design: dict,
                       category_gap: float | None = None,
-                      disc_gap: float | None = None) -> str:
+                      disc_gap: float | None = None,
+                      two_col: bool = False) -> str:
     """Plain-text handout: design-system masthead + per-section text lines."""
     tok = design_tokens(design)
     sections_html = []
@@ -823,7 +824,12 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
                    or idx == n_groups - 1)
         items = "".join(
             f'<li><span class="qt">{html.escape(q)}</span></li>' for q in qs)
-        ol_cls = ' class="disc"' if is_disc else ""
+        if is_disc:
+            ol_cls = ' class="disc"'
+        elif two_col:
+            ol_cls = ' class="cols2"'
+        else:
+            ol_cls = ""
         sections_html.append(
             f'<section class="sec"><h2>{html.escape(name)}</h2>'
             f'<ol{ol_cls}>{items}</ol></section>')
@@ -834,12 +840,19 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
 {questions_css(tok, q_font, lh, gap, True, category_gap)}
-.sec {{ break-inside: avoid; page-break-inside: avoid; }}
 section h2 {{
   font-family: {tok['font_body']};
   font-size: {q_font + 5.0:.1f}pt; font-weight: 700; color: {tok['ink']};
   border-bottom: 1.5pt solid {tok['hairline']};
   padding-bottom: 1.4mm; margin-bottom: {category_gap:.1f}mm;
+}}
+.sec ol.cols2 {{
+  column-count: 2;
+  column-gap: 8mm;
+}}
+.sec ol.cols2 li {{
+  break-inside: avoid;
+  page-break-inside: avoid;
 }}
 .sec ol.disc li {{ margin-bottom: {disc_gap:.2f}mm; }}
 .sec ol.disc li:last-child {{ margin-bottom: 0; }}
@@ -853,26 +866,26 @@ section h2 {{
 
 
 def fit_notes_layout(render, n_lines: int) -> tuple[float, float, float]:
-    """Find a font and the largest row gap that still fits the available pages.
+    """Find a font + line-height + gap that fits within two pages.
 
-    Maximizing the gap spreads the lines out so the final line falls near the
-    bottom of the page instead of leaving a large empty tail.
+    Prefers the largest readable font; if the content is too long it steps
+    down the font size (and line-height) until everything fits on two pages.
     """
-    for q_font in (13.0, 12.5, 12.0, 11.5, 11.0, 10.5, 10.0):
-        lh = 1.35
-        if render(q_font, lh, 1.0) > 2:
-            continue
-        lo, hi, best = 1.0, 14.0, 1.0
-        while hi - lo > 0.1:
-            mid = (lo + hi) / 2
-            if render(q_font, lh, mid) <= 2:
-                best = mid
-                lo = mid
-            else:
-                hi = mid
-        if render(q_font, lh, best) <= 2:
+    for q_font in (13.0, 12.5, 12.0, 11.5, 11.0, 10.5, 10.0,
+                   9.5, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0):
+        for lh in (1.3, 1.2, 1.15):
+            if render(q_font, lh, 1.0) > 2:
+                continue
+            lo, hi, best = 1.0, 16.0, 1.0
+            while hi - lo > 0.1:
+                mid = (lo + hi) / 2
+                if render(q_font, lh, mid) <= 2:
+                    best = mid
+                    lo = mid
+                else:
+                    hi = mid
             return q_font, lh, best
-    return 10.0, 1.3, 4.0
+    return 8.0, 1.2, 2.0
 
 
 def fit_layout(render) -> tuple[float, float, float]:
@@ -1043,6 +1056,9 @@ def main() -> int:
     parser.add_argument("--bw", action="store_true",
                         help="Force a black-and-white palette: override the "
                              "design accent to ink so the output is monochrome.")
+    parser.add_argument("--cols2", action="store_true",
+                        help="Notes mode: render the non-discussion sections "
+                             "in two columns; the discussion stays one column.")
     args = parser.parse_args()
 
     md_path = args.md_file.resolve()
@@ -1074,19 +1090,22 @@ def main() -> int:
         def render(q_font, lh, gap, disc_gap):
             return page_count(render_notes_html(
                 title, groups, q_font, lh, gap, design,
-                disc_gap=disc_gap))
+                disc_gap=disc_gap, two_col=args.cols2))
 
         q_font, lh, gap = fit_notes_layout(
-            lambda f, h, g: render(f, h, g, None), len(flat))
+            lambda f, h, g: render(f, h, g, g), len(flat))
         if args.gap_mm is not None:
             gap = args.gap_mm
         category_gap = args.category_gap_mm if args.category_gap_mm is not None \
             else gap * 1.4
-        # Maximize the Discussion row gap so page 2 fills toward the bottom.
-        lo, hi, best = gap, 30.0, gap
+        # Maximize the final-group (discussion) row gap so its lines spread
+        # down to the bottom of its page, never exceeding the 2-page goal.
+        base_pages = render(q_font, lh, gap, gap)
+        target = min(2, base_pages)
+        lo, hi, best = gap, 40.0, gap
         while hi - lo > 0.2:
             mid = (lo + hi) / 2
-            if render(q_font, lh, gap, mid) <= 2:
+            if render(q_font, lh, gap, mid) <= target:
                 best = mid
                 lo = mid
             else:
@@ -1094,9 +1113,11 @@ def main() -> int:
         disc_gap = max(gap, best)
         final_html = render_notes_html(
             title, groups, q_font, lh, gap, design,
-            category_gap=category_gap, disc_gap=disc_gap)
+            category_gap=category_gap, disc_gap=disc_gap,
+            two_col=args.cols2)
         layout_desc = (f"notes {q_font}pt, line-height {lh}, "
-                       f"gap {gap:.1f}mm, discussion gap {disc_gap:.1f}mm")
+                       f"gap {gap:.1f}mm, discussion gap {disc_gap:.1f}mm"
+                       + (", 2-col" if args.cols2 else ""))
         pages = page_count(final_html)
         out = md_path.with_suffix(".pdf")
         HTML(string=final_html).write_pdf(out)

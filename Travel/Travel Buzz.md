@@ -1,4 +1,4 @@
-**🔥 潮流玩法 Trending Buzzwords**
+**潮流玩法 Trending Buzzwords**
 
   ---------------------
   产前蜜月    babymoon
@@ -19,7 +19,7 @@
   义工旅行    voluntourism
   ---------------------
 
-**✈️ 机票与行李 Flights & Baggage**
+**机票与行李 Flights & Baggage**
 
   --------------------
   行李额    baggage allowance
@@ -40,7 +40,7 @@
   靠窗座位   window seat
   --------------------
 
-**🏨 住宿 Accommodation**
+**住宿 Accommodation**
 
   ------------------------
   全包式度假村     all-inclusive resort
@@ -61,7 +61,7 @@
   海景房        sea view room
   ------------------------
 
-**🍜 美食与当地体验 Food & Local Experiences**
+**美食与当地体验 Food & Local Experiences**
 
   ------------------------
   景点         attraction
@@ -82,7 +82,7 @@
   尝当地特色      try the local specialty
   ------------------------
 
-**💰 预算与支付 Budget & Money**
+**预算与支付 Budget & Money**
 
   ---------------------
   穷游      budget travel
@@ -103,7 +103,7 @@
   旅行保险    travel insurance
   ---------------------
 
-**🗺️ 行程与规划 Planning**
+**行程与规划 Planning**
 
   ---------------------
   提前预订    book in advance
@@ -124,7 +124,7 @@
   出行日期    travel dates
   ---------------------
 
-**💬 Discussion**
+**Discussion**
 
 - What travel trend are you most curious about — citywalk, glamping, or revenge travel? Why?
 - How would you plan a digital-detox weekend trip without using your phone?
