@@ -840,6 +840,7 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
 {questions_css(tok, q_font, lh, gap, True, category_gap)}
+.sec {{ break-inside: avoid; page-break-inside: avoid; }}
 section h2 {{
   font-family: {tok['font_body']};
   font-size: {q_font + 5.0:.1f}pt; font-weight: 700; color: {tok['ink']};

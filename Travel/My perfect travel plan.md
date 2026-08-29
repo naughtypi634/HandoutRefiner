@@ -1,7 +1,5 @@
 **Destination**
 
-- 
-
 - Beach
 
 - City
@@ -22,11 +20,7 @@
 
 - Cruise
 
-- 
-
 **Transportation**
-
-- 
 
 - Plane
 
@@ -50,8 +44,6 @@
 
 **Accommodation**
 
-- 
-
 - Hotel
 
 - Resort
@@ -69,8 +61,6 @@
 - RV park
 
 **Companion**
-
-- 
 
 - Alone
 
@@ -90,8 +80,6 @@
 
 **Duration**
 
-- 
-
 - Weekend (2-3 days)
 
 - Short trip (4-7 days)
@@ -110,8 +98,6 @@
 
 **Food**
 
-- 
-
 - Street snacks
 
 - Fine dining
@@ -129,8 +115,6 @@
 - Farm-to-table
 
 **Activities**
-
-- 
 
 - Hiking
 
@@ -154,8 +138,6 @@
 
 **Shopping**
 
-- 
-
 - Luxury
 
 - Street markets
@@ -175,19 +157,3 @@
 - Handmade crafts
 
 - Online pickup
-
-I want to go to \_\_\_\_\_\_\_\_(destination) because \_\_\_\_\_\_\_\_.
-
-I will stay there for \_\_\_\_\_\_(duration) because \_\_\_\_\_\_\_\_.
-
-I will take the \_\_\_\_\_\_\_\_(transportation) there because
-\_\_\_\_\_\_\_.
-
-I want to travel (with) \_\_\_\_\_\_\_\_ (companion) because
-\_\_\_\_\_\_\_\_.
-
-I'd like to try \_\_\_\_\_\_\_\_(food) because \_\_\_\_\_\_\_\_.
-
-I will \_\_\_\_\_\_\_\_(activities) because \_\_\_\_\_\_\_\_.
-
-I want to buy \_\_\_\_\_\_\_\_.
