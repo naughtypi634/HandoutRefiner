@@ -815,8 +815,12 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
     """Plain-text handout: design-system masthead + per-section text lines."""
     tok = design_tokens(design)
     sections_html = []
-    for name, qs in groups:
-        is_disc = name.strip().lower() == "discussion"
+    n_groups = len(groups)
+    for idx, (name, qs) in enumerate(groups):
+        # Stretch the discussion group by name, or the final group on the
+        # last page, so its lines spread down to the bottom of the page.
+        is_disc = (name.strip().lower() == "discussion"
+                   or idx == n_groups - 1)
         items = "".join(
             f'<li><span class="qt">{html.escape(q)}</span></li>' for q in qs)
         ol_cls = ' class="disc"' if is_disc else ""

@@ -1,76 +1,67 @@
-- When you hear the word \"happiness,\" what comes to mind? Is it
+**What does happiness mean to you?**
+
+- When you hear the word "happiness," what comes to mind? Is it
   abstract or more specific?
 
 - Can you share your happiest memory? What happened?
 
 - What do you think is the opposite of happiness?
 
+**What makes you happy or unhappy?**
+
 - What can make you happy? What about being unhappy?
 
-Spending time with friends
+- Spending time with friends
 
-Spending time with family
+- Spending time with family
 
-Being alone
+- Being alone
 
-Being around people
+- Being around people
 
-Learning new skills
+- Learning new skills
 
-Achieving goals
+- Achieving goals
 
-Art
+- Art or tasty food, like milk tea
 
-Tasty food
+- Traveling
 
-Milk tea
+- Cooking or reading
 
-Traveling
+- Exercise
 
-Cooking
+- Going into nature
 
-Reading
+- Stress from work
 
-Exercise
+- Staying on your phone
 
-Engaging in my hobbies
+- Conflicts in relationships
 
-Stress from work
+- Loneliness
 
-Staying on your phone
-
-Go into nature
-
-Volunteering
-
-Conflicts in relationships
-
-Loneliness
-
-......
+**What do you need to be happy?**
 
 - What are some preconditions to be happy in life? What's your take on
   it?
 
-Children?
+- A good job
 
-A good job?
+- Enough money
 
-Enough money?
+- A perfect relationship
 
-A perfect relationship?
+- Good friends
 
-Friends?
+- A sense of purpose
 
-A sense of purpose
+- Good physical health
 
-Good physical health
-
-Freedom?
-
-......
+- Freedom
 
 - Is NOT being happy a bad thing? What are your thoughts on negative
   emotions?
 
-- Small advice for happiness?
+- Can happiness really be a choice? What is your take, and what small
+  advice would you give someone having a hard time?
