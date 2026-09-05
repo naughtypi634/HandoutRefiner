@@ -823,8 +823,9 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
         # last page, so its lines spread down to the bottom of the page.
         name_key = name.strip().lower()
         is_disc = (name_key == "discussion" or idx == n_groups - 1)
-        starts_discussion_page = (name_key == "warm-up discussion"
-                                  and not discussion_started)
+        starts_discussion_page = (
+            name_key in ("warm-up discussion", "before traveling")
+            and not discussion_started)
         starts_discussion_page = (starts_discussion_page
                                   or (is_disc and not discussion_started))
         if is_disc or starts_discussion_page:
