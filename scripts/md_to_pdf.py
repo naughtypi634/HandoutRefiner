@@ -830,8 +830,9 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
             ol_cls = ' class="cols2"'
         else:
             ol_cls = ""
+        section_class = "sec discussion" if is_disc else "sec"
         sections_html.append(
-            f'<section class="sec"><h2>{html.escape(name)}</h2>'
+            f'<section class="{section_class}"><h2>{html.escape(name)}</h2>'
             f'<ol{ol_cls}>{items}</ol></section>')
     if disc_gap is None:
         disc_gap = gap
@@ -841,6 +842,7 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
 {questions_css(tok, q_font, lh, gap, True, category_gap)}
 .sec {{ break-inside: avoid; page-break-inside: avoid; }}
+.sec.discussion {{ break-before: page; page-break-before: always; }}
 section h2 {{
   font-family: {tok['font_body']};
   font-size: {q_font + 5.0:.1f}pt; font-weight: 700; color: {tok['ink']};
