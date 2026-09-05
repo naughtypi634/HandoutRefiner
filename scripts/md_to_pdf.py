@@ -253,7 +253,7 @@ def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
         if line.startswith("- "):
             flush_pending()
             body = line[2:].strip()
-            vocab = re.match(r"^(.*?)\s*\(([a-z]+)\)\s*[:：]\s*(.+)$", body, re.I)
+            vocab = re.match(r"^(.*?)\s*\(([^)]+)\)\s*[:：]\s*(.+)$", body, re.I)
             if vocab:
                 items.append({"kind": "vocab", "term": vocab.group(1).strip(),
                               "def": vocab.group(3).strip()})
@@ -802,7 +802,7 @@ def notes_groups(sections) -> list[tuple[str, list[str]]]:
             elif it.get("kind") == "vocab":
                 term = it.get("term", "")
                 tdef = it.get("def", "")
-                lines.append(f"{term} — {tdef}" if tdef else term)
+                lines.append(f"{term}\n{tdef}" if tdef else term)
         if lines:
             groups.append((name, lines))
     return groups
@@ -817,11 +817,18 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
     tok = design_tokens(design)
     sections_html = []
     n_groups = len(groups)
+    discussion_started = False
     for idx, (name, qs) in enumerate(groups):
         # Stretch the discussion group by name, or the final group on the
         # last page, so its lines spread down to the bottom of the page.
-        is_disc = (name.strip().lower() == "discussion"
-                   or idx == n_groups - 1)
+        name_key = name.strip().lower()
+        is_disc = (name_key == "discussion" or idx == n_groups - 1)
+        starts_discussion_page = (name_key == "warm-up discussion"
+                                  and not discussion_started)
+        starts_discussion_page = (starts_discussion_page
+                                  or (is_disc and not discussion_started))
+        if is_disc or starts_discussion_page:
+            discussion_started = True
         items = "".join(
             f'<li><span class="qt">{html.escape(q)}</span></li>' for q in qs)
         if is_disc:
@@ -830,7 +837,7 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
             ol_cls = ' class="cols2"'
         else:
             ol_cls = ""
-        section_class = "sec discussion" if is_disc else "sec"
+        section_class = "sec discussion" if starts_discussion_page else "sec"
         sections_html.append(
             f'<section class="{section_class}"><h2>{html.escape(name)}</h2>'
             f'<ol{ol_cls}>{items}</ol></section>')
@@ -847,15 +854,21 @@ section h2 {{
   font-family: {tok['font_body']};
   font-size: {q_font + 5.0:.1f}pt; font-weight: 700; color: {tok['ink']};
   border-bottom: 1.5pt solid {tok['hairline']};
-  padding-bottom: 1.4mm; margin-bottom: {category_gap:.1f}mm;
+    padding-bottom: 1.4mm; margin-bottom: 2.5mm;
 }}
 .sec ol.cols2 {{
-  column-count: 2;
-  column-gap: 8mm;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 8mm;
 }}
 .sec ol.cols2 li {{
+    display: block;
   break-inside: avoid;
   page-break-inside: avoid;
+}}
+.sec:not(.discussion) .qt {{
+    white-space: pre-line;
+    line-height: 1.25;
 }}
 .sec ol.disc li {{ margin-bottom: {disc_gap:.2f}mm; }}
 .sec ol.disc li:last-child {{ margin-bottom: 0; }}
