@@ -835,8 +835,14 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
                       gap: float, design: dict,
                       category_gap: float | None = None,
                       disc_gap: float | None = None,
-                      two_col: bool = False) -> str:
-    """Plain-text handout: design-system masthead + per-section text lines."""
+                      two_col: bool = False,
+                      boxed: bool = False) -> str:
+    """Plain-text handout: design-system masthead + per-section text lines.
+
+    With ``boxed`` every non-discussion section gets its own hairline box
+    (the heading rule is dropped, so each block reads as one unit). The
+    discussion page stays unboxed.
+    """
     tok = design_tokens(design)
     sections_html = []
     n_groups = len(groups)
@@ -869,6 +875,23 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
         disc_gap = gap
     if category_gap is None:
         category_gap = gap * 1.4
+    box_css = "" if not boxed else """
+.masthead {
+  padding-bottom: 1.6mm; margin-bottom: 2.2mm;
+}
+.sec {
+  border: 0.6pt solid %(hairline)s;
+  border-radius: 1.6mm;
+  padding: 1.5mm 2.2mm 1.7mm 2.2mm;
+  margin: 0 0 2.2mm 0;
+}
+.sec.discussion {
+  border: 0; border-radius: 0; padding: 0; margin: 0;
+}
+section h2 {
+  border-bottom: 0; padding-bottom: 0; margin-bottom: 1.5mm;
+}
+""" % {"hairline": tok["hairline"]}
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
 {questions_css(tok, q_font, lh, gap, True, category_gap)}
@@ -877,9 +900,10 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
 section h2 {{
   font-family: {tok['font_body']};
   font-size: {q_font + 5.0:.1f}pt; font-weight: 700; color: {tok['ink']};
-  border-bottom: 1.5pt solid {tok['hairline']};
+    border-bottom: 1.5pt solid {tok['hairline']};
     padding-bottom: 1.4mm; margin-bottom: 2.5mm;
 }}
+{box_css}
 .sec ol.cols2 {{
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1361,6 +1385,9 @@ def main() -> int:
     parser.add_argument("--notes", action="store_true",
                         help="Render vocabulary entries as plain text lines "
                              "(no table borders) instead of a table.")
+    parser.add_argument("--boxes", action="store_true",
+                        help="Notes mode: draw a hairline box around every "
+                             "non-discussion section (discussion stays plain).")
     parser.add_argument("--bw", action="store_true",
                         help="Force a black-and-white palette: override the "
                              "design accent to ink so the output is monochrome.")
@@ -1450,7 +1477,7 @@ def main() -> int:
         def render(q_font, lh, gap, disc_gap):
             return page_count(render_notes_html(
                 title, groups, q_font, lh, gap, design,
-                disc_gap=disc_gap, two_col=args.cols2))
+                disc_gap=disc_gap, two_col=args.cols2, boxed=args.boxes))
 
         q_font, lh, gap = fit_notes_layout(
             lambda f, h, g: render(f, h, g, g), len(flat))
@@ -1474,10 +1501,11 @@ def main() -> int:
         final_html = render_notes_html(
             title, groups, q_font, lh, gap, design,
             category_gap=category_gap, disc_gap=disc_gap,
-            two_col=args.cols2)
+            two_col=args.cols2, boxed=args.boxes)
         layout_desc = (f"notes {q_font}pt, line-height {lh}, "
                        f"gap {gap:.1f}mm, discussion gap {disc_gap:.1f}mm"
-                       + (", 2-col" if args.cols2 else ""))
+                       + (", 2-col" if args.cols2 else "")
+                       + (", boxed" if args.boxes else ""))
         pages = page_count(final_html)
         out = md_path.with_suffix(".pdf")
         HTML(string=final_html).write_pdf(out)
