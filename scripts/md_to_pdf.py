@@ -29,6 +29,9 @@ Questions-only variant (no scaffold blocks, elegant question list):
     python scripts/md_to_pdf.py --questions-only --no-numbers "path/to/handout.md"
     python scripts/md_to_pdf.py --questions-only --no-numbers --gap-mm 12 \
         "path/to/handout.md"
+
+Quadrant matrix sheet (one page per "## " block, 2x2 quadrants per page):
+    python scripts/md_to_pdf.py --quad "Business/SWOT Analysis.md"
 """
 
 from __future__ import annotations
@@ -128,6 +131,26 @@ def design_tokens(design: dict) -> dict:
                           "'Segoe UI', 'Microsoft YaHei', sans-serif"),
             "sans-serif"),
     }
+
+
+def grey_of(value: object) -> str | None:
+    """Luminance-preserving grey for a #rrggbb colour; None when not hex."""
+    if not isinstance(value, str):
+        return None
+    m = re.fullmatch(r"#([0-9a-fA-F]{6})", value.strip())
+    if not m:
+        return None
+    r, g, b = (int(m.group(1)[i:i + 2], 16) for i in (0, 2, 4))
+    y = round(0.299 * r + 0.587 * g + 0.114 * b)
+    return f"#{y:02x}{y:02x}{y:02x}"
+
+
+def desaturate_colors(colors: dict) -> None:
+    """Flatten every hex token to a true grey so --bw output has no tint."""
+    for key, value in list(colors.items()):
+        grey = grey_of(value)
+        if grey:
+            colors[key] = grey
 
 
 def split_aligned_row(line: str) -> list[str]:
@@ -1048,6 +1071,274 @@ def fit_hybrid_layout(render, rows) -> tuple[float, float]:
     return 10.5, 10.0
 
 
+# --- Two-page reference sheet laid out as a 4-quadrant matrix (--quad) -----
+#
+# MD contract (one "## " block per page, one "### " block per quadrant):
+#     # Document title
+#     ## Page heading
+#     ### Quadrant name
+#     **Group label**
+#     - English — 中文
+# Items split on the first " — " into English + optional Chinese gloss.
+
+QUAD_ITEM_SEP = re.compile(r"\s+[—–]\s+")
+QUAD_PAGE_HEIGHT_MM = 274.0  # A4 height minus the 10/12mm page margins
+
+# Geometry shared by the CSS below and the single-line width check.
+QUAD_MARGIN_MM = 9.0
+QUAD_GAP_MM = 3.0
+QUAD_PAD_MM = 2.3
+QUAD_TEXT_MM = ((210.0 - 2 * QUAD_MARGIN_MM - QUAD_GAP_MM) / 2
+                - 2 * QUAD_PAD_MM)
+
+
+def quad_items_fit(pages: list[dict], item_font: float) -> bool:
+    """True when every item fits on a single line inside its quadrant."""
+    try:
+        from PIL import ImageFont
+    except ImportError:
+        return True
+    fonts: dict[str, object] = {}
+    zh_font = quad_fonts(item_font)["zh"]
+
+    def width_mm(text: str, pt: float) -> float:
+        total = 0.0
+        for ch in text:
+            key = "cjk" if ord(ch) >= 0x2E80 else "latin"
+            f = fonts.get(key)
+            if f is None:
+                path = (r"C:\Windows\Fonts\msyh.ttc" if key == "cjk"
+                        else r"C:\Windows\Fonts\segoeui.ttf")
+                f = ImageFont.truetype(path, 100)
+                fonts[key] = f
+            total += f.getlength(ch)
+        return total * pt / 100.0 * 25.4 / 72.0
+
+    limit = QUAD_TEXT_MM * 0.985
+    try:
+        for page in pages:
+            for quad in page["quads"]:
+                for g in quad["groups"]:
+                    for en, zh in g["items"]:
+                        need = width_mm(en, item_font)
+                        if zh:
+                            need += (width_mm(" · ", item_font)
+                                     + width_mm(zh, zh_font))
+                        if need > limit:
+                            return False
+    except OSError:
+        # Measuring fonts live in Windows-only paths; skip when unavailable.
+        return True
+    return True
+
+
+def parse_quad_md(text: str) -> list[dict]:
+    """Parse a quad sheet into [{title, quads: [{name, groups}]}]."""
+    pages: list[dict] = []
+    page: dict | None = None
+    quad: dict | None = None
+    group: dict | None = None
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("### "):
+            if page is None:
+                page = {"title": "", "quads": []}
+                pages.append(page)
+            quad = {"name": line[4:].strip(), "groups": []}
+            page["quads"].append(quad)
+            group = None
+            continue
+        if line.startswith("## "):
+            page = {"title": line[3:].strip(), "quads": []}
+            pages.append(page)
+            quad = group = None
+            continue
+        m = re.fullmatch(r"\*\*(.+?)\*\*", line)
+        if m and quad is not None:
+            group = {"label": m.group(1).strip(), "items": []}
+            quad["groups"].append(group)
+            continue
+        if line.startswith("- ") and group is not None:
+            parts = QUAD_ITEM_SEP.split(line[2:].strip(), maxsplit=1)
+            group["items"].append(
+                (parts[0].strip(), parts[1].strip() if len(parts) > 1 else ""))
+    return [p for p in pages if p["quads"]]
+
+
+def quad_fonts(item_font: float) -> dict:
+    """Derive the smaller type sizes from the fitted item font."""
+    return {
+        "item": item_font,
+        "zh": round(item_font * 0.94, 2),
+        "label": round(item_font + 0.9, 2),
+        "quad": round(item_font + 3.4, 2),
+        "head": round(item_font + 7.0, 2),
+    }
+
+
+def quad_css(tok: dict, f: dict, page_height_mm: float | None = None) -> str:
+    """CSS for the quad matrix; a fixed page height stretches the 2x2 grid."""
+    stretch = ""
+    if page_height_mm:
+        stretch = (f".page {{ height: {page_height_mm:.1f}mm; "
+                   "display: flex; flex-direction: column; }}\n"
+                   ".grid { flex: 1; grid-template-rows: 1fr 1fr; }")
+    return f"""
+@page {{
+  size: A4 portrait;
+  margin: 10mm {QUAD_MARGIN_MM}mm 12mm {QUAD_MARGIN_MM}mm;
+  @bottom-right {{
+    content: counter(page);
+    font: 7.5pt {tok['font_body']};
+    color: {tok['muted']};
+  }}
+}}
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+html, body {{ background: {tok['canvas']}; }}
+body {{
+  font-family: {tok['font_body']};
+  color: {tok['body']};
+  font-size: {f['item']}pt;
+}}
+.page {{ break-after: page; page-break-after: always; }}
+.page:last-child {{ break-after: auto; page-break-after: auto; }}
+.masthead {{ margin-bottom: 2.6mm; }}
+h1 {{
+  font-family: {tok['font_body']};
+  font-size: {f['head']}pt; font-weight: 500; color: {tok['ink']};
+  line-height: 1.1;
+  border-bottom: 2.2pt solid {tok['accent']};
+  display: inline-block; padding-bottom: 1.1mm;
+}}
+.grid {{ display: grid; grid-template-columns: 1fr 1fr;
+         gap: {QUAD_GAP_MM}mm; }}
+.quad {{
+  border: 0.6pt solid {tok['hairline']};
+  border-radius: {tok['radius_md']};
+  padding: 1.9mm {QUAD_PAD_MM}mm 1.5mm;
+  break-inside: avoid; page-break-inside: avoid;
+}}
+.quad h2 {{
+  font-size: {f['quad']}pt; font-weight: 600; color: {tok['ink']};
+  border-bottom: 0.8pt solid {tok['hairline']};
+  padding-bottom: 0.9mm; margin-bottom: 0.9mm;
+}}
+.glabel {{
+  font-size: {f['label']}pt; font-weight: 700; letter-spacing: 0.3pt;
+  text-transform: uppercase; color: {tok['muted']};
+  margin: 1.2mm 0 0.4mm;
+}}
+.group:first-of-type .glabel {{ margin-top: 0; }}
+ul {{ list-style: none; }}
+li {{
+  line-height: 1.24;
+  padding: 0.26mm 0 0.26mm 2.6mm; text-indent: -2.6mm;
+}}
+li:nth-child(odd) {{ background: {tok['surface_soft']}; }}
+li .en {{ color: {tok['ink']}; }}
+li .sep {{ color: {tok['muted']}; }}
+li .zh {{ color: {tok['muted']}; font-size: {f['zh']}pt; }}
+{stretch}
+"""
+
+
+def render_quad_html(pages: list[dict], design: dict, item_font: float,
+                     page_height_mm: float | None = None) -> str:
+    """Quad matrix sheet: one .page per MD '## ' block, 2x2 quadrants each."""
+    tok = design_tokens(design)
+    f = quad_fonts(item_font)
+    pages_html = []
+    for page in pages:
+        quads = []
+        for quad in page["quads"]:
+            groups = []
+            for g in quad["groups"]:
+                lis = []
+                for en, zh in g["items"]:
+                    gloss = (f'<span class="sep"> · </span>'
+                             f'<span class="zh">{html.escape(zh)}</span>'
+                             if zh else "")
+                    lis.append(f'<li><span class="en">{html.escape(en)}</span>'
+                               f'{gloss}</li>')
+                groups.append(
+                    f'<div class="group"><div class="glabel">'
+                    f'{html.escape(g["label"])}</div>'
+                    f'<ul>{"".join(lis)}</ul></div>')
+            quads.append(f'<section class="quad">'
+                         f'<h2>{html.escape(quad["name"])}</h2>'
+                         f'{"".join(groups)}</section>')
+        pages_html.append(
+            f'<div class="page"><div class="masthead">'
+            f'<h1>{html.escape(page["title"])}</h1></div>'
+            f'<div class="grid">{"".join(quads)}</div></div>')
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+{quad_css(tok, f, page_height_mm)}
+</style></head>
+<body>
+{''.join(pages_html)}
+</body></html>"""
+
+
+def fit_quad_layout(render, pages: list[dict]) -> tuple[float, int]:
+    """Largest item font with one line per item and the target page count."""
+    n_pages = len(pages)
+    candidate = None
+    for step in range(20):
+        item_font = round(9.5 - 0.25 * step, 2)
+        n = render(item_font)
+        if n <= n_pages:
+            candidate = (item_font, n)
+            if n == n_pages and quad_items_fit(pages, item_font):
+                return candidate
+            if n < n_pages:
+                break
+    return candidate or (4.5, render(4.5))
+
+
+def quad_expected_lines(page: dict) -> int:
+    """Text lines on a page when every item stays on one line."""
+    lines = 1  # masthead
+    quads = page["quads"]
+    for i in range(0, len(quads), 2):
+        row = quads[i:i + 2]
+        lines += 1 + max(sum(1 + len(g["items"]) for g in q["groups"])
+                         for q in row)
+    return lines + 1  # footer page number
+
+
+def quad_layout_issues(path: Path, pages: list[dict]) -> int:
+    """Return bitmask: 1 = text out of bounds, 2 = an item wrapped/overlapped.
+
+    Wrapping is detected by counting text lines: a wrapped item adds a line,
+    so the line count no longer matches the one-line-per-item expectation.
+    """
+    try:
+        import pdfplumber
+    except ImportError:
+        return 0
+    right = 595.2756 - QUAD_MARGIN_MM * 72 / 25.4 + 2.0
+    bottom = 841.8898 - 12.0 * 72 / 25.4 + 2.0
+    issues = 0
+    with pdfplumber.open(path) as pdf:
+        if len(pdf.pages) != len(pages):
+            return 3
+        for i, pdf_page in enumerate(pdf.pages):
+            for w in pdf_page.extract_words():
+                if w["text"] == str(i + 1) and w["bottom"] > bottom:
+                    continue  # page-number footer sits in the bottom margin
+                if w["x1"] > right or w["bottom"] > bottom:
+                    issues |= 1
+            found = len(pdf_page.extract_text_lines(y_tolerance=3))
+            if found != quad_expected_lines(pages[i]):
+                print(f"  page {i + 1}: {found} text lines, expected "
+                      f"{quad_expected_lines(pages[i])}")
+                issues |= 2
+    return issues
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("md_file", type=Path, help="Input .md handout")
@@ -1076,6 +1367,10 @@ def main() -> int:
     parser.add_argument("--cols2", action="store_true",
                         help="Notes mode: render the non-discussion sections "
                              "in two columns; the discussion stays one column.")
+    parser.add_argument("--quad", action="store_true",
+                        help="Quad matrix sheet: one page per '## ' block, "
+                             "2x2 quadrants (one '### ' each), with '**Group**' "
+                             "sub-lists and '- English — 中文' items.")
     args = parser.parse_args()
 
     md_path = args.md_file.resolve()
@@ -1084,8 +1379,10 @@ def main() -> int:
         return 1
     design = load_design(args.design)
     if args.bw:
-        # Force a monochrome palette: accent/strike → ink, keep gray neutrals.
+        # True black & white: flatten tinted neutrals to greys first, then
+        # push the accent to ink so emphasis stays crisp without colour.
         colors = design["colors"]
+        desaturate_colors(colors)
         ink = colors.get("ink") or "#111111"
         colors["primary"] = ink
         colors["link"] = ink
@@ -1100,6 +1397,52 @@ def main() -> int:
         item["kind"] == "table"
         for _, items in sections for item in items)
     has_scaffold = md_path.with_suffix(".scaffold.json").exists()
+    if args.quad:
+        quad_pages = parse_quad_md(text)
+        if not quad_pages:
+            print("--quad found no '## ' page blocks in the MD.", file=sys.stderr)
+            return 1
+        n_pages = len(quad_pages)
+
+        def q_render(item_font: float) -> int:
+            return page_count(render_quad_html(quad_pages, design, item_font))
+
+        item_font, _ = fit_quad_layout(q_render, quad_pages)
+        out = md_path.with_suffix(".pdf")
+        pages = 0
+        for _ in range(8):
+            # Stretch the 2x2 grid to the full page once the content is known
+            # to fit; fall back to natural height if stretching costs a page.
+            final_html = render_quad_html(quad_pages, design, item_font,
+                                          QUAD_PAGE_HEIGHT_MM)
+            pages = page_count(final_html)
+            if pages != n_pages:
+                final_html = render_quad_html(quad_pages, design, item_font)
+                pages = page_count(final_html)
+            HTML(string=final_html).write_pdf(out)
+            issues = quad_layout_issues(out, quad_pages)
+            if not issues:
+                break
+            item_font = round(item_font - 0.25, 2)  # an item still wrapped
+            if item_font < 4.5:
+                break
+        count = sum(len(g["items"]) for p in quad_pages
+                    for q in p["quads"] for g in q["groups"])
+        layout_desc = (f"quad {item_font}pt, "
+                       f"{n_pages} pages x "
+                       f"{max(len(p['quads']) for p in quad_pages)} quadrants, "
+                       f"one line per item")
+        print(f"PDF written: {out}")
+        print(f"Title     : {title}")
+        print(f"Design    : {design['name']} ({design['source']})")
+        print(f"Questions : {count}")
+        print(f"Layout    : {layout_desc}")
+        print(f"Pages     : {pages}")
+        if args.keep_html:
+            html_out = Path(tempfile.gettempdir()) / (md_path.stem + ".qa.html")
+            html_out.write_text(final_html, encoding="utf-8")
+            print(f"HTML kept : {html_out}")
+        return 0 if pages == n_pages else 2
     if args.notes:
         groups = notes_groups(sections)
         flat = [q for _, qs in groups for q in qs]
