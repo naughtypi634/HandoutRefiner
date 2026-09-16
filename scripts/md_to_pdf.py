@@ -205,6 +205,13 @@ def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
         if line.startswith("# ") and not title:
             title = line[2:].strip()
             continue
+        if re.match(r"^#{2,3}\s+", line):
+            flush_pending()
+            flush_table()
+            section_name = re.sub(r"^#{2,3}\s+", "", line).strip()
+            sections.append((section_name, []))
+            current = sections[-1]
+            continue
         m = re.fullmatch(r"\*\*(.+?)\*\*", line)
         if m:
             flush_pending()
@@ -309,7 +316,7 @@ def norm(text: str) -> str:
 
 def display_text(text: str) -> str:
     """Remove Markdown emphasis markers from visible PDF text."""
-    return re.sub(r"[*_~]+", "", text)
+    return re.sub(r"[*_~`]+", "", text)
 
 
 def semantic_segments(text: str) -> list[str]:
@@ -810,9 +817,9 @@ def notes_groups(sections) -> list[tuple[str, list[str]]]:
         for it in items:
             if it.get("kind") == "table":
                 for row in it["rows"]:
-                    cn = row[0] if len(row) > 0 else ""
-                    en = row[1] if len(row) > 1 else ""
-                    gl = row[2] if len(row) > 2 else ""
+                    cn = display_text(row[0]) if len(row) > 0 else ""
+                    en = display_text(row[1]) if len(row) > 1 else ""
+                    gl = display_text(row[2]) if len(row) > 2 else ""
                     if gl:
                         lines.append(f"{cn} · {en} — {gl}")
                     elif en:
@@ -821,10 +828,10 @@ def notes_groups(sections) -> list[tuple[str, list[str]]]:
                         lines.append(cn)
             elif it.get("kind") in ("question", "bullet", "para"):
                 if it.get("text"):
-                    lines.append(it["text"])
+                    lines.append(display_text(it["text"]))
             elif it.get("kind") == "vocab":
-                term = it.get("term", "")
-                tdef = it.get("def", "")
+                term = display_text(it.get("term", ""))
+                tdef = display_text(it.get("def", ""))
                 lines.append(f"{term}\n{tdef}" if tdef else term)
         if lines:
             groups.append((name, lines))

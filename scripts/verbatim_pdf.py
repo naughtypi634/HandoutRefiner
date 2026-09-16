@@ -28,12 +28,161 @@ from weasyprint import HTML
 def inline(text: str) -> str:
     """Escape text and turn **bold** markers into <strong>."""
     out = []
-    for part in re.split(r"(\*\*.+?\*\*)", text):
+    for part in re.split(r"(\*\*.+?\*\*|`[^`]+`)", text):
         if len(part) > 4 and part.startswith("**") and part.endswith("**"):
             out.append(f"<strong>{html.escape(part[2:-2])}</strong>")
+        elif len(part) > 2 and part.startswith("`") and part.endswith("`"):
+            out.append(f"<code>{html.escape(part[1:-1])}</code>")
         else:
             out.append(html.escape(part))
     return "".join(out)
+
+
+def parse_handout(text: str, stem: str) -> tuple[str, list]:
+    """Parse a classroom handout into sections, tables, headings, and lists."""
+    lines = [line.rstrip() for line in text.splitlines()]
+    title = ""
+    sections: list[dict] = []
+    current: dict | None = None
+    block: dict | None = None
+
+    def finish_block() -> None:
+        nonlocal block
+        if current is not None and block is not None:
+            current["blocks"].append(block)
+        block = None
+
+    def finish_section() -> None:
+        nonlocal current
+        finish_block()
+        if current is not None:
+            sections.append(current)
+        current = None
+
+    for raw in lines:
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("# ") and not title:
+            title = line[2:].strip()
+            continue
+        if line.startswith("## "):
+            finish_section()
+            current = {"name": line[3:].strip(), "blocks": []}
+            continue
+        if current is None:
+            current = {"name": "Content", "blocks": []}
+        if line.startswith("### "):
+            finish_block()
+            block = {"kind": "heading", "text": line[4:].strip()}
+            continue
+        if re.fullmatch(r"\*\*[^*]+\*\*", line):
+            finish_block()
+            block = {"kind": "heading", "text": line[2:-2].strip()}
+            continue
+        if line.startswith("|") and line.endswith("|"):
+            cells = [cell.strip() for cell in line[1:-1].split("|")]
+            if all(re.fullmatch(r":?-+:?", cell) for cell in cells):
+                continue
+            if block is None or block.get("kind") != "table":
+                finish_block()
+                block = {"kind": "table", "rows": []}
+            block["rows"].append(cells)
+            continue
+        match = re.match(r"^(?:- |\d+\. )(.*)$", line)
+        if match:
+            if block is None or block.get("kind") != "list":
+                finish_block()
+                block = {"kind": "list", "items": []}
+            block["items"].append(match.group(1).strip())
+            continue
+        if block is None or block.get("kind") != "para":
+            finish_block()
+            block = {"kind": "para", "lines": []}
+        block["lines"].append(line)
+    finish_section()
+    return title or clean_title("", stem), sections
+
+
+def render_handout_html(title: str, sections: list, tok: dict) -> str:
+    """Render a table-first classroom handout with readable teaching hierarchy."""
+    def render_block(block: dict) -> str:
+        kind = block["kind"]
+        if kind == "heading":
+            return f'<h3>{inline(block["text"])}</h3>'
+        if kind == "para":
+            return f'<p>{inline(" ".join(block["lines"]))}</p>'
+        if kind == "list":
+            items = "".join(f"<li>{inline(item)}</li>" for item in block["items"])
+            return f"<ol>{items}</ol>"
+        rows = block["rows"]
+        if not rows:
+            return ""
+        col_count = max(len(row) for row in rows)
+        table_class = "wide" if col_count >= 5 else ""
+        header = rows[0]
+        body = rows[1:]
+        head_html = "".join(f"<th>{inline(cell)}</th>" for cell in header)
+        body_html = "".join(
+            "<tr>" + "".join(
+                f"<td>{inline(row[index] if index < len(row) else '')}</td>"
+                for index in range(col_count)
+            ) + "</tr>"
+            for row in body
+        )
+        return (
+            f'<div class="table-wrap {table_class}"><table>'
+            f"<thead><tr>{head_html}</tr></thead><tbody>{body_html}</tbody>"
+            "</table></div>"
+        )
+
+    sections_html = []
+    for section in sections:
+        blocks_html = "".join(render_block(block) for block in section["blocks"])
+        sections_html.append(
+            f'<section class="section"><h2>{inline(section["name"])}</h2>'
+            f"{blocks_html}</section>"
+        )
+    return f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><style>
+@page {{
+  size: A4 portrait;
+  margin: 13mm 14mm 16mm 14mm;
+  @bottom-right {{ content: counter(page); font: 8pt {tok['font_body']}; color: {tok['muted']}; }}
+}}
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+html, body {{ background: {tok['canvas']}; }}
+body {{ font-family: {tok['font_body']}; color: {tok['body']}; font-size: 9.4pt; line-height: 1.42; }}
+.masthead {{ padding: 0 0 5mm; margin-bottom: 6mm; border-bottom: 0.8pt solid {tok['hairline']}; }}
+.kicker {{ color: {tok['accent']}; font-size: 8pt; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 2mm; }}
+h1 {{ color: {tok['ink']}; font-size: 23pt; font-weight: 700; line-height: 1.05; max-width: 155mm; }}
+.section {{ break-inside: auto; margin-bottom: 7mm; }}
+.section > h2 {{ break-after: avoid; page-break-after: avoid; color: {tok['ink']}; font-size: 15pt; line-height: 1.15; margin: 0 0 3mm; padding: 2.2mm 3mm 2.4mm; border-left: 3pt solid {tok['accent']}; background: {tok['surface_soft']}; }}
+h3 {{ break-after: avoid; page-break-after: avoid; color: {tok['ink']}; font-size: 11pt; line-height: 1.2; margin: 4.5mm 0 2mm; padding-bottom: 1mm; border-bottom: 0.5pt solid {tok['hairline']}; }}
+p {{ margin: 1.5mm 0 2.5mm; }}
+code {{ font-family: {tok['font_body']}; color: {tok['ink']}; background: {tok['surface_soft']}; padding: 0.2mm 0.8mm; }}
+ol {{ margin: 1.5mm 0 3mm 6mm; padding-left: 5mm; }}
+li {{ margin-bottom: 1.2mm; padding-left: 1mm; break-inside: avoid; }}
+li::marker {{ color: {tok['accent']}; font-weight: 700; }}
+.table-wrap {{ overflow: visible; margin: 2.5mm 0 4mm; break-inside: auto; }}
+table {{ width: 100%; border-collapse: collapse; table-layout: auto; font-size: 8.7pt; line-height: 1.3; }}
+th {{ text-align: left; color: {tok['ink']}; background: {tok['surface_soft']}; font-weight: 700; padding: 2mm 1.8mm; border-bottom: 1pt solid {tok['accent']}; vertical-align: top; }}
+td {{ padding: 1.7mm 1.8mm; border-bottom: 0.45pt solid {tok['hairline']}; vertical-align: top; break-inside: avoid; }}
+tbody tr:nth-child(even) td {{ background: {tok['surface_soft']}; }}
+tr {{ break-inside: avoid; page-break-inside: avoid; }}
+thead {{ display: table-header-group; }}
+.wide table {{ font-size: 7.9pt; line-height: 1.25; }}
+.wide th, .wide td {{ padding: 1.35mm 1.25mm; }}
+.wide th:nth-child(1) {{ width: 15%; }}
+.wide th:nth-child(2) {{ width: 24%; }}
+.wide th:nth-child(3) {{ width: 20%; }}
+.wide th:nth-child(4) {{ width: 20%; }}
+.wide th:nth-child(5) {{ width: 21%; }}
+</style></head>
+<body>
+    <header class="masthead"><h1>{html.escape(title)}</h1></header>
+  {''.join(sections_html)}
+</body></html>"""
 
 
 def parse_verbatim(text: str, stem: str) -> tuple[str, list]:
@@ -371,6 +520,10 @@ def main() -> int:
         help="Parse '# Title', '## Category' headers and three-line idiom "
              "blocks (idiom / gloss / example), N per page.")
     parser.add_argument(
+        "--handout", action="store_true",
+        help="Render Markdown tables as a classroom handout with readable "
+             "headers, section bands, and practice blocks.")
+    parser.add_argument(
         "--per-page", type=int, default=10,
         help="Idioms per page in --idiom-list mode (default: 10)")
     args = parser.parse_args()
@@ -382,9 +535,14 @@ def main() -> int:
     design = load_design(args.design)
     tok = design_tokens(design)
     text = md_path.read_text(encoding="utf-8-sig")
+    if args.idiom_list and args.handout:
+        parser.error("--idiom-list and --handout cannot be used together")
     if args.idiom_list:
         title, blocks = parse_idiom_blocks(text, md_path.stem)
         final_html = render_idiom_html(title, blocks, tok, args.per_page)
+    elif args.handout:
+        title, sections = parse_handout(text, md_path.stem)
+        final_html = render_handout_html(title, sections, tok)
     else:
         title, sections = parse_verbatim(text, md_path.stem)
         final_html = render_html(title, sections, tok)
