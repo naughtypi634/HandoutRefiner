@@ -32,6 +32,9 @@ Questions-only variant (no scaffold blocks, elegant question list):
 
 Quadrant matrix sheet (one page per "## " block, 2x2 quadrants per page):
     python scripts/md_to_pdf.py --quad "Business/SWOT Analysis.md"
+
+Chart-language sheet (one sparkline per expression, 2 columns, 2 pages):
+    python scripts/md_to_pdf.py --trend "Business/BEC-图表常用句型.md"
 """
 
 from __future__ import annotations
@@ -39,6 +42,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import math
 import re
 import sys
 import tempfile
@@ -52,6 +56,8 @@ from weasyprint import HTML
 DESIGN_REPO = (Path(__file__).resolve().parents[2]
                / "awesome-design-md" / "design-md")
 DEFAULT_DESIGN = "cal"
+# Notes mode targets this many pages when auto-fitting font and gaps.
+DEFAULT_PAGES = 2
 
 
 def font_stack(family: str, generic: str) -> str:
@@ -843,12 +849,14 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
                       category_gap: float | None = None,
                       disc_gap: float | None = None,
                       two_col: bool = False,
-                      boxed: bool = False) -> str:
+                      boxed: bool = False,
+                      masthead_gap: float | None = None) -> str:
     """Plain-text handout: design-system masthead + per-section text lines.
 
     With ``boxed`` every non-discussion section gets its own hairline box
     (the heading rule is dropped, so each block reads as one unit). The
-    discussion page stays unboxed.
+    discussion page stays unboxed. ``masthead_gap`` sets the total space
+    (mm) under the title before the first section.
     """
     tok = design_tokens(design)
     sections_html = []
@@ -899,6 +907,12 @@ section h2 {
   border-bottom: 0; padding-bottom: 0; margin-bottom: 1.5mm;
 }
 """ % {"hairline": tok["hairline"]}
+    if masthead_gap is not None:
+        box_css += """
+.masthead {
+  padding-bottom: %(pad).2fmm; margin-bottom: %(mar).2fmm;
+}
+""" % {"pad": masthead_gap * 0.3, "mar": masthead_gap * 0.7}
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
 {questions_css(tok, q_font, lh, gap, True, category_gap)}
@@ -1370,6 +1384,443 @@ def quad_layout_issues(path: Path, pages: list[dict]) -> int:
     return issues
 
 
+# --- Chart-language sheet with one sparkline per expression (--trend) ------
+#
+# MD contract (one "## " block per trend category):
+#     # Document title
+#     ## 上升 Upward
+#     **单词 Words**
+#     - go up — 上升 — Delivery orders go up 5% every Friday.
+#     - dip — 短暂下跌 — Sales dipped in February.  <!-- shape=dip -->
+#
+# Items split on " — " into English, Chinese gloss and an optional micro
+# example. Inside a sub-group the item order IS the intensity order: the
+# sparkline of the n-th item is drawn at intensity n/(len-1), so the picture
+# slides from a vague, almost flat move to a sharp, precise one -- the ranking
+# the sheet claims is the ranking the reader sees. A category heading selects
+# the base shape by keyword; a single item can override it with a shape=
+# comment (needed for peaks/troughs, whose shapes are not one ramp).
+
+TREND_ITEM_SEP = re.compile(r"\s+[—–]\s+")
+TREND_COMMENT = re.compile(r"<!--(.*?)-->", re.S)
+TREND_OVERRIDE = re.compile(r"shape\s*=\s*([a-z_]+)")
+TREND_RAMPED = ("rise", "fall", "flat", "wave", "degree")
+
+TREND_SHAPE_KEYWORDS: tuple[tuple[tuple[str, ...], str], ...] = (
+    (("上升", "上涨", "upward"), "rise"),
+    (("下降", "下跌", "downward"), "fall"),
+    (("平稳", "稳定", "flat", "steady"), "flat"),
+    (("波动", "波动不定", "fluctuat"), "wave"),
+    (("峰", "谷", "peak", "trough"), "peaks"),
+    (("程度", "速度", "degree", "speed"), "degree"),
+)
+
+TREND_FIXED_SHAPES: dict[str, list[tuple[float, float]]] = {
+    "dip": [(3, 13), (38, 28), (62, 27), (97, 12)],
+    "peak": [(3, 30), (45, 5), (97, 26)],
+    "top_out": [(3, 28), (48, 7), (70, 8), (97, 8)],
+    "bottom_out": [(3, 10), (48, 33), (70, 32), (97, 32)],
+    "rebound": [(3, 12), (45, 32), (97, 6)],
+    "recover": [(3, 12), (45, 32), (97, 17)],
+    "trough": [(3, 6), (52, 34), (97, 15)],
+    "rise_fall": [(3, 30), (22, 17), (45, 6), (70, 19), (97, 30)],
+    "even_out": [(3, 6), (20, 33), (38, 11), (56, 26), (74, 20), (97, 20)],
+    "peak_high": [(3, 32), (40, 4), (70, 9), (97, 9)],
+    "trough_low": [(3, 6), (40, 36), (70, 31), (97, 31)],
+}
+
+# Geometry shared by the CSS below and the single-line width check.
+TREND_MARGIN_MM = 10.0
+TREND_TOP_MM = 11.0
+TREND_BOTTOM_MM = 12.0
+TREND_COL_GAP_MM = 5.0
+TREND_SPARK_W_MM = 16.5
+TREND_SPARK_H_MM = 6.6  # keeps the 100:40 viewBox undistorted
+TREND_LI_GAP_MM = 1.6
+# Row padding is the fill knob: the fitter grows it while both pages stay
+# within the page budget, so a short last column is filled with breathing
+# room instead of a bigger (already width-capped) font.
+TREND_ROW_PAD_MM = 0.28
+TREND_ROW_PAD_MAX_MM = 4.0
+TREND_COL_MM = ((210.0 - 2 * TREND_MARGIN_MM - TREND_COL_GAP_MM) / 2)
+TREND_TEXT_MM = (TREND_COL_MM - TREND_SPARK_W_MM - TREND_LI_GAP_MM) * 0.97
+# Shared by the CSS and the bounds check: the masthead spans the full page
+# width, so its text must not be measured against the column edge.
+TREND_MASTHEAD_MM = 11.5
+
+_FONT_CACHE: dict[str, object] = {}
+
+
+def text_width_mm(text: str, pt: float, bold: bool = False) -> float:
+    """Width of mixed CJK/Latin text in millimetres at a point size (PIL).
+
+    Bold text is measured with the bold face, so an estimate is never
+    narrower than what WeasyPrint actually sets.
+    """
+    from PIL import ImageFont
+    total = 0.0
+    for ch in text:
+        key = ("bold" if bold else "latin") if ord(ch) < 0x2E80 else "cjk"
+        font = _FONT_CACHE.get(key)
+        if font is None:
+            # .en is font-weight 600, so measure with the semibold face; the
+            # bold face is the fallback when semibold is unavailable.
+            latin, latin_bold = (r"C:\Windows\Fonts\segoeui.ttf",
+                                 r"C:\Windows\Fonts\seguisb.ttf")
+            if not Path(latin_bold).is_file():
+                latin_bold = r"C:\Windows\Fonts\segoeuib.ttf"
+            path = {"cjk": r"C:\Windows\Fonts\msyh.ttc",
+                    "latin": latin, "bold": latin_bold}[key]
+            font = ImageFont.truetype(path, 100)
+            _FONT_CACHE[key] = font
+        total += font.getlength(ch)
+    return total * pt / 100.0 * 25.4 / 72.0
+
+
+def trend_category_shape(name: str) -> str:
+    """Base sparkline shape for a category, taken from its heading text."""
+    low = name.lower()
+    for keywords, shape in TREND_SHAPE_KEYWORDS:
+        if any(k in name or k in low for k in keywords):
+            return shape
+    raise SystemExit(
+        f"--trend: category '{name}' matches no trend shape; rename it after "
+        "its trend or add a keyword to TREND_SHAPE_KEYWORDS.")
+
+
+def trend_shape_points(shape: str, t: float,
+                       hairline: str) -> tuple[list[tuple[float, float]],
+                                               str]:
+    """Sparkline points in a 100x40 viewBox, plus optional extra SVG.
+
+    t is the item's position in its sub-group, 0 = vaguest, 1 = sharpest.
+    """
+    t = min(1.0, max(0.0, t))
+    x0, x1, mid = 3.0, 97.0, 20.0
+    if shape in ("rise", "degree"):
+        return [(x0, 30.0), (x1, 30.0 - 7.0 - 21.0 * t)], ""
+    if shape == "fall":
+        return [(x0, 10.0), (x1, 10.0 + 7.0 + 21.0 * t)], ""
+    if shape == "flat":
+        n, xs = 9, [x0 + (x1 - x0) * i / 8 for i in range(9)]
+        if t < 0.5:
+            # vaguest items: a small, unspecified wobble around the middle
+            amp = 3.4 * (1.0 - 2.0 * t)
+            return [(x, mid + amp * (1 if i % 2 else -1))
+                    for i, x in enumerate(xs)], ""
+        # pithier items: a leveling-off knee that arrives earlier as t grows
+        knee = 0.78 - 0.56 * (t - 0.5) / 0.5
+        return [(x, 32.0 - 21.0 * min(1.0, i / 8 / knee))
+                for i, x in enumerate(xs)], ""
+    if shape == "wave":
+        amp, cycles, n = 2.6 + 9.6 * t, 2.0 + 2.0 * t, 48
+        return [(x0 + (x1 - x0) * i / (n - 1),
+                 mid + amp * math.sin(2 * math.pi * cycles * i / (n - 1)))
+                for i in range(n)], ""
+    if shape in TREND_FIXED_SHAPES:
+        return [(float(x), float(y)) for x, y in TREND_FIXED_SHAPES[shape]], ""
+    if shape == "band":
+        n = 48
+        bounds = "".join(
+            f'<line x1="3" y1="{y}" x2="97" y2="{y}" stroke="{hairline}"'
+            ' stroke-width="1" stroke-dasharray="3 3"/>' for y in (8, 32))
+        return [(x0 + (x1 - x0) * i / (n - 1),
+                 20 + 11 * math.sin(2 * math.pi * 3.0 * i / (n - 1)))
+                for i in range(n)], bounds
+    raise SystemExit(f"--trend: unknown sparkline shape '{shape}'")
+
+
+def trend_svg(shape: str, t: float, tok: dict) -> str:
+    """One inline sparkline (WeasyPrint renders inline SVG as vectors)."""
+    pts, extra = trend_shape_points(shape, t, tok["hairline"])
+    d = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
+    stroke = 2.2 + 1.3 * t if shape in TREND_RAMPED else 2.6
+    return (
+        f'<svg class="spark" width="{TREND_SPARK_W_MM}mm" '
+        f'height="{TREND_SPARK_H_MM}mm" viewBox="0 0 100 40" '
+        'xmlns="http://www.w3.org/2000/svg">'
+        f'<line x1="0" y1="34" x2="100" y2="34" stroke="{tok["hairline"]}"'
+        ' stroke-width="1"/>'
+        f'{extra}'
+        f'<path d="{d}" fill="none" stroke="{tok["ink"]}"'
+        f' stroke-width="{stroke:.1f}" stroke-linejoin="round"'
+        ' stroke-linecap="round"/></svg>')
+
+
+def parse_trend_md(text: str) -> tuple[str, list[dict]]:
+    """Parse the sheet into (title, [{name, shape, subs:[{label, items}]}])."""
+    title = ""
+    cats: list[dict] = []
+    cat: dict | None = None
+    sub: dict | None = None
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("## "):
+            name = line[3:].strip()
+            cat = {"name": name, "shape": trend_category_shape(name), "subs": []}
+            cats.append(cat)
+            sub = None
+            continue
+        if line.startswith("# "):
+            title = line[2:].strip()
+            continue
+        m = re.fullmatch(r"\*\*(.+?)\*\*", line)
+        if m and cat is not None:
+            sub = {"label": m.group(1).strip(), "items": []}
+            cat["subs"].append(sub)
+            continue
+        if line.startswith("- ") and sub is not None:
+            body = line[2:].strip()
+            override = None
+            cm = TREND_COMMENT.search(body)
+            if cm:
+                om = TREND_OVERRIDE.search(cm.group(1))
+                override = om.group(1).lower() if om else None
+                body = TREND_COMMENT.sub("", body).strip()
+            parts = [p.strip() for p in TREND_ITEM_SEP.split(body, maxsplit=2)]
+            sub["items"].append({"en": parts[0],
+                                 "zh": parts[1] if len(parts) > 1 else "",
+                                 "ex": parts[2] if len(parts) > 2 else "",
+                                 "shape": override})
+    unshaped = []
+    for c in cats:
+        for s in c["subs"]:
+            n = len(s["items"])
+            for i, item in enumerate(s["items"]):
+                item["t"] = i / (n - 1) if n > 1 else 1.0
+                item["shape"] = item["shape"] or c["shape"]
+                if item["shape"] == "peaks":
+                    unshaped.append(item["en"])
+                    item["shape"] = "peak"
+    if unshaped:
+        print(f"--trend: {len(unshaped)} item(s) in a peaks category had no "
+              f"shape= override, defaulted to 'peak': "
+              + ", ".join(unshaped), file=sys.stderr)
+    return title, cats
+
+
+def trend_fonts(item_font: float) -> dict:
+    """Derive the smaller type sizes from the fitted item font."""
+    return {
+        "item": item_font,
+        "zh": round(item_font * 0.94, 2),
+        "ex": round(item_font * 0.88, 2),
+        "label": round(item_font + 0.6, 2),
+        "cat": round(item_font + 3.2, 2),
+        "head": round(item_font + 7.0, 2),
+    }
+
+
+def trend_items_fit(cats: list[dict], item_font: float) -> bool:
+    """True when every English/gloss pair and example stays on one line."""
+    try:
+        for cat in cats:
+            for sub in cat["subs"]:
+                for item in sub["items"]:
+                    gloss = f" {item['zh']}" if item["zh"] else ""
+                    if text_width_mm(item["en"] + gloss, item_font,
+                                     bold=True) > TREND_TEXT_MM:
+                        return False
+                    if item["ex"] and text_width_mm(
+                            item["ex"], trend_fonts(item_font)["ex"]
+                    ) > TREND_TEXT_MM:
+                        return False
+    except OSError:
+        # Measuring fonts are Windows-only; skip when unavailable.
+        return True
+    return True
+
+
+def trend_css(tok: dict, f: dict, title: str, row_pad_mm: float) -> str:
+    return f"""
+@page {{
+  size: A4 portrait;
+  margin: {TREND_TOP_MM}mm {TREND_MARGIN_MM}mm {TREND_BOTTOM_MM}mm {TREND_MARGIN_MM}mm;
+  @top-right {{
+    content: "{title}";
+    font: 7.5pt {tok['font_body']}; color: {tok['muted']};
+  }}
+  @bottom-right {{
+    content: counter(page);
+    font: 7.5pt {tok['font_body']}; color: {tok['muted']};
+  }}
+}}
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+html, body {{ background: {tok['canvas']}; }}
+body {{
+  font-family: {tok['font_body']};
+  color: {tok['body']};
+  font-size: {f['item']}pt;
+}}
+.masthead {{ height: {TREND_MASTHEAD_MM}mm; }}
+h1 {{
+  font-family: {tok['font_body']};
+  font-size: {f['head']}pt; font-weight: 500; color: {tok['ink']};
+  line-height: 1.1;
+  border-bottom: 2.2pt solid {tok['accent']};
+  display: inline-block; padding-bottom: 1.1mm;
+}}
+.cols {{ column-count: 2; column-gap: {TREND_COL_GAP_MM}mm;
+        column-fill: auto; }}
+.cat {{ margin-bottom: 2.6mm; }}
+.cat h2 {{
+  font-size: {f['cat']}pt; font-weight: 600; color: {tok['ink']};
+  border-bottom: 0.8pt solid {tok['hairline']};
+  padding-bottom: 0.7mm; margin-bottom: 1.2mm;
+  break-after: avoid; page-break-after: avoid;
+}}
+.sub {{ margin-bottom: 1.7mm; }}
+.sub:last-child {{ margin-bottom: 0; }}
+.slabel {{
+  font-size: {f['label']}pt; font-weight: 700; letter-spacing: 0.3pt;
+  color: {tok['muted']}; margin-bottom: 0.5mm;
+}}
+ul {{ list-style: none; }}
+li {{
+  display: flex; align-items: center; gap: {TREND_LI_GAP_MM}mm;
+  padding: {row_pad_mm}mm 0;
+  break-inside: avoid; page-break-inside: avoid;
+}}
+.spark {{ flex: 0 0 {TREND_SPARK_W_MM}mm; }}
+.txt {{ flex: 1; min-width: 0; white-space: nowrap; }}
+.en {{ color: {tok['ink']}; font-weight: 600; }}
+.zh {{ color: {tok['muted']}; font-size: {f['zh']}pt; margin-left: 1mm; }}
+.ex {{
+  display: block; color: {tok['muted']}; font-size: {f['ex']}pt;
+  line-height: 1.15;
+}}
+"""
+
+
+def render_trend_html(title: str, cats: list[dict], design: dict,
+                      item_font: float,
+                      row_pad_mm: float = TREND_ROW_PAD_MM) -> str:
+    """Chart-language sheet: sparkline + expression + gloss + micro example."""
+    tok = design_tokens(design)
+    f = trend_fonts(item_font)
+    blocks = []
+    for cat in cats:
+        subs = []
+        for sub in cat["subs"]:
+            lis = []
+            for item in sub["items"]:
+                gloss = (f'<span class="zh">{html.escape(item["zh"])}</span>'
+                         if item["zh"] else "")
+                example = (f'<span class="ex">{html.escape(item["ex"])}</span>'
+                           if item["ex"] else "")
+                lis.append(
+                    f'<li>{trend_svg(item["shape"], item["t"], tok)}'
+                    f'<span class="txt"><span class="en">'
+                    f'{html.escape(item["en"])}</span>{gloss}{example}</span></li>')
+            subs.append(f'<div class="sub"><div class="slabel">'
+                        f'{html.escape(sub["label"])}</div>'
+                        f'<ul>{"".join(lis)}</ul></div>')
+        blocks.append(f'<section class="cat">'
+                      f'<h2>{html.escape(cat["name"])}</h2>'
+                      f'{"".join(subs)}</section>')
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+{trend_css(tok, f, title, row_pad_mm)}
+</style></head>
+<body>
+<div class="masthead"><h1>{html.escape(title)}</h1></div>
+<div class="cols">
+{''.join(blocks)}
+</div>
+</body></html>"""
+
+
+def fit_trend_layout(render, cats: list[dict],
+                     target_pages: int) -> tuple[float, int]:
+    """Largest font with one line per expression inside the page budget."""
+    fallback = None
+    for step in range(int(round((11.0 - 5.0) / 0.25)) + 1):
+        item_font = round(11.0 - 0.25 * step, 2)
+        pages = render(item_font)
+        if pages <= target_pages:
+            if trend_items_fit(cats, item_font):
+                return item_font, pages
+            if fallback is None:
+                fallback = (item_font, pages)
+    return fallback or (5.0, render(5.0))
+
+
+def fit_trend_row_gap(render, item_font: float,
+                      target_pages: int) -> float:
+    """Largest row padding that still fits the target page count.
+
+    The font is already capped by the widest expression, so the leftover
+    space on the last page is spent on row breathing room instead.
+    """
+    lo, hi, best = TREND_ROW_PAD_MM, TREND_ROW_PAD_MAX_MM, TREND_ROW_PAD_MM
+    while hi - lo > 0.05:
+        mid = round((lo + hi) / 2, 2)
+        if render(item_font, mid) <= target_pages:
+            best, lo = mid, mid
+        else:
+            hi = mid
+    return best
+
+
+def trend_layout_issues(path: Path, cats: list[dict], target_pages: int,
+                        pages: int) -> int:
+    """Return bitmask: 1 = text out of bounds, 2 = an expression wrapped.
+
+    Wrapping is impossible by construction (the CSS forbids it), so an item
+    that does not fit shows up as text crossing its column edge. Sparklines
+    are counted too: each paints exactly two vector objects (baseline + path),
+    plus two dashed bounds for shape=band, so a dropped chart is visible.
+    """
+    try:
+        import pdfplumber
+    except ImportError:
+        return 0
+    items = [it for cat in cats for sub in cat["subs"] for it in sub["items"]]
+    expect_ops = 2 * len(items) + 2 * sum(1 for it in items
+                                          if it["shape"] == "band")
+    mm = 72.0 / 25.4
+    left_col_edge = (TREND_MARGIN_MM + TREND_COL_MM) * mm
+    page_right = (210.0 - TREND_MARGIN_MM) * mm
+    bottom = (297.0 - TREND_BOTTOM_MM + 2.0) * mm
+    masthead_bottom = (TREND_TOP_MM + TREND_MASTHEAD_MM) * mm
+    tol = 1.5
+    issues = 4 if pages != target_pages else 0
+    if issues:
+        print(f"--trend: {pages} pages, expected {target_pages}")
+    ops = 0
+    text_all = ""
+    with pdfplumber.open(path) as pdf:
+        for i, page in enumerate(pdf.pages):
+            ops += len(page.curves) + len(page.lines)
+            text_all += " " + (page.extract_text() or "").replace("\n", " ")
+            for w in page.extract_words():
+                if w["text"] == str(i + 1) and w["bottom"] > bottom:
+                    continue  # the page number sits in the bottom margin
+                in_masthead = w["top"] < masthead_bottom
+                limit = (page_right if in_masthead or w["x0"] >= left_col_edge - 1
+                         else left_col_edge)
+                if w["x1"] > limit + tol:
+                    print(f"  page {i + 1}: '{w['text']}' crosses its column "
+                          f"edge ({w['x1']:.1f}pt > {limit + tol:.1f}pt)")
+                    issues |= 1
+                if not in_masthead and w["bottom"] > bottom:
+                    print(f"  page {i + 1}: '{w['text']}' runs past the bottom "
+                          f"({w['bottom']:.1f}pt > {bottom:.1f}pt)")
+                    issues |= 1
+    if ops != expect_ops:
+        print(f"--trend: {ops} vector objects, expected {expect_ops} -- a "
+              "sparkline is missing")
+        issues |= 2
+    missing = [it["en"] for it in items if it["en"] not in text_all]
+    if missing:
+        print(f"--trend: {len(missing)} expression(s) missing from the PDF: "
+              + ", ".join(missing[:6]))
+        issues |= 2
+    return issues
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("md_file", type=Path, help="Input .md handout")
@@ -1392,6 +1843,13 @@ def main() -> int:
     parser.add_argument("--notes", action="store_true",
                         help="Render vocabulary entries as plain text lines "
                              "(no table borders) instead of a table.")
+    parser.add_argument("--font-pt", type=float, default=None,
+                        help="Notes mode: pin the body font size in pt "
+                             "(default: auto-fit the largest size that "
+                             "still fits the page goal).")
+    parser.add_argument("--masthead-mm", type=float, default=None,
+                        help="Notes mode: total space below the title before "
+                             "the first section, in mm (default: 12).")
     parser.add_argument("--boxes", action="store_true",
                         help="Notes mode: draw a hairline box around every "
                              "non-discussion section (discussion stays plain).")
@@ -1405,6 +1863,12 @@ def main() -> int:
                         help="Quad matrix sheet: one page per '## ' block, "
                              "2x2 quadrants (one '### ' each), with '**Group**' "
                              "sub-lists and '- English — 中文' items.")
+    parser.add_argument("--trend", action="store_true",
+                        help="Chart-language sheet: one sparkline per "
+                             "expression, drawn at the item's intensity rank "
+                             "inside its category.")
+    parser.add_argument("--pages", type=int, default=2,
+                        help="Trend sheet: target page count (default: 2).")
     args = parser.parse_args()
 
     md_path = args.md_file.resolve()
@@ -1431,6 +1895,50 @@ def main() -> int:
         item["kind"] == "table"
         for _, items in sections for item in items)
     has_scaffold = md_path.with_suffix(".scaffold.json").exists()
+    if args.trend:
+        trend_title, trend_cats = parse_trend_md(text)
+        if not trend_cats:
+            print("--trend found no '## ' categories in the MD.",
+                  file=sys.stderr)
+            return 1
+        title = clean_title(trend_title or md_title, md_path.stem)
+        target = max(1, args.pages)
+
+        def t_render(item_font: float) -> int:
+            return page_count(render_trend_html(
+                title, trend_cats, design, item_font))
+
+        item_font, _ = fit_trend_layout(t_render, trend_cats, target)
+        out = md_path.with_suffix(".pdf")
+        pages, issues, row_pad = 0, 0, TREND_ROW_PAD_MM
+        for _ in range(4):
+            row_pad = fit_trend_row_gap(
+                lambda f, p: page_count(render_trend_html(
+                    title, trend_cats, design, f, p)), item_font, target)
+            final_html = render_trend_html(
+                title, trend_cats, design, item_font, row_pad)
+            pages = page_count(final_html)
+            HTML(string=final_html).write_pdf(out)
+            issues = trend_layout_issues(out, trend_cats, target, pages)
+            if not issues:
+                break
+            item_font = round(item_font - 0.25, 2)
+            if item_font < 5.0:
+                break
+        count = sum(len(s["items"]) for c in trend_cats for s in c["subs"])
+        n_cats = len(trend_cats)
+        print(f"PDF written: {out}")
+        print(f"Title     : {title}")
+        print(f"Design    : {design['name']} ({design['source']})")
+        print(f"Items     : {count}")
+        print(f"Layout    : trend {item_font}pt, {n_cats} categories, "
+              f"row gap {row_pad}mm, one sparkline + one line per item")
+        print(f"Pages     : {pages}")
+        if args.keep_html:
+            html_out = Path(tempfile.gettempdir()) / (md_path.stem + ".qa.html")
+            html_out.write_text(final_html, encoding="utf-8")
+            print(f"HTML kept : {html_out}")
+        return 0 if pages == target and not issues else 2
     if args.quad:
         quad_pages = parse_quad_md(text)
         if not quad_pages:
@@ -1481,25 +1989,63 @@ def main() -> int:
         groups = notes_groups(sections)
         flat = [q for _, qs in groups for q in qs]
 
-        def render(q_font, lh, gap, disc_gap):
+        def render(q_font, lh, gap, disc_gap, category_gap=None):
+            """Page count for one full set of final layout parameters."""
             return page_count(render_notes_html(
                 title, groups, q_font, lh, gap, design,
-                disc_gap=disc_gap, two_col=args.cols2, boxed=args.boxes))
+                category_gap=category_gap, disc_gap=disc_gap,
+                two_col=args.cols2, boxed=args.boxes,
+                masthead_gap=args.masthead_mm))
 
-        q_font, lh, gap = fit_notes_layout(
-            lambda f, h, g: render(f, h, g, g), len(flat))
+        if args.font_pt is not None:
+            # Pinned body font: keep the largest line-height that still fits.
+            # The row gap stays at its minimum here so the space above the
+            # category headings can claim its budget first (see below).
+            q_font = args.font_pt
+            lh = 1.15
+            for cand_lh in (1.3, 1.2, 1.15):
+                if render(q_font, cand_lh, 1.0, 1.0, 1.4) <= DEFAULT_PAGES:
+                    lh = cand_lh
+                    break
+            gap = 1.0
+        else:
+            q_font, lh, gap = fit_notes_layout(
+                lambda f, h, g: render(f, h, g, g), len(flat))
         if args.gap_mm is not None:
             gap = args.gap_mm
-        category_gap = args.category_gap_mm if args.category_gap_mm is not None \
-            else gap * 1.4
+        # Space above each category heading claims its budget before the row
+        # gaps stretch: it is what separates one block from the next, so it
+        # must never be squeezed by line spacing. Every page-count check below
+        # includes it, so asking for more space can never silently overflow.
+        floor = gap * 1.4
+        category_gap = floor
+        if args.category_gap_mm is not None and args.category_gap_mm > floor:
+            lo, hi = floor, args.category_gap_mm
+            while hi - lo > 0.2:
+                mid = (lo + hi) / 2
+                if render(q_font, lh, gap, gap, mid) <= DEFAULT_PAGES:
+                    lo = mid
+                else:
+                    hi = mid
+            category_gap = max(floor, lo)
+        # Fill the rest of the page with the widest row gap that still fits.
+        lo, hi, best = gap, 12.0, gap
+        while hi - lo > 0.2:
+            mid = (lo + hi) / 2
+            if render(q_font, lh, mid, mid, category_gap) <= DEFAULT_PAGES:
+                best = mid
+                lo = mid
+            else:
+                hi = mid
+        gap = best
         # Maximize the final-group (discussion) row gap so its lines spread
-        # down to the bottom of its page, never exceeding the 2-page goal.
-        base_pages = render(q_font, lh, gap, gap)
-        target = min(2, base_pages)
+        # down to the bottom of its page, never exceeding the page goal.
+        base_pages = render(q_font, lh, gap, gap, category_gap)
+        target = min(DEFAULT_PAGES, base_pages)
         lo, hi, best = gap, 40.0, gap
         while hi - lo > 0.2:
             mid = (lo + hi) / 2
-            if render(q_font, lh, gap, mid) <= target:
+            if render(q_font, lh, gap, mid, category_gap) <= target:
                 best = mid
                 lo = mid
             else:
@@ -1508,9 +2054,13 @@ def main() -> int:
         final_html = render_notes_html(
             title, groups, q_font, lh, gap, design,
             category_gap=category_gap, disc_gap=disc_gap,
-            two_col=args.cols2, boxed=args.boxes)
+            two_col=args.cols2, boxed=args.boxes,
+            masthead_gap=args.masthead_mm)
         layout_desc = (f"notes {q_font}pt, line-height {lh}, "
-                       f"gap {gap:.1f}mm, discussion gap {disc_gap:.1f}mm"
+                       f"gap {gap:.1f}mm, category gap {category_gap:.1f}mm, "
+                       f"masthead gap "
+                       f"{args.masthead_mm if args.masthead_mm is not None else 12:.1f}mm, "
+                       f"discussion gap {disc_gap:.1f}mm"
                        + (", 2-col" if args.cols2 else "")
                        + (", boxed" if args.boxes else ""))
         pages = page_count(final_html)
