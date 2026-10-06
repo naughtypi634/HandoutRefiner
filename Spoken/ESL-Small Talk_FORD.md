@@ -2,52 +2,67 @@
 
 **Family**
 
-- Where are you from originally, and where did you grow up?
-- Do you still have family there? How often do you see them?
-- Do you have brothers or sisters? Where are you in the family?
-- Do you come from a big family? How many cousins do you have?
-- What is a family dinner like for you: who cooks, who comes, what do you eat?
-- Do you have any pets? What is their name?
-- Who are you closest to in your family, and why?
-- How often do you call or video-call your parents?
-- Do you look more like your mom or your dad?
-- What is one family tradition you want to keep?
+- Are you from around here originally?
+- Where did you grow up: a big city, a small town, or somewhere in between?
+- Do you have people nearby, or are most of them somewhere else?
+- Did you move here for work, for school, or for something else?
+- How often do you get to see your family these days?
+- Are you heading home for the holiday, or staying local?
+- Is your family into this kind of thing, or is this your own thing?
+- When your family gets together, what do you usually do?
+- Do you know a lot of people in this city, or did you start from scratch?
 
 **Occupation**
 
-- What's keeping you busy these days?
-- What do you do, and how long have you been in that field?
-- How did you get into it? Was it your first choice?
-- What's the best part of your job, and what's the worst part?
-- What does a normal workday look like for you: start time, commute, meetings?
-- Do you work in an office, from home, or somewhere else?
-- What did you want to be when you were a child? Is it close to what you do now?
-- Are you studying anything at the same time as working?
-- If you changed jobs next year, what would you like to try?
-- What is something people usually get wrong about your job?
+- What keeps you busy most days?
+- Are you working, studying, or a mix of both?
+- How did you end up doing that kind of work?
+- What does a normal day actually look like for you?
+- Is your work more about people, screens, or plans?
+- Is this a busy season for you, or a quiet one?
+- What part of your work would surprise people outside it?
+- What did you want to be as a kid, and how close is that to now?
+- What do you usually do after work to relax?
 
 **Recreation**
 
-- What do you do for fun on a normal weekend?
-- Do you play any sports or go to the gym? How often?
-- Have you seen any good movies or shows recently? What did you think?
-- What are you watching these days: a series, short videos, or something else?
+- What do you do when you finally get a free evening?
+- What have you been into lately?
+- Have you watched anything good recently?
+- Are you more of a stay-in person or a get-out-of-the-house person?
+- What has been taking up your weekends?
+- Do you have a hobby you actually do, or one you just plan to do?
+- Any local places around here you actually like?
+- Do you play any sports, or do you prefer to watch?
 - Do you cook? What is your go-to dish?
-- Where do you usually hang out with friends: a café, a hotpot place, someone's home?
-- Do you travel much? Where was your last trip?
-- What did you enjoy as a kid that you still enjoy now?
-- How do you relax after a long day?
-- Are you a morning person or a night person?
 
 **Dreams**
 
-- Any plans for the summer, or for your next holiday?
-- Where do you most want to travel next, and why there?
-- What will you do after you finish this project or this course?
-- Is there something you want to learn or try this year?
-- What would you like your life to look like in five years: work, home, travel?
-- If money were not a problem, what would you do first?
-- Is there a place you would like to live for a while, in China or abroad?
-- What is one small thing you are looking forward to this month?
-- Is there something you gave up on that you would still like to try?
-- What would you like to be known for?
+- Is there anything you are looking forward to this month?
+- Any plans for the holiday, or are you taking it easy?
+- Is there anything you have been wanting to try lately?
+- What would you do with a completely free Saturday?
+- Is there a place around here you have been meaning to check out?
+- What would you like to get better at this year?
+- Is there a trip, a class, or a skill on your someday list?
+- What are you looking forward to after this busy stretch?
+- Where would you most like to travel next, and why there?
+
+**Follow-ups**
+
+- What does that actually look like on a normal day?
+- How did you get into that?
+- How long have you been doing that?
+- What is the best part about it?
+- Has it always been like that, or did it change?
+- What made you decide to start?
+- Is that something you want to get deeper into, or more of a side thing?
+- Does your work connect to that, or is it completely separate?
+
+**Sharing Back**
+
+- What do you usually say when someone asks where you are from?
+- What is one safe detail about your family you can share with a stranger?
+- When someone asks what you do, what do you say — the full answer or the short one?
+- What is one thing you did last weekend that is easy to talk about?
+- What small detail from your week could you share with someone new?
