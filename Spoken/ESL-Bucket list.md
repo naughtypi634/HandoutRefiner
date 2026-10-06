@@ -1,86 +1,74 @@
-What is one thing you've always wanted to do but felt was too
-unrealistic? Why do you think that is?
+# Bucket List
+
+**The List**
+
+- Do you have a bucket list? How many things are on it?
+- When did you first hear the words "bucket list"? What do they mean to you?
+- What is one thing you have always wanted to do but never got around to?
+- What is the most unrealistic thing on your list, and why is it unrealistic?
+- Have any items on your list changed over the years?
+- Do you write your list down, or keep it in your head?
 
 **Travel**
 
-- **Dream Destinations**: What are the top three places you want to
-  visit and why?
-
-- **Cultural Experiences**: What cultural festivals or events do you
-  want to attend around the world?
-
-- **Nature Adventures**: Are there any natural wonders (the Northern
-  Lights) you want to see?
-
-- **Historical Sites**: Which historical landmarks or ancient ruins are
-  on your bucket list?
-
-- **......**
+- Which three places do you most want to visit, and why those three?
+- Which would you choose first: the Northern Lights, the Great Wall at sunrise, or a desert?
+- Which country's food, music, or festival do you want to experience in person?
+- Would you travel somewhere that needs a visa and a ten-hour flight? Is the paperwork worth it?
+- Which Chinese city or province is still on your list?
+- Do you prefer to travel alone, with a partner, or with a group of friends?
 
 **Adventure**
 
-- **Extreme Sports**: What extreme sports (like skydiving, rock
-  climbing, or scuba diving) do you want to try?
+- Would you ever try skydiving or bungee jumping? What stops you?
+- What is the most adventurous thing you have ever done?
+- Do you want to hike a long trail or climb a famous mountain? Which one?
+- Would you like to scuba dive and see a coral reef? Where?
+- Do you prefer a comfortable trip or a rough one with a tent and no hot water?
 
-- **Outdoor Activities**: Are there any hiking trails or national parks
-  you dream of exploring?
+**Learning and Skills**
 
-- **......**
-
-**Personal Development**
-
-- **Skills to Learn**: What new skills do you want to learn, such as
-  playing an instrument or painting? Or sports?
-
-- **Education Goals**: Are there any courses or degrees you want to
-  pursue?
-
-- **Fear conquering:** like Public Speaking or move to another country?
-
-- **......**
+- What new skill do you want to learn: an instrument, a sport, cooking, or a language?
+- What is a skill you tried before and gave up on? Would you try it again?
+- Do you want to get a degree or a certificate later in life? In what?
+- What would you like to be good at in five years?
+- Is there something you are afraid of that you want to beat, like public speaking?
+- Would you ever move to another country to study or work?
 
 **Food**
 
-- **Experiences**: What's a specific cuisine you want to try, like
-  authentic sushi in Japan or street food in Thailand?
+- Which dish would you travel far for: sushi in Japan, hotpot in Chongqing, or pizza in Naples?
+- Do you want to learn to cook one dish really well? Which one?
+- What food from another country have you always wanted to try?
+- Would you eat something strange for the story, like insects or very spicy food?
+- Is there a restaurant you want to eat at before you are 80?
 
-- **......**
+**People**
 
-**Relationships**
+- What trip or activity do you want to do with your family or your parents?
+- What do you want to do with your best friends before everyone gets busy?
+- What makes a good travel companion, and who would you never travel with?
+- What would you like to do for other people — teach, donate, or help a cause?
+- What would you like people to say about you at your 60th birthday?
 
-- **Family Adventures**: What activities or trips do you want to
-  experience with your family?
+**Work and Creativity**
 
-- **Friendship Goals**: Are there any bucket list items you want to
-  accomplish with friends? Or perhaps you want to make friends with
-  certain types of people?
+- If you could do any job for one day, what would it be?
+- If you had the money, what business would you open?
+- Do you want to write a book, make a film, or start a channel? About what?
+- What big purchase is on your list: a car, a house, or a long trip?
+- What is one achievement you want to tell people about one day?
 
-- **Great Romance**: What makes a soulmate for you?
+**Health and Everyday Life**
 
-<!-- -->
+- Is there a fitness challenge you want to take on, like a marathon or a 10k?
+- What healthy habit do you most want to build and keep?
+- How do you want an ordinary day of yours to look in ten years?
+- Would you rather retire early or keep working at something you love?
 
-- ~~**Legacy Projects**: What do you hope to create or **leave behind**
-  for future generations?~~ What would you like to do **FOR** others?
+**Dream Big**
 
-**Career and Achievements**
-
-- **Dream Job**: If you could have any job for 1 day, what would it be
-  and why?
-
-- **Entrepreneurial Goals**: If you can start your own business, what
-  would you like to do?
-
-- **Creative Projects**: Wanna write a book? Direct a movie? Create a
-  song?
-
-**Health and Wellness**
-
-- **Fitness Goals**: Are there any fitness challenges you want to take
-  on, like running a marathon?
-
-**Others**
-
-- Have any of the items on your bucket list changed over the years?
-
-- Without limitations of money and time, what are the top 5 things on
-  your list? Dream big!
+- Without limits of money and time, what are the top five things you would do?
+- If you had one free year and enough money, what would you do with it?
+- What is the first thing you would cross off your list?
+- What is one item you could start this month? What is stopping you?
