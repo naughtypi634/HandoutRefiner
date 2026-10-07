@@ -510,14 +510,10 @@ body {{
 
 def questions_css(tok: dict, q_font: float, lh: float, gap: float,
                   no_numbers: bool = False,
-                  category_gap: float | None = None,
-                  page2_gap: float | None = None) -> str:
+                  category_gap: float | None = None) -> str:
     h2_font = q_font + 2.5
     li_gap = "0" if no_numbers else "3mm"
     sec_margin = category_gap if category_gap is not None else 7.0
-    page2_css = "" if page2_gap is None else f"""
-.sec.page2 li {{ margin-bottom: {page2_gap:.2f}mm; }}
-.sec.page2 li:last-child {{ margin-bottom: 0; }}"""
     counter_css = ""
     if not no_numbers:
         counter_css = f"""
@@ -573,7 +569,6 @@ li {{
 li:last-child {{ margin-bottom: 0; }}
 {counter_css}
 .qt {{ flex: 1; color: {tok['ink']}; }}
-{page2_css}
 """
 
 
@@ -794,14 +789,11 @@ def render_questions_html(title: str, groups, q_font: float,
                           lh: float, gap: float, design: dict,
                           no_numbers: bool = False,
                           category_gap: float | None = None,
-                          page_break_at: int | None = None,
-                          page2_gap: float | None = None) -> str:
+                          page_break_at: int | None = None) -> str:
     """Questions-only layout: design-system masthead, numbered sections.
 
     ``page_break_at`` is the index of the section that starts page two, so
-    the sheet breaks between sections instead of inside one. ``page2_gap``
-    overrides the row gap for the sections on page two, which lets the last
-    page spread down to the bottom even though it carries no masthead.
+    the sheet breaks between sections instead of inside one.
     """
     tok = design_tokens(design)
     sections_html = []
@@ -811,8 +803,6 @@ def render_questions_html(title: str, groups, q_font: float,
             items.append(
                 f'<li><span class="qt">{html.escape(question)}</span></li>')
         classes = ["sec"]
-        if page_break_at is not None and idx >= page_break_at:
-            classes.append("page2")
         if idx == page_break_at:
             classes.append("new-page")
         sections_html.append(
@@ -822,7 +812,7 @@ def render_questions_html(title: str, groups, q_font: float,
         )
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><style>
-{questions_css(tok, q_font, lh, gap, no_numbers, category_gap, page2_gap)}
+{questions_css(tok, q_font, lh, gap, no_numbers, category_gap)}
 </style></head>
 <body>
   <div class="masthead">
@@ -1044,7 +1034,7 @@ def fit_questions_layout(render, questions) -> tuple[float, float, float]:
         lh = 1.38
         if render(q_font, lh, 1.0) > 2:
             continue
-        lo, hi, best = 1.0, 14.0, 1.0
+        lo, hi, best = 1.0, 8.0, 1.0
         while hi - lo > 0.1:
             mid = (lo + hi) / 2
             if render(q_font, lh, mid) <= 2:
@@ -1141,28 +1131,6 @@ def stranded_questions(spans: list[tuple[int, int]], groups) -> bool:
             if before > 0 and after > 0 and min(before, after) == 1:
                 return True
     return False
-
-
-def fit_page2_gap(render, q_font: float, lh: float, gap: float) -> float | None:
-    """Row gap for page two that spreads its sections to the page bottom.
-
-    Page two carries no masthead, so the base row gap leaves a band of empty
-    space below the last question. Row gap grows monotonically in page count,
-    so search for the largest gap that still holds two pages.
-    """
-    cap = min(gap * 2.5, 16.0)
-    if cap <= gap:
-        return None
-    if render(q_font, lh, gap, cap) == 2:
-        return cap
-    lo, hi = gap, cap
-    while hi - lo > 0.05:
-        mid = (lo + hi) / 2
-        if render(q_font, lh, gap, mid) == 2:
-            lo = mid
-        else:
-            hi = mid
-    return lo
 
 
 def fit_tables_layout(render) -> float:
@@ -2271,16 +2239,15 @@ def main() -> int:
         groups = build_sections_questions(sections)
         flat = [q for _, qs in groups for q in qs]
 
-        def build(q_font, lh, gap, break_at=None, page2_gap=None,
-                  category_gap=None):
+        def build(q_font, lh, gap, break_at=None, category_gap=None):
             return render_questions_html(
                 title, groups, q_font, lh, gap, design,
                 no_numbers=args.no_numbers, page_break_at=break_at,
-                page2_gap=page2_gap, category_gap=category_gap)
+                category_gap=category_gap)
 
         q_font, lh, gap = fit_questions_layout(
             lambda f, h, g: page_count(build(f, h, g)), flat)
-        page_break_at = page2_gap = None
+        page_break_at = None
         split_at = (None if args.no_balance or args.gap_mm is not None
                     else balanced_page_break(groups))
         if split_at is not None:
@@ -2294,22 +2261,13 @@ def main() -> int:
                 if page_count(build(f2, h2, g2, split_at)) == 2:
                     q_font, lh, gap = f2, h2, g2
                     page_break_at = split_at
-                    # Page two has no masthead, so spread its rows to the
-                    # bottom of the sheet.
-                    page2_gap = fit_page2_gap(
-                        lambda f, h, g, p2: page_count(
-                            build(f, h, g, split_at, p2)),
-                        q_font, lh, gap)
         if args.gap_mm is not None:
             gap = args.gap_mm
         category_gap = args.category_gap_mm
         if category_gap is None and args.gap_mm is not None:
             category_gap = gap * 1.4
-        final_html = build(q_font, lh, gap, page_break_at, page2_gap,
-                           category_gap)
+        final_html = build(q_font, lh, gap, page_break_at, category_gap)
         layout_desc = f"q {q_font}pt, line-height {lh}, row gap {gap:.1f}mm"
-        if page2_gap is not None:
-            layout_desc += f", page 2 row gap {page2_gap:.1f}mm"
     else:
         scaffold_data = load_scaffolds(md_path)
         questions = build_questions(sections, scaffold_data)
