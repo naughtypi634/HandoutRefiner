@@ -1,61 +1,56 @@
-1.  What kind of place are you living in?
+# Let's Talk About Home
 
-2.  How many rooms are there in your home? What do you have in them?
-    Which one is the most important for you and why?
+**Your Place**
 
-3.  What are your home essentials?
+- What kind of place do you live in — an apartment, a house, or something else?
+- How many rooms are there, and what do you use each one for?
+- Which room do you spend the most time in?
+- What do you like most about your place, and what drives you crazy about it?
+- How would you describe your home to someone who has never been there?
+- What are your home essentials — the stuff you could not live without?
 
-4.  What do you like/dislike the most about your home?
+**Furniture and Secondhand**
 
-5.  How do you describe your home in general and in detail?
+- Do you have a lot of furniture? What is the biggest thing in your place?
+- When you buy furniture, what do you look for: comfort, price, or looks?
+- Where do you usually buy furniture — online, in a store, or secondhand?
+- Have you ever bought used furniture on Xianyu or from a stranger online? How did it go?
+- Would you buy a used sofa from someone you do not know? Why or why not?
+- Do you prefer furniture that is already put together, or the flat-pack kind you build yourself?
+- Have you ever sold things you did not want anymore — clothes, a phone, old furniture?
 
-6.  Do you have a lot of furniture? When you are buying furniture, what
-    do you look for? Comfort? Practicality? Style?
+**Decor and Style**
 
-7.  Where do you buy most of your furniture? Why? Have you ever bought
-    furniture off of Red, Craigslist/Xianyu, where you can buy used
-    furniture from people online? If not, would you consider buying used
-    furniture online?
+- Who picked most of the furniture in your home?
+- What colors are your walls and your big pieces? Did you choose them?
+- How much thought have you put into how your place looks?
+- Are you a minimalist, or do you like a lot of things around you?
+- Open kitchen or closed kitchen? Which one do you have?
+- Real plants or fake ones? Which do you have more of?
+- Natural light or lamps? Which do you like better?
+- If you could change one thing about your place for free, what would it be?
 
-8.  Have you ever been to a garage sales or sidewalk sales?
+**Decluttering**
 
-9.  Do you prefer fully/pre-assembled furniture or ready-to-assembled
-    furniture?
+- How often do you clean out your stuff, and what is the hardest thing to let go of?
+- Do you stock up during sales? What do you end up with?
+- What do you think of danshari — letting go of what you don't need?
+- What is something you keep but never use?
+- What do you do with things you don't want anymore: sell them, give them away, or keep them in a box?
+- Does having less stuff make you feel better, or does it feel like a loss?
 
-10. Have you put a lot of thought into the interior of your house? Why
-    or why not? 
+**Location and Neighbors**
 
-11. Who has chosen most of the furniture in your house?
+- How important is location when you pick a place? What matters most: commute, subway, or shops?
+- How is the property management where you live? Any good or bad stories?
+- Do you know your neighbors? Do you talk to them?
+- What is within walking distance of your home?
+- What would you fix about your building if you could?
 
-12. What are the colors of the interior of your house? Did you choose
-    those colors? If yes, why?
+**What Home Means**
 
-13. Are you a fan of minimalism? Why or why not? How often do you
-    declutter?
-
-14. What do you think about the idea of Danshari断舍离?
-
-    a)  Dan-Refuse: Refrain from unnecessary things you come across or
-        are offered
-
-    b)  Sha-Dispose: Throw away unnecessary or unused things
-
-    c)  Ri-Separate: Let go and free yourself from attachment to things
-        or desires for superfluous things
-
-15. Do you hoard or stockpile during sales season? Why? Are you a
-    hoarder/pack rat?
-
-16. Do you prefer open kitchen or closed kitchen?
-
-17. House plants ideas? Fake ones or real ones?
-
-18. Natural lighting or artificial lighting? Any color preferences?
-
-19. Do you care about the Location and surrounding areas? Do you have
-    great accessibility to public transportation and other public
-    facilities? What about walking distance?
-
-20. How is the service provided by your property management?
-
-21. What does the concept HOME mean to you? Do you need to OWN a house?
+- What does the word "home" mean to you?
+- Does a person need to own a house to feel settled?
+- Could you rent forever and be happy, or do you want to buy?
+- Is home a place, or the people you are with? Which one is it for you?
+- What would your dream home look like — big, small, in the city, or by the water?
