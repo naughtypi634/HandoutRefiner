@@ -1044,7 +1044,7 @@ def fit_questions_layout(render, questions) -> tuple[float, float, float]:
         lh = 1.38
         if render(q_font, lh, 1.0) > 2:
             continue
-        lo, hi, best = 1.0, 8.0, 1.0
+        lo, hi, best = 1.0, 14.0, 1.0
         while hi - lo > 0.1:
             mid = (lo + hi) / 2
             if render(q_font, lh, mid) <= 2:
@@ -1061,9 +1061,10 @@ def balanced_page_break(groups) -> int | None:
     """Section index that should start page two, or None to leave it to flow.
 
     A questions sheet that flows freely can break inside a section and strand
-    one or two questions at the top of page two. Breaking at the section
-    boundary that balances the question count across both pages keeps every
-    question with the heading it belongs to.
+    a question or two at the top of page two. Breaking at the section boundary
+    that balances the two pages keeps every question with the heading it
+    belongs to. Ties go to the fuller first page, which fills better than an
+    under-filled page one next to a stretched page two.
     """
     if len(groups) < 2:
         return None
@@ -1075,7 +1076,7 @@ def balanced_page_break(groups) -> int | None:
     for idx in range(1, len(groups)):
         left += counts[idx - 1]
         diff = abs(2 * left - total)
-        if best_diff is None or diff < best_diff:
+        if best_diff is None or diff <= best_diff:
             best_idx, best_diff = idx, diff
     return best_idx
 
