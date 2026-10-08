@@ -104,8 +104,62 @@ def parse_handout(text: str, stem: str) -> tuple[str, list]:
     return title or clean_title("", stem), sections
 
 
-def render_handout_html(title: str, sections: list, tok: dict) -> str:
-    """Render a table-first classroom handout with readable teaching hierarchy."""
+DISCUSSION_CSS = """
+.section.discussion {
+  break-before: page; page-break-before: always;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  min-height: 232mm;
+}
+.section.discussion > h2 {
+  font-size: 16pt; font-weight: 700; letter-spacing: 0.01em; margin-bottom: 0;
+}
+.section.discussion .group {
+  break-inside: avoid; page-break-inside: avoid;
+}
+.section.discussion h3 {
+  font-size: 11.5pt; font-weight: 700; margin: 0 0 2.8mm;
+}
+.section.discussion li { font-size: 10pt; margin-bottom: 2.4mm; }
+"""
+
+MINIMAL_BW_CSS = """
+html, body { background: #ffffff; }
+body { color: #000000; }
+.masthead { padding: 0 0 3mm; margin-bottom: 7mm; border-bottom: 1.3pt solid #000000; }
+h1 { color: #000000; font-size: 23pt; font-weight: 600; letter-spacing: -0.01em; }
+.section { margin-bottom: 8.5mm; }
+.section > h2 {
+  background: none; border: 0; padding: 0;
+  font-size: 13.5pt; font-weight: 700; letter-spacing: 0.01em;
+  margin: 0 0 2.4mm;
+}
+h3 { border: 0; }
+table { font-size: 9.5pt; line-height: 1.3; table-layout: fixed; }
+th {
+  border: 0; background: none; color: #8a8a8a;
+  padding: 0 1.7mm 1.3mm; font-size: 7.4pt; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+td { border: 0; padding: 1.15mm 1.7mm; }
+tbody tr:nth-child(even) td { background: none; }
+th:nth-child(1), td:nth-child(1) { width: 27%; }
+th:nth-child(2), td:nth-child(2) { width: 23%; }
+th:nth-child(3), td:nth-child(3) { width: 27%; }
+th:nth-child(4), td:nth-child(4) { width: 23%; }
+"""
+
+
+def render_handout_html(title: str, sections: list, tok: dict,
+                        bw: bool = False,
+                        split_discussion: bool = False) -> str:
+    """Render a table-first classroom handout with readable teaching hierarchy.
+
+    With ``bw`` the palette is flattened to pure black on white: fills and
+    the accent bar are dropped, and hierarchy is carried by type weight and
+    hairline rules alone. With ``split_discussion`` a section named
+    "Discussion" starts a new page and its groups spread to fill it.
+    """
     def render_block(block: dict) -> str:
         kind = block["kind"]
         if kind == "heading":
@@ -136,13 +190,35 @@ def render_handout_html(title: str, sections: list, tok: dict) -> str:
             "</table></div>"
         )
 
+    def render_blocks(blocks: list) -> str:
+        """Wrap a heading and its list so they stay together as one unit."""
+        parts = []
+        i = 0
+        while i < len(blocks):
+            cur = blocks[i]
+            nxt = blocks[i + 1] if i + 1 < len(blocks) else None
+            if cur["kind"] == "heading" and nxt and nxt["kind"] == "list":
+                parts.append('<div class="group">'
+                             + render_block(cur) + render_block(nxt)
+                             + "</div>")
+                i += 2
+            else:
+                parts.append(render_block(cur))
+                i += 1
+        return "".join(parts)
+
     sections_html = []
     for section in sections:
-        blocks_html = "".join(render_block(block) for block in section["blocks"])
+        blocks_html = render_blocks(section["blocks"])
+        cls = "section"
+        if split_discussion and section["name"].strip().lower() == "discussion":
+            cls += " discussion"
         sections_html.append(
-            f'<section class="section"><h2>{inline(section["name"])}</h2>'
+            f'<section class="{cls}"><h2>{inline(section["name"])}</h2>'
             f"{blocks_html}</section>"
         )
+    extra_css = ((DISCUSSION_CSS if split_discussion else "")
+                 + (MINIMAL_BW_CSS if bw else ""))
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><style>
 @page {{
@@ -178,6 +254,7 @@ thead {{ display: table-header-group; }}
 .wide th:nth-child(3) {{ width: 20%; }}
 .wide th:nth-child(4) {{ width: 20%; }}
 .wide th:nth-child(5) {{ width: 21%; }}
+{extra_css}
 </style></head>
 <body>
     <header class="masthead"><h1>{html.escape(title)}</h1></header>
@@ -524,6 +601,14 @@ def main() -> int:
         help="Render Markdown tables as a classroom handout with readable "
              "headers, section bands, and practice blocks.")
     parser.add_argument(
+        "--bw", action="store_true",
+        help="Force a pure black-and-white handout: drop fills and the "
+             "accent bar, keep only type weight and hairline rules.")
+    parser.add_argument(
+        "--split-discussion", action="store_true",
+        help="In --handout mode, start a new page at the section named "
+             "'Discussion' and spread its groups to fill the page.")
+    parser.add_argument(
         "--per-page", type=int, default=10,
         help="Idioms per page in --idiom-list mode (default: 10)")
     args = parser.parse_args()
@@ -534,6 +619,11 @@ def main() -> int:
         return 1
     design = load_design(args.design)
     tok = design_tokens(design)
+    if args.bw:
+        tok.update({"canvas": "#ffffff", "ink": "#000000", "body": "#000000",
+                    "muted": "#555555", "hairline": "#cccccc",
+                    "surface_soft": "#ffffff", "surface_card": "#ffffff",
+                    "accent": "#000000"})
     text = md_path.read_text(encoding="utf-8-sig")
     if args.idiom_list and args.handout:
         parser.error("--idiom-list and --handout cannot be used together")
@@ -542,7 +632,8 @@ def main() -> int:
         final_html = render_idiom_html(title, blocks, tok, args.per_page)
     elif args.handout:
         title, sections = parse_handout(text, md_path.stem)
-        final_html = render_handout_html(title, sections, tok)
+        final_html = render_handout_html(title, sections, tok, args.bw,
+                                         args.split_discussion)
     else:
         title, sections = parse_verbatim(text, md_path.stem)
         final_html = render_html(title, sections, tok)

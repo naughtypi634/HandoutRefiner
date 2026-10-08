@@ -1,81 +1,80 @@
-**Consumerism/excessive consumption**
+# Consumerism
 
-Why do you buy anything? How do you make a purchase decision?
+## Consumer culture · 消费文化
 
-What exactly will affect your decision making process?
+| English | 中文 | English | 中文 |
+| --- | --- | --- | --- |
+| consumerism | 消费主义 | consumption | 消费 |
+| consumer | 消费者 | materialism | 物质主义 |
+| status symbol | 身份象征 | lifestyle | 生活方式 |
+| spending power | 消费力 | luxury | 奢侈品 |
 
-Actual need
+## Why we buy · 消费心理
 
-FOMO
+| English | 中文 | English | 中文 |
+| --- | --- | --- | --- |
+| FOMO (fear of missing out) | 错失恐惧 | peer pressure | 同辈压力 |
+| impulse purchase | 冲动消费 | retail therapy | 购物解压 |
+| temptation | 诱惑 | treat yourself | 犒劳自己 |
+| self-control | 自控力 | emotional spending | 情绪化消费 |
 
-Livestream Shopping
+## Marketing and hype · 营销套路
 
-Peer pressure
+| English | 中文 | English | 中文 |
+| --- | --- | --- | --- |
+| livestream shopping | 直播带货 | influencer | 网红 |
+| flash sale | 秒杀 | targeted ads | 精准广告 |
+| limited-time offer | 限时优惠 | sponsored post | 广告帖 |
+| pop-up store | 快闪店 | giveaway | 抽奖活动 |
 
-Social Pressure: The influence of peers, family, or social media can
-create a desire to keep up with others, leading to unnecessary
-purchases.
+## Social media shopping · 社交购物
 
-Advertising and Marketing: Aggressive marketing strategies, including
-targeted ads and persuasive messaging, can create a sense of urgency or
-need for products.
+| English | 中文 | English | 中文 |
+| --- | --- | --- | --- |
+| shopping haul | 购物战利品 | unboxing | 开箱 |
+| viral | 爆火传播 | hype | 炒作、热度 |
+| filter bubble | 信息茧房 | review | 评价 |
+| trend | 潮流 | clickbait | 标题党 |
 
-Emotional Spending: People often shop to cope with emotions such as
-stress, sadness, or boredom, leading to impulsive buying.
+## Overspending and money · 花钱与攒钱
 
-FOMO (Fear of Missing Out): The fear of missing out on trends,
-experiences, or products can drive individuals to make purchases they
-might not otherwise consider.
+| English | 中文 | English | 中文 |
+| --- | --- | --- | --- |
+| overspend | 超支 | buyer's remorse | 买完后悔 |
+| save up | 攒钱 | pay in installments | 分期付款 |
+| debt | 负债 | budget | 预算 |
+| splurge | 大手笔花钱 | waste money | 浪费钱 |
 
-Convenience: The ease of online shopping and one-click purchasing can
-lead to impulsive buying without much thought.
+## Discussion
 
-Cultural Norms: In cultures that prioritize material success and
-consumption, individuals may feel pressured to buy more to fit in or be
-seen as successful.
+### Everyday buying · 日常消费
 
-Lack of Financial Literacy: A poor understanding of personal finance can
-lead to overspending and accumulating debt.
+1. What did you buy this month? Did you really need it?
+2. Do you add things to your cart and then wait? How long do you wait?
+3. When you see "50% off," do you buy? Why or why not?
+4. Do you buy cheap things and throw them away, or one good thing? Which is better?
+5. What do you buy again and again without thinking?
 
-Sales and Discounts: Promotions and sales can create a false sense of
-savings, encouraging people to buy items they don't need.
+### Livestream and social pressure · 直播与从众
 
-Brand Loyalty: Strong emotional connections to brands can lead to
-repeated purchases, even when alternatives may be more cost-effective.
+1. Do you watch livestream shopping? Have you ever bought something from a streamer?
+2. What app do you open when you want to shop?
+3. Do you use Taobao, Pinduoduo, or JD? Which one do you like best?
+4. Who in your family shops the most? What do they buy?
+5. Have you ever bought something just because everyone else had it?
 
-Desire for Instant Gratification: The desire for immediate satisfaction
-can lead to impulsive purchases rather than waiting for a more
-thoughtful decision.
+### Money and happiness · 金钱与幸福
 
-Information cocoon
+1. Does money buy happiness? Why or why not?
+2. What do you buy when you are sad or stressed?
+3. What do people around you buy to "show off"?
+4. What is one thing you are saving up for right now?
+5. Do you ever feel bad after spending a lot of money?
 
-Recommender systems
+### Regret and returns · 后悔与退货
 
-Filter bubble
-
-live commerce
-
-Materialism
-
-Materialist
-
-Show social status/identity
-
-dopamine rush
-
-buy cheap things repeatedly and always wanting to find a better deal
-
-cost-effective a scam?
-
-Streamers/marketing/ad give u a vision of what could be
-
-Working all day and spending money becomes the purpose itself, to fill
-the void
-
-Promise happiness/fulfillment but never delivers
-
-vicious cycle
-
-buyer remorse
-
-impulse purchase
+1. What was a purchase you regret? Tell us about it.
+2. Have you ever returned something? Why did you return it?
+3. Do you care about famous brands? Give an example.
+4. Do you pay in installments? Is it a good idea or a bad idea?
+5. What is something you bought but never used?
