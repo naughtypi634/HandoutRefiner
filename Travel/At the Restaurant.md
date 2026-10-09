@@ -37,15 +37,17 @@ products.
 
 **Talk about taste**
 
-酸甜苦辣咸、油腻、没熟、老了、冷热、没味道、有点怪、不新鲜、和我想的不一样
+**Flavor:** sour, sweet, bitter, salty, spicy, savory, mild, tangy, smoky.
 
-sour, sweet, bitter, spicy/hot, salty, oily/greasy, undercooked,
-dry/overcooked, cold/hot, bland, a little off, not fresh
+**Texture:** crispy/crunchy, chewy, tender, tough, juicy, watery, soggy.
 
-- Sweet: This is diabetes in a bowl!
-- Bitter: Tastes like regret.
-- Salty: Is this the Dead Sea special?!
-- Greasy: This thing needs gym membership.
+**Temperature and cooking:** hot, cold, undercooked, overcooked, burned.
+
+**Freshness:** stale, not fresh, a little off.
+
+**Other:** rich, creamy, oily/greasy, refreshing, fizzy, bland.
+
+**Reaction:** not what I expected.
 
 **Arriving at the restaurant**
 
@@ -82,3 +84,11 @@ Does this dish contain nuts?
 - Could we have the bill, please?
 - Can I pay by credit card?
 - Keep the change. (if you pay by cash and want to leave a tip)
+
+**Discussion**
+
+- What is the best restaurant you have been to this year? What did you order?
+- Do you always order the same dish, or do you like to try something new?
+- How often do you eat out or order takeout in a normal week?
+- Have you ever complained about your food in a restaurant? What happened?
+- Do you like sharing dishes with friends, or do you prefer your own plate?

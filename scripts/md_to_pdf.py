@@ -864,13 +864,17 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
                       disc_gap: float | None = None,
                       two_col: bool = False,
                       boxed: bool = False,
-                      masthead_gap: float | None = None) -> str:
+                      masthead_gap: float | None = None,
+                      flow_discussion: bool = False) -> str:
     """Plain-text handout: design-system masthead + per-section text lines.
 
     With ``boxed`` every non-discussion section gets its own hairline box
     (the heading rule is dropped, so each block reads as one unit). The
     discussion page stays unboxed. ``masthead_gap`` sets the total space
-    (mm) under the title before the first section.
+    (mm) under the title before the first section. ``flow_discussion``
+    keeps the closing block in the normal flow, so its lines keep the same
+    row spacing as every other section instead of starting a page of their
+    own and spreading down to the bottom of it.
     """
     tok = design_tokens(design)
     sections_html = []
@@ -880,9 +884,11 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
         # Stretch the discussion group by name, or the final group on the
         # last page, so its lines spread down to the bottom of the page.
         name_key = name.strip().lower()
-        is_disc = (name_key == "discussion" or idx == n_groups - 1)
+        is_disc = (not flow_discussion
+                   and (name_key == "discussion" or idx == n_groups - 1))
         starts_discussion_page = (
-            name_key in ("warm-up discussion", "before traveling")
+            not flow_discussion
+            and name_key in ("warm-up discussion", "before traveling")
             and not discussion_started)
         starts_discussion_page = (starts_discussion_page
                                   or (is_disc and not discussion_started))
@@ -1963,6 +1969,11 @@ def main() -> int:
     parser.add_argument("--cols2", action="store_true",
                         help="Notes mode: render the non-discussion sections "
                              "in two columns; the discussion stays one column.")
+    parser.add_argument("--no-disc-page", action="store_true",
+                        help="Notes mode: keep the closing discussion block in "
+                             "the normal flow — same row spacing as every other "
+                             "section, no page break — instead of starting it "
+                             "on its own page and spreading its lines.")
     parser.add_argument("--quad", action="store_true",
                         help="Quad matrix sheet: one page per '## ' block, "
                              "2x2 quadrants (one '### ' each), with '**Group**' "
@@ -2099,7 +2110,8 @@ def main() -> int:
                 title, groups, q_font, lh, gap, design,
                 category_gap=category_gap, disc_gap=disc_gap,
                 two_col=args.cols2, boxed=args.boxes,
-                masthead_gap=args.masthead_mm))
+                masthead_gap=args.masthead_mm,
+                flow_discussion=args.no_disc_page))
 
         if args.font_pt is not None:
             # Pinned body font: keep the largest line-height that still fits.
@@ -2159,14 +2171,16 @@ def main() -> int:
             title, groups, q_font, lh, gap, design,
             category_gap=category_gap, disc_gap=disc_gap,
             two_col=args.cols2, boxed=args.boxes,
-            masthead_gap=args.masthead_mm)
+            masthead_gap=args.masthead_mm,
+            flow_discussion=args.no_disc_page)
         layout_desc = (f"notes {q_font}pt, line-height {lh}, "
                        f"gap {gap:.1f}mm, category gap {category_gap:.1f}mm, "
                        f"masthead gap "
                        f"{args.masthead_mm if args.masthead_mm is not None else 12:.1f}mm, "
                        f"discussion gap {disc_gap:.1f}mm"
                        + (", 2-col" if args.cols2 else "")
-                       + (", boxed" if args.boxes else ""))
+                       + (", boxed" if args.boxes else "")
+                       + (", discussion in flow" if args.no_disc_page else ""))
         pages = page_count(final_html)
         out = md_path.with_suffix(".pdf")
         HTML(string=final_html).write_pdf(out)
