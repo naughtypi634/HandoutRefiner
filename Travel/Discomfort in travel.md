@@ -1,148 +1,104 @@
-**Body parts challenge: Work with your partner and name your body
-parts.**
+# Discomfort in Travel
 
-+-------------------------------+--------------------------------------+
-| **Discomforts**               | **Symptoms**                         |
-+===============================+======================================+
-| 晕车/晕船 (Motion Sickness)   | 恶心 (Nausea) nauseous.              |
-| car/sea                       |                                      |
-|                               +--------------------------------------+
-|                               | 呕吐 (Vomiting)                      |
-|                               +--------------------------------------+
-|                               | 头晕 (Dizziness) dizzy               |
-+-------------------------------+--------------------------------------+
-| 感冒 (Cold)                   | 喉咙痛 (Sore Throat) I have a sore   |
-|                               | throat.                              |
-|                               +--------------------------------------+
-|                               | 流鼻涕 (Runny Nose) I have a runny   |
-|                               | nose.                                |
-|                               +--------------------------------------+
-|                               | 咳嗽 (Cough) I have a bad cough.     |
-|                               +--------------------------------------+
-|                               | 发热 (Fever) I have a **slight**/    |
-|                               | **raging** fever.                    |
-+-------------------------------+--------------------------------------+
-| 腹泻 (Diarrhea)               | 腹痛 (Abdominal Pain)                |
-|                               +--------------------------------------+
-|                               | 脱水 (Dehydration)                   |
-+-------------------------------+--------------------------------------+
-| 过敏 (Allergies)              | 皮疹 (Rash)                          |
-|                               +--------------------------------------+
-|                               | 瘙痒 (Itching)                       |
-+-------------------------------+--------------------------------------+
-| 头痛 (Headache)               | 头部疼痛 (Head Pain) **dull** pain/  |
-|                               | **sharp** pain                       |
-|                               +--------------------------------------+
-|                               | 对光敏感 (Sensitivity to Light)      |
-+-------------------------------+--------------------------------------+
-| 晒伤 (Sunburn)                | 皮肤红肿 (Redness of Skin)           |
-|                               +--------------------------------------+
-|                               | 疼痛 (Pain)                          |
-+-------------------------------+--------------------------------------+
-| 脱水 (Dehydration)            | 口渴 (Thirst)                        |
-|                               +--------------------------------------+
-|                               | 乏力 (Fatigue)                       |
-+-------------------------------+--------------------------------------+
-| 虫咬 (Insect Bites)           | 红肿 (Redness)                       |
-|                               +--------------------------------------+
-|                               | 瘙痒 (Itching)                       |
-+-------------------------------+--------------------------------------+
-| 食物中毒 (Food Poisoning)     | 恶心 (Nausea)                        |
-|                               +--------------------------------------+
-|                               | 呕吐 (Vomiting)                      |
-|                               +--------------------------------------+
-|                               | 腹痛 (Abdominal Pain)                |
-+-------------------------------+--------------------------------------+
-| 高原反应 (Altitude Sickness)  | 头痛 (Headache)                      |
-|                               +--------------------------------------+
-|                               | 恶心 (Nausea)                        |
-|                               +--------------------------------------+
-|                               | 乏力 (Fatigue)                       |
-+-------------------------------+--------------------------------------+
-| 肌肉酸痛 (Muscle Soreness)    | 疼痛 (Pain)                          |
-|                               +--------------------------------------+
-|                               | 僵硬 (Stiffness)                     |
-+-------------------------------+--------------------------------------+
-| 疲劳 (Fatigue)                | 乏力 (Exhaustion)                    |
-|                               +--------------------------------------+
-|                               | 嗜睡 (Drowsiness)                    |
-+-------------------------------+--------------------------------------+
-| 水土不服 (Traveler\'s         | 腹痛 (Abdominal Pain)                |
-| Illness)                      |                                      |
-|                               +--------------------------------------+
-|                               | 恶心 (Nausea)                        |
-|                               +--------------------------------------+
-|                               | 腹泻 (Diarrhea)                      |
-+-------------------------------+--------------------------------------+
-| 时差反应 (Jet Lag)            | 疲劳 (Fatigue)                       |
-|                               +--------------------------------------+
-|                               | 失眠 (Insomnia)                      |
-|                               +--------------------------------------+
-|                               | 头痛 (Headache)                      |
-+-------------------------------+--------------------------------------+
+## Discomforts · 身体不适
 
-描述**症状**及**原因**的句型：
+| English | 中文 | English | 中文 |
+| --- | --- | --- | --- |
+| motion sickness | 晕车晕船 | jet lag | 时差反应 |
+| a cold | 感冒 | altitude sickness | 高原反应 |
+| diarrhea | 腹泻 | food poisoning | 食物中毒 |
+| dehydration | 脱水 | heatstroke | 中暑 |
+| sunburn | 晒伤 | insect bites | 蚊虫叮咬 |
+| allergies | 过敏 | traveler's diarrhea | 水土不服 |
+| blisters | 磨出的水泡 | constipation | 便秘 |
 
-- "I have a \[symptom\]." (e.g., "I have a headache.")
+## Symptoms · 症状
 
-- "I have an inflammation in ..."
+| English | 中文 | English | 中文 |
+| --- | --- | --- | --- |
+| nausea | 恶心 | vomiting | 呕吐 |
+| dizziness | 头晕 | a headache | 头痛 |
+| a sore throat | 喉咙痛 | a runny nose | 流鼻涕 |
+| a cough | 咳嗽 | a fever | 发烧 |
+| stomach pain | 腹痛 | a rash | 皮疹 |
+| itching | 瘙痒 | thirst | 口渴 |
+| fatigue | 乏力 | insomnia | 失眠 |
+| drowsiness | 嗜睡 | sensitivity to light | 怕光 |
 
-- "I don't feel comfortable here (point)."
+## Medicine · 药品
 
-- "My \[body part\] hurts." (e.g., "My stomach hurts.")
+| English | 中文 | English | 中文 |
+| --- | --- | --- | --- |
+| painkiller | 止痛药 | cough syrup | 止咳糖浆 |
+| cold medicine | 感冒药 | motion sickness pill | 晕车药 |
+| anti-diarrheal | 止泻药 | rehydration salts | 补液盐 |
+| sunscreen | 防晒霜 | mosquito repellent | 驱蚊液 |
+| band-aid | 创可贴 | eye drops | 眼药水 |
+| antiseptic cream | 消炎药膏 | thermometer | 体温计 |
 
-- "I feel \[adjective\]." (e.g., "I feel tired/sick/nauseous.")
+## At the Pharmacy and Clinic · 药店与诊所
 
-**In the Pharmacy/Clinic**
+### Ask
+1. What can I take for a headache?
+2. Do you have anything for a cough?
+3. Can I get this without a prescription?
+4. How many times a day should I take it?
 
-**Ask:**
+### Say what's wrong
+1. I have a fever — 38.5.
+2. My stomach hurts after every meal.
+3. I feel dizzy when the bus moves.
+4. I got a rash after I ate seafood.
 
-"What can I take for \[symptom\]?"
+### What you will hear
+1. Take one pill twice a day, after meals.
+2. Don't drink alcohol with this.
+3. You should rest and drink more water.
+4. Are you allergic to anything?
 
-"Do you have anything for \[symptom\]?"
+## Body-Part Idioms · 身体部位习语
 
-**Hear:**
+| Idiom | 中文 | Example |
+| --- | --- | --- |
+| keep an eye on | 照看 | Can you keep an eye on my backpack while I buy water? |
+| cost an arm and a leg | 贵得离谱 | The taxi from the airport cost an arm and a leg. |
+| give me a hand | 帮我一把 | Give me a hand with this suitcase — it's 23 kilos. |
+| my hands are tied | 我也没办法 | I asked for a refund, but the airline said their hands were tied. |
+| play it by ear | 见机行事 | We didn't book the museum, so we'll play it by ear tomorrow. |
+| get cold feet | 临阵退缩 | She got cold feet at the bungee platform and walked back down. |
+| stretch your legs | 活动活动腿脚 | We had a six-hour layover, so we stretched our legs at the gate. |
+| my feet are killing me | 脚疼得不行 | My feet are killing me after 20,000 steps at Disneyland. |
+| a pain in the neck | 让人头疼的麻烦 | Rebooking the flight was a real pain in the neck. |
+| get off my back | 别烦我 | Get off my back — I'll send the photos tonight. |
+| on the tip of my tongue | 就在嘴边 | The name of that noodle shop is on the tip of my tongue. |
+| keep your fingers crossed | 祈祷好运 | Keep your fingers crossed that our flight isn't delayed. |
 
-"Take this \[medicine\] \[frequency\]." (e.g., "Take this pill twice a
-day.")
+## Discussion
 
-"Don't \[action\]." (e.g., "Don't drink alcohol with this.")
+### On the Road · 在路上
+1. Have you ever felt sick on a bus, a boat, or a plane? What did you do?
+2. Do you get motion sickness? Do you take a pill before you travel?
+3. What do you eat and drink on a long high-speed rail ride?
+4. Have you ever missed a flight or a train because you felt unwell?
+5. How do you pass the time on a six-hour flight?
 
-"You should ..."
+### When You Get Sick · 生病了
+1. Have you ever gotten sick during a trip? What were the symptoms?
+2. Is it easy to find a pharmacy in a new city? Do you use a translation app?
+3. Have you ever ordered medicine to your hotel with a delivery app?
+4. Would you see a doctor abroad, or wait until you get home?
+5. What medicine do you always pack before a trip?
 
-**常见药品**：painkillers/ Pain relievers, cough syrup, sunscreen,
+### High Places and Hot Days · 高原与高温
+1. Have you ever had altitude sickness? Where were you?
+2. What do you do to stay cool when you travel in summer?
+3. Do you wear sunscreen every day on holiday? Why or why not?
+4. Have you ever gotten badly sunburned? What happened?
+5. What do you bring for mosquito bites?
 
-**Idioms related to body parts.**
-
-It\'s a fantastic feeling to let your hair down after weeks of hard
-work.
-
-She is head over heels about her trip to Paris!
-
-He had his head in the clouds and forgot his sunscreen.
-
-I'm all ears. What's your proposal?
-
-Don't nose around. Curiosity killed the cat.
-
-Your phone is right under your nose!
-
-He turned a blind eye to the man on the ground.
-
-His words went in one ear and out the other.
-
-It's on the tip of my tongue.
-
-He lost the game, which leaves a bad taste in his mouth.
-
-He sticks his neck out for you to get this job.
-
-What's the matter? Get it off your chest.
-
-Get off my back, I'm busy!
-
-I need to stretch my legs after the long flight.
-
-......
-
-**Practice with your partner using your own experiences**
+### After the Trip · 旅行之后
+1. Do you need a full day to rest after a long trip? What do you do?
+2. How long does jet lag stay with you? How do you deal with it?
+3. Do you often come home with a cold? Why do you think that happens?
+4. Do you buy travel insurance? Is it worth the money?
+5. What is your best tip for staying healthy on a trip?
