@@ -1,4 +1,6 @@
-# Asking for Directions
+# Asking for and Giving Directions
+
+## Asking for Directions
 
 1.  Am I close to the hospital?
 
@@ -70,9 +72,9 @@
 
 34. I wonder if you could help me. I'm looking for the nearest bank.
 
-35. In which direction is the nearest Gas Station?
+35. In which direction is the nearest gas station?
 
-36. Is there a sports shop around here?
+36. Is there a sporting goods store around here?
 
 37. Is there a supermarket near here?
 
@@ -82,7 +84,7 @@
 
 40. May I ask where the Marriott Hotel is?
 
-41. May I ask you how to get to the Eaton Centre?
+41. May I ask you how to get to the Eaton Center?
 
 42. Pardon me! I'm lost. How do I get to the cafe?
 
@@ -98,7 +100,8 @@
 
 47. What's the best way to the nearest supermarket?
 
-48. What's the easiest way to get to the nearest cinema from here?
+48. What's the easiest way to get to the nearest movie theater from
+    here?
 
 49. What's the quickest way of getting to the supermarket?
 
@@ -106,28 +109,28 @@
 
 51. Where is the pharmacy?
 
-52. Which road should I take to get to library?
+52. Which road should I take to get to the library?
 
 53. Which way do I go to get to the beach?
 
 54. Will you please tell me where the library is?
 
-55. Would you show me the way to the clothes shop?
+55. Would you show me the way to the clothing store?
 
-# Giving Directions
+## Giving Directions
 
-1.  16 Go straight ahead.
+1.  Go straight ahead.
 
 2.  After you pass a restaurant on your left, take a right at the
-    crossroad.
+    intersection.
 
-3.  Continue past the primary school.
+3.  Continue past the elementary school.
 
 4.  Continue straight ahead for about a mile.
 
 5.  Cross the junction and keep going for about 1 mile.
 
-6.  Cross the taxi rank (Br.)/stand (Am.) and you are there.
+6.  Cross the taxi stand and you are there.
 
 7.  Drive to Paris Street and turn left.
 
@@ -135,11 +138,11 @@
 
 9.  Go along the street.
 
-10. Go as far as the roundabout (Br)/ traffic circle(Am).
+10. Go as far as the traffic circle.
 
 11. Go down there.
 
-12. Go past the cinema and you'll find the library.
+12. Go past the movie theater and you'll find the library.
 
 13. Go straight ahead at the traffic lights.
 
@@ -153,7 +156,7 @@
 
 18. It is in front of the bus station.
 
-19. It is in the centre of the town.
+19. It is in the center of the town.
 
 20. It'll be on your left.
 
@@ -175,7 +178,7 @@
 
 29. Keep going straight ahead; you will see it on the right.
 
-30. Make a left turn when you see the bookshop.
+30. Make a left turn when you see the bookstore.
 
 31. Round the corner from the post office.
 
@@ -189,24 +192,24 @@
 
 36. Take the first left.
 
-37. Take the second exit at the T- junction and then turn right at the
-    traffic lights.
+37. Take the second exit at the T-intersection and then turn right at
+    the traffic lights.
 
 38. Take the second right.
 
 39. Take this road.
 
-40. The hospital is opposite the railway station.
+40. The hospital is opposite the train station.
 
 41. The house is next to the ....
 
-42. The shop is between the chemist/ pharmacy/drug store and KFC.
+42. The store is between the pharmacy and KFC.
 
 43. This straight road will lead you to the hospital.
 
 44. Turn left at the end of the corridor.
 
-45. Turn left at the intersection and the... is on the right.
+45. Turn left at the intersection and the ... is on the right.
 
 46. Turn left.
 
@@ -221,7 +224,7 @@
 
 51. When you get to Paris Street, take your next right.
 
-52. You'll cross some railway lines.
+52. You'll cross some train tracks.
 
 53. You'll pass a museum on your left.
 
@@ -229,7 +232,7 @@
 
 55. You're going the wrong way.
 
-# How Far is It?
+## How Far Is It?
 
 1.  How close is it?
 
@@ -272,7 +275,7 @@
 
 20. It's quite close.
 
-# If You Can't Help
+## If You Can't Help
 
 1.  I am a stranger here myself.
 
@@ -294,13 +297,13 @@
 
 10. You could ask the bus driver.
 
-# Offer Warnings
+## Offer Warnings
 
 1.  Go slow, there are many schools on the way.
 
 2.  If you pass the museum, you went too far.
 
-3.  It's a big hill. (if they are walking or on a bike)
+3.  It's a big hill (if they are walking or on a bike).
 
 4.  It's a one-way lane.
 
@@ -314,13 +317,11 @@
 
 9.  There might be road repairs.
 
-10. There might still be road repairs and diversions.
+10. There might still be road repairs and detours.
 
 11. There's no parking.
 
-# Useful Expressions: 
-
-# Offer Another Solution
+## Offer Another Solution
 
 1.  Ask the front desk clerk.
 
@@ -333,27 +334,3 @@
 5.  You could ask the bus driver.
 
 6.  You'd better take a bus.
-
-![Asking for and Giving Directions \| English
-Conversations](media/image1.jpeg){width="7.315277777777778in"
-height="6.872222222222222in"}
-
-![Asking for and Giving Directions \| English
-Conversations](media/image2.jpeg){width="7.540277777777778in"
-height="7.063194444444444in"}
-
-![Asking for and Giving Directions in
-English](media/image3.jpeg){width="7.397222222222222in"
-height="6.954166666666667in"}
-
-![Asking for and Giving Directions \| English
-Conversations](media/image4.jpeg){width="7.5569444444444445in"
-height="7.192361111111111in"}
-
-![Asking for and Giving Directions \| English
-Conversations](media/image5.jpeg){width="7.597222222222222in"
-height="9.026388888888889in"}
-
-![Asking for and Giving Directions \| English
-Conversations](media/image6.jpeg){width="7.279166666666667in"
-height="8.663194444444445in"}

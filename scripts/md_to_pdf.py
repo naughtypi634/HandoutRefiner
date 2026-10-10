@@ -223,7 +223,11 @@ def parse_md(text: str) -> tuple[str, list[tuple[str, list[dict]]]]:
             sections.append((section_name, []))
             current = sections[-1]
             continue
-        m = re.fullmatch(r"\*\*(.+?)\*\*", line)
+        # A lone **...** line is a section heading. A bolded aligned-table
+        # row also starts and ends with ** but its cells are separated by
+        # runs of spaces, so exclude any line containing one.
+        m = (None if re.search(r"\s{2,}", line)
+             else re.fullmatch(r"\*\*(.+?)\*\*", line))
         if m:
             flush_pending()
             flush_table()
@@ -565,6 +569,7 @@ ol {{ list-style: none; }}
 li {{
     display: flex; align-items: baseline; gap: {li_gap};
     margin-bottom: {gap:.2f}mm; line-height: {lh}; text-align: left;
+    break-inside: avoid; page-break-inside: avoid;
 }}
 li:last-child {{ margin-bottom: 0; }}
 {counter_css}
@@ -572,7 +577,36 @@ li:last-child {{ margin-bottom: 0; }}
 """
 
 
-def tables_css(tok: dict, body_font: float) -> str:
+def label_col_pct(rows, body_font: float, ncols: int) -> float:
+    """Width share for the first column so its labels stay on one line.
+
+    Latin glyphs count as half an em, CJK as a full em; the result is
+    clamped so a long label column can never starve the others.
+    """
+    if ncols <= 2:
+        return 40.0
+    longest = 0.0
+    for row in rows:
+        if not row:
+            continue
+        units = sum(1.0 if ord(ch) > 0x2E80 else 0.5
+                    for ch in row[0].strip().strip("*"))
+        longest = max(longest, units * body_font * 0.3528)
+    return max(15.0, min(40.0, (longest * 1.05 + 4.8) / 178.0 * 100.0))
+
+
+def tables_css(tok: dict, body_font: float, ncols: int = 2,
+               first_pct: float = 25.0) -> str:
+    # Two-column sheets keep their original proportions. Wider sheets use a
+    # fixed layout: the label column takes the measured share and the
+    # remaining columns split the rest evenly.
+    if ncols <= 2:
+        col_css = (f"td.cn {{ width: 40%; color: {tok['ink']}; }}\n"
+                   f"td.en {{ width: 60%; color: {tok['body']}; }}")
+    else:
+        col_css = (f"table {{ table-layout: fixed; }}\n"
+                   f"td.cn {{ width: {first_pct:.1f}%; color: {tok['ink']}; }}\n"
+                   f"td.en {{ color: {tok['body']}; }}")
     return f"""
 @page {{
   size: A4 portrait;
@@ -614,34 +648,91 @@ td {{
   padding: 1.3mm 2.4mm; vertical-align: top;
   line-height: 1.35;
 }}
-td.cn {{ width: 40%; color: {tok['ink']}; }}
-td.en {{ width: 60%; color: {tok['body']}; }}
+{col_css}
+td.head {{ background: {tok['hairline']}; font-weight: 700; }}
+thead {{ display: table-header-group; }}
+.nb {{ white-space: nowrap; }}
 tr:nth-child(even) td {{ background: {tok['surface_soft']}; }}
+ol {{ list-style: none; }}
+li {{ margin-bottom: 2.2mm; line-height: 1.45; color: {tok['ink']}; }}
+li:last-child {{ margin-bottom: 0; }}
 """
+
+
+CJK_RUN = re.compile(r"[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF]+")
+# Only short Chinese words are kept unbreakable; a longer run must stay
+# breakable or it would overflow a fixed-layout cell.
+NB_MAX_CHARS = 6
+
+
+def table_cell_html(text: str) -> tuple[str, bool]:
+    """Escape a cell; return (html, is_header).
+
+    A leading ``**...**`` marks a header cell. Short Chinese runs are kept
+    unbreakable so a word like 露营 never leaves one character stranded on
+    a line of its own.
+    """
+    stripped = text.strip()
+    m = re.fullmatch(r"\*\*(.+?)\*\*", stripped)
+    body = html.escape(m.group(1) if m else stripped)
+    body = CJK_RUN.sub(
+        lambda mm: (f'<span class="nb">{mm.group(0)}</span>'
+                    if len(mm.group(0)) <= NB_MAX_CHARS else mm.group(0)),
+        body)
+    return body, bool(m)
+
+
+def table_rows_html(rows) -> str:
+    """Rows as <thead>/<tbody>; the first row becomes a repeating header."""
+    head: list[str] = []
+    body: list[str] = []
+    for r_i, row in enumerate(rows):
+        tds = []
+        header_cells = 0
+        for i, cell in enumerate(row):
+            inner, is_head = table_cell_html(cell)
+            header_cells += is_head
+            classes = "cn" if i == 0 else "en"
+            if is_head:
+                classes += " head"
+                inner = f"<b>{inner}</b>"
+            tds.append(f'<td class="{classes}">{inner}</td>')
+        tr = f"<tr>{''.join(tds)}</tr>"
+        if r_i == 0 and header_cells == len(row):
+            head.append(tr)
+        else:
+            body.append(tr)
+    thead = f"<thead>{''.join(head)}</thead>" if head else ""
+    return f"{thead}<tbody>{''.join(body)}</tbody>"
 
 
 def render_tables_html(title: str, sections, design: dict,
                        body_font: float = 9.0) -> str:
-    """Table reference sheet: masthead + per-section two-column tables."""
+    """Table reference sheet: masthead, per-section tables and questions."""
     tok = design_tokens(design)
+    rows_all = [row for _, items in sections
+                for it in items if it.get("kind") == "table"
+                for row in it["rows"]]
+    ncols = max((len(row) for row in rows_all), default=2)
+    first_pct = label_col_pct(rows_all, body_font, ncols)
     sections_html = []
     for name, items in sections:
         tables = [it for it in items if it.get("kind") == "table"]
-        if not tables:
+        questions = [it["text"] for it in items
+                     if it.get("kind") == "question" and it.get("text")]
+        if not tables and not questions:
             continue
-        rows = []
-        for it in tables:
-            for row in it["rows"]:
-                cn = html.escape(row[0])
-                en = html.escape(row[1] if len(row) > 1 else "")
-                rows.append(f'<tr><td class="cn">{cn}</td>'
-                            f'<td class="en">{en}</td></tr>')
+        body = "".join(f'<table>{table_rows_html(it["rows"])}</table>'
+                       for it in tables)
+        if questions:
+            body += '<ol>' + "".join(
+                f'<li>{html.escape(q)}</li>' for q in questions) + '</ol>'
         sections_html.append(
             f'<section class="sec"><h2>{html.escape(name)}</h2>'
-            f'<table>{"".join(rows)}</table></section>')
+            f'{body}</section>')
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
-{tables_css(tok, body_font)}
+{tables_css(tok, body_font, ncols, first_pct)}
 </style></head>
 <body>
   <div class="masthead">
@@ -837,13 +928,13 @@ def notes_groups(sections) -> list[tuple[str, list[str]]]:
         for it in items:
             if it.get("kind") == "table":
                 for row in it["rows"]:
-                    cn = display_text(row[0]) if len(row) > 0 else ""
-                    en = display_text(row[1]) if len(row) > 1 else ""
-                    gl = display_text(row[2]) if len(row) > 2 else ""
-                    if gl:
-                        lines.append(f"{cn} · {en} — {gl}")
-                    elif en:
-                        lines.append(f"{cn} · {en}")
+                    cells = [display_text(c) for c in row]
+                    cn = cells[0] if cells else ""
+                    rest = [c for c in cells[1:] if c]
+                    if len(cells) == 3 and len(rest) == 2:
+                        lines.append(f"{cn} · {rest[0]} — {rest[1]}")
+                    elif rest:
+                        lines.append(f"{cn} · " + " · ".join(rest))
                     else:
                         lines.append(cn)
             elif it.get("kind") in ("question", "bullet", "para"):
@@ -880,6 +971,17 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
     sections_html = []
     n_groups = len(groups)
     discussion_started = False
+    # Sections that comfortably fit one page are kept whole, so a heading is
+    # never stranded at a page break with a line or two under it.
+    text_mm = 240.0
+    line_mm = q_font * 0.3528 * lh
+    chars_per_line = max(20, int(174.0 / max(0.1, q_font * 0.3528 * 0.5)))
+
+    def fits_one_page(qs: list[str]) -> bool:
+        rows = sum(max(1, -(-len(q) // chars_per_line)) for q in qs)
+        used = rows * line_mm + max(0, len(qs) - 1) * gap + 7.0
+        return used <= text_mm
+
     for idx, (name, qs) in enumerate(groups):
         # Stretch the discussion group by name, or the final group on the
         # last page, so its lines spread down to the bottom of the page.
@@ -903,6 +1005,8 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
         else:
             ol_cls = ""
         section_class = "sec discussion" if starts_discussion_page else "sec"
+        if not starts_discussion_page and fits_one_page(qs):
+            section_class += " keep"
         sections_html.append(
             f'<section class="{section_class}"><h2>{html.escape(name)}</h2>'
             f'<ol{ol_cls}>{items}</ol></section>')
@@ -919,6 +1023,7 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
   border-radius: 1.6mm;
   padding: 1.5mm 2.2mm 1.7mm 2.2mm;
   margin: 0 0 2.2mm 0;
+  break-inside: avoid; page-break-inside: avoid;
 }
 .sec.discussion {
   border: 0; border-radius: 0; padding: 0; margin: 0;
@@ -936,8 +1041,8 @@ section h2 {
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
 {questions_css(tok, q_font, lh, gap, True, category_gap)}
-.sec {{ break-inside: avoid; page-break-inside: avoid; }}
 .sec.discussion {{ break-before: page; page-break-before: always; }}
+.sec.keep {{ break-inside: avoid; page-break-inside: avoid; }}
 section h2 {{
   font-family: {tok['font_body']};
   font-size: {q_font + 5.0:.1f}pt; font-weight: 700; color: {tok['ink']};
@@ -1139,10 +1244,10 @@ def stranded_questions(spans: list[tuple[int, int]], groups) -> bool:
     return False
 
 
-def fit_tables_layout(render) -> float:
-    """Largest readable table font that still fits two pages."""
+def fit_tables_layout(render, max_pages: int = 2) -> float:
+    """Largest readable table font that still fits the page budget."""
     for body_font in (9.5, 9.0, 8.5, 8.0):
-        if render(body_font) <= 2:
+        if render(body_font) <= max_pages:
             return body_font
     return 9.0
 
@@ -2196,7 +2301,10 @@ def main() -> int:
             print(f"HTML kept : {html_out}")
         return 0 if pages >= 1 else 2
     if has_tables and not has_scaffold and not args.questions_only:
-        if has_questions:
+        max_cols = max((len(row) for _, items in sections
+                        for it in items if it.get("kind") == "table"
+                        for row in it["rows"]), default=2)
+        if has_questions and max_cols <= 3:
             # Hybrid: page 1 vocab tables, page 2 discussion questions.
             all_rows = [(r[0], r[1] if len(r) > 1 else "")
                         for _, items in sections
@@ -2224,15 +2332,18 @@ def main() -> int:
                     q_font = max(8.0, q_font - 0.5)
             layout_desc = f"table {table_font}pt + discussion {q_font}pt"
         else:
-            # Tables-only vocabulary reference sheet.
+            # Tables-only reference sheet; wide tables may span extra pages.
+            max_pages = 2 if max_cols <= 3 else 8
+
             def render(body_font):
                 return page_count(render_tables_html(
                     title, sections, design, body_font))
 
-            body_font = fit_tables_layout(render)
+            body_font = fit_tables_layout(render, max_pages)
             final_html = render_tables_html(
                 title, sections, design, body_font)
-            layout_desc = f"table {body_font}pt"
+            layout_desc = (f"table {body_font}pt" if max_cols <= 3
+                           else f"table {body_font}pt, {max_cols} cols")
             count = sum(len(it["rows"]) for _, items in sections
                         for it in items if it["kind"] == "table")
         pages = page_count(final_html)
