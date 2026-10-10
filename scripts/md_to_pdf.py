@@ -819,6 +819,7 @@ td {{
 td.cn {{ width: 22%; color: {tok['ink']}; }}
 td.en {{ width: 38%; color: {tok['body']}; }}
 td.gl {{ width: 40%; color: {tok['body']}; }}
+td.head {{ background: {tok['hairline']}; color: {tok['ink']}; font-weight: 700; }}
 tr:nth-child(even) td {{ background: {tok['surface_soft']}; }}
 ol {{ list-style: none; }}
 li {{
@@ -840,12 +841,17 @@ def render_hybrid_html(title: str, sections, design: dict,
         rows = []
         for it in tables:
             for row in it["rows"]:
-                cn = html.escape(row[0])
-                en = html.escape(row[1] if len(row) > 1 else "")
-                gl = html.escape(row[2] if len(row) > 2 else "")
-                rows.append(f'<tr><td class="cn">{cn}</td>'
-                            f'<td class="en">{en}</td>'
-                            f'<td class="gl">{gl}</td></tr>')
+                cells = []
+                for i, cls in enumerate(("cn", "en", "gl")):
+                    text = row[i] if i < len(row) else ""
+                    inner, is_head = table_cell_html(text)
+                    if is_head:
+                        # A leading **...** marks a header cell, as in the
+                        # table-only layout: bold on the hairline tint.
+                        inner = f"<b>{inner}</b>"
+                        cls += " head"
+                    cells.append(f'<td class="{cls}">{inner}</td>')
+                rows.append(f'<tr>{"".join(cells)}</tr>')
         tables_html.append(
             f'<section class="sec"><h2>{html.escape(name)}</h2>'
             f'<table>{"".join(rows)}</table></section>')
