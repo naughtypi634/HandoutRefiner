@@ -1,172 +1,115 @@
-**1. How do you learn about a place before booking a tour?**
+# What Kind of Traveler Are You?
 
-> A. I read books, watch videos, and learn about history and culture.
->
-> B. I look for national parks, beautiful nature, and wildlife.
->
-> C. I just go with my gut (literally, I follow the food!)
->
-> D. I look for pretty beach towns, charming cities, and slow-paced
-> quiet places.
+**1. How do you learn about a place before you book?**
 
-**2. How do you plan your** **travel itinerary?**
+- A. I read about its history and culture.
+- B. I look for mountains and wildlife.
+- C. I follow the food!
+- D. I find quiet towns and beaches.
 
-> A. I make a list of must-see landmarks, famous sites, and cultural
-> activities.
->
-> B. I plan walks in nature, stunning views, and places to relax.
->
-> C. I map out the best restaurants, markets, and food events.
->
-> D. I leave time to walk around and do things without a plan.
+**2. How do you plan your itinerary?**
 
-**3. You arrive at your destination. What do you want to do first?**
+- A. I list the must-see landmarks.
+- B. I plan walks and quiet places.
+- C. I map out markets and food streets.
+- D. I leave time to wander with no plan.
 
-> A. Visit historical monuments, a grand museum, or some ancient ruins
-> to learn about the past.
->
-> B. Go for a walk in nature and enjoy fresh air.
->
-> C. Find a local restaurant and try new food.
->
-> D. Go to the hotel, rest, and start vacation slowly.
+**3. What do you do first when you arrive?**
 
-**4. You have one hour free before dinner. What do you do?**
+- A. Visit a museum or ancient ruins.
+- B. Go for a walk in the fresh air.
+- C. Find a local restaurant.
+- D. Check in and rest first.
 
-> A. Visit a small bookstore or art gallery.
->
-> B. Walk up a hill to see a nice view before sunset.
->
-> C. Drink something at a local cafe and talk to people.
->
-> D. Sit by the water or in a square and watch people.
+**4. One free hour before dinner. What do you do?**
 
-**5. Which of the following activities do you choose?**
+- A. Visit a bookstore or gallery.
+- B. Walk up a hill for the sunset.
+- C. Talk to people in a cafe.
+- D. Watch people go by the water.
 
-> A. A guided visit to old tombs, a big museum, or a traditional
-> village.
->
-> B. A walk in nature, or time in hot springs.
->
-> C. A cooking class, wine tasting, or farm lunch.
->
-> D. No extra activity---I want to relax or walk alone.
+**5. Which activity do you choose?**
 
-**6. What kind of travel story do you like to tell?**
+- A. An old tomb or a big museum.
+- B. A hot spring or a nature walk.
+- C. A cooking class or tea tasting.
+- D. Nothing. Just relax or walk.
 
-> A. Stories about famous people from the past and old cultures.
->
-> B. Stories about seeing northern lights, volcanoes, or quiet
-> mountains.
->
-> C. Stories about a great meal with local people.
->
-> D. Stories about finding a hidden gem.
+**6. What travel story do you like to tell?**
 
-**7. How do you make friends on a tour?**
+- A. Old cultures and famous people.
+- B. Snow mountains and auroras.
+- C. A great meal with local people.
+- D. Finding a hidden gem.
 
-> A. By visiting galleries, workshops, or learning local dances
-> together.
->
-> B. By seeing beautiful nature or animals together.
->
-> C. By sharing food and drinks.
->
-> D. By talking on the beach or at a cafe.
+**7. How do you make friends on a trip?**
+
+- A. Galleries, workshops, local dance.
+- B. Hiking or watching animals.
+- C. Sharing food and drinks.
+- D. Talking in a cafe or on the beach.
 
 **8. What photos do you take?**
 
-> A. Big buildings, famous places, statues, and art on walls.
->
-> B. Forests, lakes, volcanoes, and northern lights.
->
-> C. Colorful markets, and delicious food.
->
-> D. Pretty towns by the sea, colorful buildings, cafes, and sunsets.
+- A. Big buildings and statues.
+- B. Forests, lakes, and sunsets.
+- C. Markets and delicious food.
+- D. Old towns by the sea.
 
 **9. You have a free day. What do you do?**
 
-> A. Visit a museum or watch a show, music, or play.
->
-> B. Go walking to see animals and waterfalls or relax in hot springs.
->
-> C. Visit food markets or try many small restaurants.
->
-> D. Sleep late, then walk around shops or sit on the beach with no
-> plan.
+- A. Visit a museum or a show.
+- B. Walk to a waterfall or hot spring.
+- C. Try many small restaurants.
+- D. Sleep late and wander around.
 
-**10. What must you always bring on a trip?**
+**10. What do you always bring on a trip?**
 
-> A. A notebook to write ideas.
->
-> B. Strong walking shoes.
->
-> C. A big appetite (and stretchy pants!).
->
-> D. A small bag for things I find.
+- A. A notebook for ideas.
+- B. Strong walking shoes.
+- C. A big appetite!
+- D. A bag for my finds.
 
-**11. What is your favorite way to travel around?**
+**11. What is your favorite way to get around?**
 
-> A. A big bus to see everything.
->
-> B. A train up a mountain for the view.
->
-> C. Walking so I can stop for food.
->
-> D. A boat ride along the coast.
+- A. A big bus to see everything.
+- B. A train up a mountain.
+- C. Walking, to stop for food.
+- D. A boat along the coast.
 
 **12. Which photo do you share or print?**
 
-> A. Me in front of pyramids, old Greek temples, Colosseum, or Eiffel
-> Tower.
->
-> B. A selfie on a bridge in a rainforest.
->
-> C. My drink with a nice view or many pastries.
->
-> D. The sea and sunset from a beach.
+- A. Me at the Great Wall.
+- B. A selfie in a rainforest.
+- C. My drink with a view.
+- D. The sunset from the beach.
 
 **13. What souvenir do you bring home?**
 
-> A. A book in the local language, painted pottery, or art postcards.
->
-> B. A wool scarf, wood carving, or local tea.
->
-> C. Olive oil, wine, or many small pastries.
->
-> D. A bracelet from a market, a hat, or a shell from the beach.
+- A. Art postcards or a local book.
+- B. Local tea or a wood carving.
+- C. Olive oil or a box of pastries.
+- D. A bracelet or a shell.
 
-**14. What is your travel mantra(座右铭)?**
+**14. What is your travel motto?**
 
-> A. "Every place has a story."
->
-> B. "Adventure is waiting."
->
-> C. "Enjoy life with good food."
->
-> D. "Relax and see what happens."
+- A. "Every place has a story."
+- B. "Adventure is waiting."
+- C. "Enjoy life with good food."
+- D. "Relax and see what happens."
 
-**Mostly As: You are the Cultural Connoisseur (BrE/ˌkɒnəˈsɜː(r)/
-AmE/ˌkɑːnəˈsɜːr/, /ˌkɑːnəˈsʊr/)**
+**Mostly As: The Cultural Connoisseur 文化爱好者**
 
-You love to learn about the past. You visit old places, museums, and
-palaces. You think about history and how it made the world today. Every
-trip feels like learning about people and their stories.
+You love to learn about the past. You visit old places, museums, and palaces. You think about history and how it shaped the world today. Every trip is a lesson about people and their stories.
 
-**Mostly Bs: You are the Nature and Wellness Seeker**
+**Mostly Bs: The Nature Seeker 自然养生派**
 
-You feel happy in open nature with trees and clean air. You visit
-forests, mountains, and see special lights in the sky. Travel helps you
-feel calm and close to the world.
+You feel happy in open nature, with trees and clean air. You visit forests, mountains, and hot springs. Travel helps you feel calm and close to the world.
 
-**Mostly Cs: You are the Indulgent Foodie**
+**Mostly Cs: The Indulgent Foodie 吃货**
 
-You think the best part of travel is food. You try new meals, drinks,
-and visit markets. You love eating with others and learning about food
-from different places. Every trip is full of tasty things.
+You think the best part of travel is the food. You try new dishes and drinks, and you visit markets. You love eating with others and learning about food from different places.
 
-**Mostly Ds: You are the Laid-Back Explorer**
+**Mostly Ds: The Laid-Back Explorer 佛系旅行者**
 
-You travel to relax and go slowly. You like quiet beach towns and
-walking without hurry. You enjoy small surprises and feel rested after
-the trip. You see the world at an easy pace.
+You travel to relax and go slowly. You like quiet beach towns and walking without hurry. You enjoy small surprises and feel rested after the trip.

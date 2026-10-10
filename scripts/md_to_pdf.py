@@ -574,17 +574,16 @@ li {{
 li:last-child {{ margin-bottom: 0; }}
 {counter_css}
 .qt {{ flex: 1; color: {tok['ink']}; }}
+.nb {{ white-space: nowrap; }}
 """
 
 
-def label_col_pct(rows, body_font: float, ncols: int) -> float:
-    """Width share for the first column so its labels stay on one line.
+def label_col_pct(rows, body_font: float) -> float | None:
+    """Width share for one table's first column, or None if not needed.
 
     Latin glyphs count as half an em, CJK as a full em; the result is
     clamped so a long label column can never starve the others.
     """
-    if ncols <= 2:
-        return 40.0
     longest = 0.0
     for row in rows:
         if not row:
@@ -592,20 +591,21 @@ def label_col_pct(rows, body_font: float, ncols: int) -> float:
         units = sum(1.0 if ord(ch) > 0x2E80 else 0.5
                     for ch in row[0].strip().strip("*"))
         longest = max(longest, units * body_font * 0.3528)
-    return max(15.0, min(40.0, (longest * 1.05 + 4.8) / 178.0 * 100.0))
+    if not longest:
+        return None
+    return max(15.0, min(45.0, (longest * 1.05 + 4.8) / 178.0 * 100.0))
 
 
-def tables_css(tok: dict, body_font: float, ncols: int = 2,
-               first_pct: float = 25.0) -> str:
+def tables_css(tok: dict, body_font: float, ncols: int = 2) -> str:
     # Two-column sheets keep their original proportions. Wider sheets use a
-    # fixed layout: the label column takes the measured share and the
-    # remaining columns split the rest evenly.
+    # fixed layout and get each table's label width inline, so every table
+    # in the sheet is sized from its own content.
     if ncols <= 2:
         col_css = (f"td.cn {{ width: 40%; color: {tok['ink']}; }}\n"
                    f"td.en {{ width: 60%; color: {tok['body']}; }}")
     else:
         col_css = (f"table {{ table-layout: fixed; }}\n"
-                   f"td.cn {{ width: {first_pct:.1f}%; color: {tok['ink']}; }}\n"
+                   f"td.cn {{ color: {tok['ink']}; }}\n"
                    f"td.en {{ color: {tok['body']}; }}")
     return f"""
 @page {{
@@ -635,6 +635,7 @@ h1 {{
   display: inline-block; padding-bottom: 1.5mm;
 }}
 .sec {{ margin-bottom: 5mm; }}
+.sec + .sec {{ break-before: avoid; page-break-before: avoid; }}
 h2 {{
   break-after: avoid; page-break-after: avoid;
   font-family: {tok['font_body']};
@@ -661,8 +662,16 @@ li:last-child {{ margin-bottom: 0; }}
 
 CJK_RUN = re.compile(r"[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF]+")
 # Only short Chinese words are kept unbreakable; a longer run must stay
-# breakable or it would overflow a fixed-layout cell.
+# breakable or it would overflow a narrow column.
 NB_MAX_CHARS = 6
+
+
+def wrap_cjk_runs(escaped: str) -> str:
+    """Keep short Chinese words unbreakable inside already-escaped HTML."""
+    return CJK_RUN.sub(
+        lambda mm: (f'<span class="nb">{mm.group(0)}</span>'
+                    if len(mm.group(0)) <= NB_MAX_CHARS else mm.group(0)),
+        escaped)
 
 
 def table_cell_html(text: str) -> tuple[str, bool]:
@@ -674,16 +683,15 @@ def table_cell_html(text: str) -> tuple[str, bool]:
     """
     stripped = text.strip()
     m = re.fullmatch(r"\*\*(.+?)\*\*", stripped)
-    body = html.escape(m.group(1) if m else stripped)
-    body = CJK_RUN.sub(
-        lambda mm: (f'<span class="nb">{mm.group(0)}</span>'
-                    if len(mm.group(0)) <= NB_MAX_CHARS else mm.group(0)),
-        body)
-    return body, bool(m)
+    return wrap_cjk_runs(html.escape(m.group(1) if m else stripped)), bool(m)
 
 
-def table_rows_html(rows) -> str:
-    """Rows as <thead>/<tbody>; the first row becomes a repeating header."""
+def table_rows_html(rows, label_pct: float | None = None) -> str:
+    """Rows as <thead>/<tbody>; the first row becomes a repeating header.
+
+    ``label_pct`` pins the first column's width on the header row, which is
+    what a fixed-layout table uses to size that column.
+    """
     head: list[str] = []
     body: list[str] = []
     for r_i, row in enumerate(rows):
@@ -696,7 +704,9 @@ def table_rows_html(rows) -> str:
             if is_head:
                 classes += " head"
                 inner = f"<b>{inner}</b>"
-            tds.append(f'<td class="{classes}">{inner}</td>')
+            style = (f' style="width:{label_pct:.1f}%"'
+                     if i == 0 and r_i == 0 and label_pct else "")
+            tds.append(f'<td class="{classes}"{style}>{inner}</td>')
         tr = f"<tr>{''.join(tds)}</tr>"
         if r_i == 0 and header_cells == len(row):
             head.append(tr)
@@ -708,31 +718,34 @@ def table_rows_html(rows) -> str:
 
 def render_tables_html(title: str, sections, design: dict,
                        body_font: float = 9.0) -> str:
-    """Table reference sheet: masthead, per-section tables and questions."""
+    """Table reference sheet: masthead, per-section tables and text lines."""
     tok = design_tokens(design)
     rows_all = [row for _, items in sections
                 for it in items if it.get("kind") == "table"
                 for row in it["rows"]]
     ncols = max((len(row) for row in rows_all), default=2)
-    first_pct = label_col_pct(rows_all, body_font, ncols)
     sections_html = []
     for name, items in sections:
         tables = [it for it in items if it.get("kind") == "table"]
-        questions = [it["text"] for it in items
-                     if it.get("kind") == "question" and it.get("text")]
-        if not tables and not questions:
+        texts = [it["text"] for it in items
+                 if it.get("kind") in ("question", "para", "bullet")
+                 and it.get("text")]
+        if not tables and not texts:
             continue
-        body = "".join(f'<table>{table_rows_html(it["rows"])}</table>'
-                       for it in tables)
-        if questions:
+        body = ""
+        for it in tables:
+            pct = (label_col_pct(it["rows"], body_font)
+                   if ncols > 2 else None)
+            body += f'<table>{table_rows_html(it["rows"], pct)}</table>'
+        if texts:
             body += '<ol>' + "".join(
-                f'<li>{html.escape(q)}</li>' for q in questions) + '</ol>'
+                f'<li>{html.escape(t)}</li>' for t in texts) + '</ol>'
         sections_html.append(
             f'<section class="sec"><h2>{html.escape(name)}</h2>'
             f'{body}</section>')
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
-{tables_css(tok, body_font, ncols, first_pct)}
+{tables_css(tok, body_font, ncols)}
 </style></head>
 <body>
   <div class="masthead">
@@ -892,7 +905,9 @@ def render_questions_html(title: str, groups, q_font: float,
         items = []
         for question in qs:
             items.append(
-                f'<li><span class="qt">{html.escape(question)}</span></li>')
+                f'<li><span class="qt">'
+                f'{wrap_cjk_runs(html.escape(display_text(question)))}'
+                f'</span></li>')
         classes = ["sec"]
         if idx == page_break_at:
             classes.append("new-page")
@@ -997,10 +1012,13 @@ def render_notes_html(title: str, groups, q_font: float, lh: float,
         if is_disc or starts_discussion_page:
             discussion_started = True
         items = "".join(
-            f'<li><span class="qt">{html.escape(q)}</span></li>' for q in qs)
+            f'<li><span class="qt">{wrap_cjk_runs(html.escape(q))}</span></li>'
+            for q in qs)
         if is_disc:
             ol_cls = ' class="disc"'
-        elif two_col:
+        elif two_col and len(qs) > 1:
+            # A one-line section has nothing to put in a second column, so
+            # keep it full width instead of squeezing it into half a page.
             ol_cls = ' class="cols2"'
         else:
             ol_cls = ""
@@ -1038,14 +1056,19 @@ section h2 {
   padding-bottom: %(pad).2fmm; margin-bottom: %(mar).2fmm;
 }
 """ % {"pad": masthead_gap * 0.3, "mar": masthead_gap * 0.7}
+    # Title and headings follow the body size, so a sheet set at a smaller
+    # body font does not keep an oversized masthead and section headings.
+    title_pt = min(24.0, round(q_font * 1.7, 1))
+    h2_pt = max(q_font + 2.0, round(q_font * 1.3, 1))
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
 {questions_css(tok, q_font, lh, gap, True, category_gap)}
+h1 {{ font-size: {title_pt:.1f}pt; }}
 .sec.discussion {{ break-before: page; page-break-before: always; }}
 .sec.keep {{ break-inside: avoid; page-break-inside: avoid; }}
 section h2 {{
   font-family: {tok['font_body']};
-  font-size: {q_font + 5.0:.1f}pt; font-weight: 700; color: {tok['ink']};
+  font-size: {h2_pt:.1f}pt; font-weight: 700; color: {tok['ink']};
     border-bottom: 1.5pt solid {tok['hairline']};
     padding-bottom: 1.4mm; margin-bottom: 2.5mm;
 }}
@@ -2332,14 +2355,25 @@ def main() -> int:
                     q_font = max(8.0, q_font - 0.5)
             layout_desc = f"table {table_font}pt + discussion {q_font}pt"
         else:
-            # Tables-only reference sheet; wide tables may span extra pages.
-            max_pages = 2 if max_cols <= 3 else 8
+            # Tables-only reference sheet. Bigger sheets get a larger page
+            # budget so the font stays readable instead of shrinking to fit.
+            n_rows = sum(len(it["rows"]) for _, items in sections
+                         for it in items if it.get("kind") == "table")
+            max_pages = 2 if (max_cols <= 3 and n_rows <= 30) else 4
 
             def render(body_font):
                 return page_count(render_tables_html(
                     title, sections, design, body_font))
 
             body_font = fit_tables_layout(render, max_pages)
+            # A slightly smaller font that saves a page beats a nearly empty
+            # last page, so step down while the page count still drops.
+            for smaller in (body_font - 0.5, body_font - 1.0, body_font - 1.5):
+                if smaller < 8.0:
+                    break
+                if render(smaller) < render(body_font):
+                    body_font = smaller
+                    break
             final_html = render_tables_html(
                 title, sections, design, body_font)
             layout_desc = (f"table {body_font}pt" if max_cols <= 3
