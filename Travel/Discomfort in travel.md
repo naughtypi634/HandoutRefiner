@@ -1,104 +1,106 @@
 # Discomfort in Travel
 
-## Discomforts · 身体不适
+**Discomforts and Symptoms 不适与症状**
 
-| English | 中文 | English | 中文 |
-| --- | --- | --- | --- |
-| motion sickness | 晕车晕船 | jet lag | 时差反应 |
-| a cold | 感冒 | altitude sickness | 高原反应 |
-| diarrhea | 腹泻 | food poisoning | 食物中毒 |
-| dehydration | 脱水 | heatstroke | 中暑 |
-| sunburn | 晒伤 | insect bites | 蚊虫叮咬 |
-| allergies | 过敏 | traveler's diarrhea | 水土不服 |
-| blisters | 磨出的水泡 | constipation | 便秘 |
+**Discomfort 不适**          **Symptom 症状**               **What to Say 可以这样说**                   
+---------------------------  -----------------------------  ---------------------------------------------
+Motion Sickness 晕车/晕船    Nausea 恶心                    I feel nauseous.                             
+Motion Sickness 晕车/晕船    Vomiting 呕吐                  I think I'm going to throw up.               
+Motion Sickness 晕车/晕船    Dizziness 头晕                 I feel dizzy.                                
+Cold 感冒                    Sore Throat 喉咙痛             I have a sore throat.                        
+Cold 感冒                    Runny Nose 流鼻涕              I have a runny nose.                         
+Cold 感冒                    Cough 咳嗽                     I have a bad cough.                          
+Cold 感冒                    Fever 发热                     I have a slight fever. / I have a high fever.
+Diarrhea 腹泻                Abdominal Pain 腹痛            I have a stomachache.                        
+Diarrhea 腹泻                Dehydration 脱水               I feel weak and thirsty.                     
+Allergies 过敏               Rash 皮疹                      I have a rash on my arms.                    
+Allergies 过敏               Itching 瘙痒                   My skin is really itchy.                     
+Headache 头痛                Head Pain 头部疼痛             I have a dull pain. / I have a sharp pain.   
+Headache 头痛                Sensitivity to Light 对光敏感  Bright light hurts my eyes.                  
+Sunburn 晒伤                 Redness of Skin 皮肤红肿       My skin is red and sore.                     
+Sunburn 晒伤                 Pain 疼痛                      It hurts when I touch it.                    
+Dehydration 脱水             Thirst 口渴                    I'm really thirsty.                          
+Dehydration 脱水             Fatigue 乏力                   I have no energy.                            
+Insect Bites 虫咬            Redness 红肿                   The bite is red and swollen.                 
+Insect Bites 虫咬            Itching 瘙痒                   It itches so much.                           
+Food Poisoning 食物中毒      Nausea 恶心                    I feel sick.                                 
+Food Poisoning 食物中毒      Vomiting 呕吐                  I've been throwing up all night.             
+Food Poisoning 食物中毒      Abdominal Pain 腹痛            I have bad stomach cramps.                   
+Altitude Sickness 高原反应   Headache 头痛                  I have a bad headache.                       
+Altitude Sickness 高原反应   Nausea 恶心                    I feel like throwing up.                     
+Altitude Sickness 高原反应   Fatigue 乏力                   I get out of breath easily.                  
+Muscle Soreness 肌肉酸痛     Pain 疼痛                      My legs ache after the hike.                 
+Muscle Soreness 肌肉酸痛     Stiffness 僵硬                 My neck feels stiff.                         
+Fatigue 疲劳                 Exhaustion 乏力                I'm worn out.                                
+Fatigue 疲劳                 Drowsiness 嗜睡                I can't keep my eyes open.                   
+Traveler's Illness 水土不服  Abdominal Pain 腹痛            My stomach hurts.                            
+Traveler's Illness 水土不服  Nausea 恶心                    I feel sick to my stomach.                   
+Traveler's Illness 水土不服  Diarrhea 腹泻                  I have diarrhea.                             
+Jet Lag 时差反应             Fatigue 疲劳                   I'm exhausted, but I can't sleep.            
+Jet Lag 时差反应             Insomnia 失眠                  I wake up at 3 a.m. every night.             
+Jet Lag 时差反应             Headache 头痛                  I have a headache from lack of sleep.        
 
-## Symptoms · 症状
+**Describing Symptoms 描述症状**
 
-| English | 中文 | English | 中文 |
-| --- | --- | --- | --- |
-| nausea | 恶心 | vomiting | 呕吐 |
-| dizziness | 头晕 | a headache | 头痛 |
-| a sore throat | 喉咙痛 | a runny nose | 流鼻涕 |
-| a cough | 咳嗽 | a fever | 发烧 |
-| stomach pain | 腹痛 | a rash | 皮疹 |
-| itching | 瘙痒 | thirst | 口渴 |
-| fatigue | 乏力 | insomnia | 失眠 |
-| drowsiness | 嗜睡 | sensitivity to light | 怕光 |
+**Pattern 句型**                        **Example 例句**                                  
+--------------------------------------  --------------------------------------------------
+I have a [symptom].                     I have a headache.                                
+My [body part] hurts.                   My stomach hurts.                                 
+I feel [adjective].                     I feel tired. / I feel sick. / I feel nauseous.   
+I have an inflammation in [body part].  I have an inflammation in my throat.              
+I don't feel comfortable here.          I don't feel comfortable here. (point to the spot)
 
-## Medicine · 药品
+**Asking at the Pharmacy 在药店怎么问**
 
-| English | 中文 | English | 中文 |
-| --- | --- | --- | --- |
-| painkiller | 止痛药 | cough syrup | 止咳糖浆 |
-| cold medicine | 感冒药 | motion sickness pill | 晕车药 |
-| anti-diarrheal | 止泻药 | rehydration salts | 补液盐 |
-| sunscreen | 防晒霜 | mosquito repellent | 驱蚊液 |
-| band-aid | 创可贴 | eye drops | 眼药水 |
-| antiseptic cream | 消炎药膏 | thermometer | 体温计 |
+**Phrase 用语**                      **中文**        
+-----------------------------------  ----------------
+What can I take for [symptom]?       我该吃什么药？  
+Do you have anything for [symptom]?  有治……的药吗？  
+Should I see a doctor?               我需要看医生吗？
 
-## At the Pharmacy and Clinic · 药店与诊所
+**What the Pharmacist Says 药师会说什么**
 
-### Ask
-1. What can I take for a headache?
-2. Do you have anything for a cough?
-3. Can I get this without a prescription?
-4. How many times a day should I take it?
+**Phrase 用语**                        **中文**            
+-------------------------------------  --------------------
+Take this [medicine] [frequency].      这个药……吃一次。    
+Take this pill twice a day.            这种药一天吃两次。  
+Don't drink alcohol with this.         吃这个药不要喝酒。  
+You should rest and drink more water.  你要多休息、多喝水。
+Come back if it doesn't get better.    还不好就再来。      
 
-### Say what's wrong
-1. I have a fever — 38.5.
-2. My stomach hurts after every meal.
-3. I feel dizzy when the bus moves.
-4. I got a rash after I ate seafood.
+**Common Medicine 常见药品**
 
-### What you will hear
-1. Take one pill twice a day, after meals.
-2. Don't drink alcohol with this.
-3. You should rest and drink more water.
-4. Are you allergic to anything?
+**中文**    **English**                 
+----------  ----------------------------
+止痛药      painkillers / pain relievers
+退烧药      fever medicine              
+止咳糖浆    cough syrup                 
+肠胃药      stomach medicine            
+晕车药      motion sickness pills       
+口服补液盐  rehydration salts           
+创可贴      band-aids                   
+防晒霜      sunscreen                   
 
-## Body-Part Idioms · 身体部位习语
+**Body-Part Idioms 身体部位习语**
 
-| Idiom | 中文 | Example |
-| --- | --- | --- |
-| keep an eye on | 照看 | Can you keep an eye on my backpack while I buy water? |
-| cost an arm and a leg | 贵得离谱 | The taxi from the airport cost an arm and a leg. |
-| give me a hand | 帮我一把 | Give me a hand with this suitcase — it's 23 kilos. |
-| my hands are tied | 我也没办法 | I asked for a refund, but the airline said their hands were tied. |
-| play it by ear | 见机行事 | We didn't book the museum, so we'll play it by ear tomorrow. |
-| get cold feet | 临阵退缩 | She got cold feet at the bungee platform and walked back down. |
-| stretch your legs | 活动活动腿脚 | We had a six-hour layover, so we stretched our legs at the gate. |
-| my feet are killing me | 脚疼得不行 | My feet are killing me after 20,000 steps at Disneyland. |
-| a pain in the neck | 让人头疼的麻烦 | Rebooking the flight was a real pain in the neck. |
-| get off my back | 别烦我 | Get off my back — I'll send the photos tonight. |
-| on the tip of my tongue | 就在嘴边 | The name of that noodle shop is on the tip of my tongue. |
-| keep your fingers crossed | 祈祷好运 | Keep your fingers crossed that our flight isn't delayed. |
+**Idiom 习语**                   **中文**          **Example 例句**                                                         
+-------------------------------  ----------------  -------------------------------------------------------------------------
+let your hair down               放松、放开玩      After two months of overtime, I just want to let my hair down.           
+head over heels                  神魂颠倒          He's head over heels and talks about her all day.                        
+have your head in the clouds     心不在焉、走神    He had his head in the clouds and missed his stop.                       
+be all ears                      洗耳恭听          You got the job? I'm all ears — tell me everything.                      
+nose around                      到处打听          Stop nosing around my desk and just ask me.                              
+right under your nose            就在眼皮底下      My keys were right under my nose the whole time.                         
+turn a blind eye                 睁一只眼闭一只眼  The manager turns a blind eye when we leave ten minutes early.           
+go in one ear and out the other  左耳进右耳出      I told him to back up the file, but it went in one ear and out the other.
+be on the tip of my tongue       话到嘴边想不起来  Her name is on the tip of my tongue. It starts with L.                   
+leave a bad taste in my mouth    让人心里不舒服    The way that store treated us left a bad taste in my mouth.              
+stick your neck out              冒险替人出头      He stuck his neck out to get me this interview.                          
+get it off your chest            一吐为快          You've been quiet all day. Come on, get it off your chest.               
+get off my back                  别唠叨我          I'll send the report tonight. Get off my back!                           
+stretch your legs                活动活动腿脚      We waited in line for two hours. Let me stretch my legs.                 
+curiosity killed the cat         好奇害死猫        Don't read his private messages. Curiosity killed the cat.               
 
-## Discussion
+**Practice 练习**
 
-### On the Road · 在路上
-1. Have you ever felt sick on a bus, a boat, or a plane? What did you do?
-2. Do you get motion sickness? Do you take a pill before you travel?
-3. What do you eat and drink on a long high-speed rail ride?
-4. Have you ever missed a flight or a train because you felt unwell?
-5. How do you pass the time on a six-hour flight?
-
-### When You Get Sick · 生病了
-1. Have you ever gotten sick during a trip? What were the symptoms?
-2. Is it easy to find a pharmacy in a new city? Do you use a translation app?
-3. Have you ever ordered medicine to your hotel with a delivery app?
-4. Would you see a doctor abroad, or wait until you get home?
-5. What medicine do you always pack before a trip?
-
-### High Places and Hot Days · 高原与高温
-1. Have you ever had altitude sickness? Where were you?
-2. What do you do to stay cool when you travel in summer?
-3. Do you wear sunscreen every day on holiday? Why or why not?
-4. Have you ever gotten badly sunburned? What happened?
-5. What do you bring for mosquito bites?
-
-### After the Trip · 旅行之后
-1. Do you need a full day to rest after a long trip? What do you do?
-2. How long does jet lag stay with you? How do you deal with it?
-3. Do you often come home with a cold? Why do you think that happens?
-4. Do you buy travel insurance? Is it worth the money?
-5. What is your best tip for staying healthy on a trip?
+- Practice with your partner using your own experiences.

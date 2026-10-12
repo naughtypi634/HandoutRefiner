@@ -1,69 +1,43 @@
-**Before you go**
+# Travel Discussion: Before, During, After
 
-Is it necessary to make travel plans, or do you prefer to play it by
-ear? How long do you need to make an **itinerary**? How do you make it?
+**Before You Go 出发前**
 
-Popular tourist spots or off-the-beaten-path locations?
+- Do you plan every detail, or just play it by ear?
+- How far ahead do you book your train tickets?
+- Do you buy tickets the minute they go on sale?
+- Do you follow travel blogs, or find places on your own?
+- What is always in your carry-on bag?
+- Do you travel light, or pack for every possibility?
+- Plane, high-speed rail, or road trip? Which do you prefer?
+- Do you book a hotel, a hostel, or a homestay?
 
-Follow popular Travel Guide on social media or Explore on your own?
+**During Travel 旅途中**
 
-Do you have a packing list? What is a must for you when you **hit the
-road**? Clothes, Toiletries, Electronics?
+- Adventure sports, culture, or just relaxing?
+- Do you prefer big cities or quiet countryside?
+- Would you rather eat local food or something familiar?
+- A flight delay or a lost bag: which is worse?
+- How many days until you start feeling homesick?
+- Have you ever run into a scam while traveling?
+- Can you handle a hard seat and a budget hotel?
 
-What transport do you prefer when you travel domestically and
-internationally? **Plane, Train, Bus, Road Trip**...
+**Upon Returning 回来后**
 
-Do you spend a lot of money on travel, or do you travel on a shoestring
-budget?
+- How do you feel the day you get home?
+- Do you post on WeChat Moments, Xiaohongshu, or Douyin?
+- Do you write a guide or share tips after a trip?
+- Do some people travel just to post online? What do you think?
+- Have you ever felt culture shock? Where was it?
+- Do you buy souvenirs? What was your last one?
+- Do you unpack right away or leave your bags for a week?
+- What do you always bring back for family and friends?
 
-What about accommodation? Hotel, Hostel?
+**Discussion 讨论**
 
-**During travel**
-
-What type of activities do you prefer when traveling? Adventure sports,
-cultural experiences, relaxation, or sightseeing?
-
-Do you prefer the countryside/suburb or the city? Why?
-
-What role does food play in your travel experience? Do you seek out
-local cuisine, or do you stick to familiar foods?
-
-How do you feel when you face flight delay or lost luggage? What makes
-you stressed during travel?
-
-How long can you handle before you feel homesick?
-
-Any souvenirs? Every time? What kind? How often do you revisit it?
-
-Have you ever encountered pitfalls or scams?
-
-Are you able to tolerate low-quality conditions while traveling, or do
-you prefer to travel in comfort?
-
-**Upon returning**
-
-How do you feel when you come back home from a trip? Long trip like 1
-month, short trip like 3 or 4 days?
-
-Photos or videos or both? Where do you post them? Do you write anything,
-maybe share some tips or even a guide?
-
-Some people feel they must travel every year. What do you think?
-
-Cultural shock?
-
-**Discussion**
-
-Choose between these holidays and explain your choice:
-
-- Touring the remains of an ancient civilization
-
-- A relaxing stay at a beach resort
-
-- Shopping in a busy city
-
-Traveling alone or with others? Friends or family or total strangers?
-
-Best and worst travel experience so far.
-
-What's your next destination? In China and abroad.
+- Ancient ruins, a beach resort, or a shopping city? Why?
+- Do you spend a lot on travel or travel on a shoestring?
+- Do you travel alone, with friends, or with family?
+- What was your best and worst trip so far?
+- Where is your next trip? In China or abroad?
+- Would you travel during Spring Festival, or stay home?
+- Would you rather travel in China or go abroad? Why?
