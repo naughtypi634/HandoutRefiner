@@ -40,6 +40,16 @@ awesome-design-md 是一份从真实网站提取的 DESIGN.md 设计系统合集
 - token 映射：canvas→页面底色，ink→标题/强调文字，body→正文，
   muted→辅助文字与页码，hairline→边框，primary→强调色（标题下划线、
   提示标签、题号），display 字体→标题，body 字体→正文。
+- 中文字体统一为微软雅黑：WeasyPrint 通过 fontconfig 找字体，认不出
+  macOS 上随 Office 一起装的那份 msyh.ttc，所以渲染器会自己定位
+  msyh.ttc / msyhbd.ttc（macOS 从 `/Applications/Microsoft Word.app/
+  Contents/Resources/DFonts` 等处，Windows 找 `C:\Windows\Fonts`），
+  再用 @font-face 注册 `Microsoft YaHei`；找不到就回落到系统自带的中文
+  字体（macOS 上是冬青黑体 Hiragino Sans GB）。设计系统里的拉丁字体
+  （cal 的 Inter）没装时，英文也一起落到同一款中文字体上。
+- 字体嵌入按需生效，改字体不用动各份讲义：所有版式都由 `font_stack`
+  和各 `*_css()` 函数统一注入，正文、表格、讨论页、四宫格、趋势页
+  以及 --trend 的文字宽度测算都读同一份字体文件。
 - 表格按解析到的列数渲染，不再截断成两列：第 1 列是标签列（宽度按内容
   测算，标签尽量排在一行），其余列等分。单元格写成 `**文字**` 时会渲染为
   带浅灰底的表头格，该行同时成为 `<thead>`，**跨页时在每页重复**。

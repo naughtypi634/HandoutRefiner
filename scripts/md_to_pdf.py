@@ -78,6 +78,63 @@ def font_stack(family: str, generic: str) -> str:
     return ", ".join(parts + [fallback])
 
 
+# Microsoft YaHei is the CJK face for every sheet. WeasyPrint resolves type
+# through fontconfig, which does not know the copy bundled inside Microsoft
+# Office on macOS, so the family is registered with an @font-face rule that
+# points straight at the file. YaHei sits after the design-system face in the
+# stack, so an installed Latin face still wins; when the design face is
+# missing, Latin falls through to YaHei too.
+CJK_FONT_FAMILY = "Microsoft YaHei"
+_CJK_FACE_NAMES = {400: ("msyh.ttc", "msyh.ttf"),
+                   700: ("msyhbd.ttc", "msyhbd.ttf")}
+CJK_FONT_DIRS = (
+    # Microsoft Office bundles the font on macOS.
+    "/Applications/Microsoft Word.app/Contents/Resources/DFonts",
+    "/Applications/Microsoft Excel.app/Contents/Resources/DFonts",
+    "/Applications/Microsoft PowerPoint.app/Contents/Resources/DFonts",
+    "/Applications/Microsoft Outlook.app/Contents/Resources/DFonts",
+    "/Library/Fonts",
+    "/System/Library/Fonts",
+    "~/Library/Fonts",
+    r"C:\Windows\Fonts",
+)
+_CJK_FONTS: dict[int, Path] | None = None  # None until first lookup
+
+
+def find_cjk_fonts() -> dict[int, Path]:
+    """Microsoft YaHei files on this machine, keyed by font weight."""
+    global _CJK_FONTS
+    if _CJK_FONTS is None:
+        found: dict[int, Path] = {}
+        for weight, names in _CJK_FACE_NAMES.items():
+            for directory in CJK_FONT_DIRS:
+                for name in names:
+                    candidate = Path(directory).expanduser() / name
+                    if candidate.is_file():
+                        found[weight] = candidate
+                        break
+                if weight in found:
+                    break
+        _CJK_FONTS = found
+    return _CJK_FONTS
+
+
+def cjk_font_face_css() -> str:
+    """@font-face rules registering Microsoft YaHei with WeasyPrint.
+
+    Empty when the font is absent, leaving the stack to fall back on whatever
+    CJK face fontconfig offers (Hiragino Sans GB on a stock macOS).
+    """
+    faces = find_cjk_fonts()
+    if not faces:
+        return ""
+    return "".join(
+        f"@font-face {{ font-family: '{CJK_FONT_FAMILY}'; "
+        f"src: url('{path.as_uri()}'); "
+        f"font-weight: {weight}; font-style: normal; }}\n"
+        for weight, path in sorted(faces.items()))
+
+
 def resolve_design_path(spec: str) -> Path:
     """Resolve --design to a DESIGN.md: direct file path or collection name."""
     direct = Path(spec)
@@ -443,7 +500,7 @@ def render_sheet(title: str, rows_html: str, page_no: int) -> str:
 
 def worksheet_css(tok: dict, q_font: float, scaf_font: float,
                   gap: float) -> str:
-    return f"""
+    return cjk_font_face_css() + f"""
 @page {{
     size: A4 portrait;
     margin: 8mm 0 24mm 0;
@@ -529,7 +586,7 @@ li::before {{
     font-variant-numeric: tabular-nums;
     color: {tok['accent']};
 }}"""
-    return f"""
+    return cjk_font_face_css() + f"""
 @page {{
   size: A4 portrait;
     margin: 15mm 18mm 20mm 18mm;
@@ -607,7 +664,7 @@ def tables_css(tok: dict, body_font: float, ncols: int = 2,
         col_css = (f"table {{ table-layout: fixed; }}\n"
                    f"td.cn {{ width: {first_pct:.1f}%; color: {tok['ink']}; }}\n"
                    f"td.en {{ color: {tok['body']}; }}")
-    return f"""
+    return cjk_font_face_css() + f"""
 @page {{
   size: A4 portrait;
   margin: 14mm 16mm 18mm 16mm;
@@ -744,7 +801,7 @@ def render_tables_html(title: str, sections, design: dict,
 
 def hybrid_css(tok: dict, table_font: float, q_font: float,
                li_margin: float = 6.0) -> str:
-    return f"""
+    return cjk_font_face_css() + f"""
 @page {{
   size: A4 portrait;
   margin: 11mm 13mm 16mm 13mm;
@@ -1441,7 +1498,7 @@ def quad_css(tok: dict, f: dict, page_height_mm: float | None = None) -> str:
         stretch = (f".page {{ height: {page_height_mm:.1f}mm; "
                    "display: flex; flex-direction: column; }}\n"
                    ".grid { flex: 1; grid-template-rows: 1fr 1fr; }")
-    return f"""
+    return cjk_font_face_css() + f"""
 @page {{
   size: A4 portrait;
   margin: 10mm {QUAD_MARGIN_MM}mm 12mm {QUAD_MARGIN_MM}mm;
@@ -1680,7 +1737,10 @@ def text_width_mm(text: str, pt: float, bold: bool = False) -> float:
                                  r"C:\Windows\Fonts\seguisb.ttf")
             if not Path(latin_bold).is_file():
                 latin_bold = r"C:\Windows\Fonts\segoeuib.ttf"
-            path = {"cjk": r"C:\Windows\Fonts\msyh.ttc",
+            # Measure CJK against the same YaHei file the CSS embeds, so the
+            # estimate matches what WeasyPrint actually sets.
+            cjk = find_cjk_fonts().get(400) or find_cjk_fonts().get(700)
+            path = {"cjk": str(cjk) if cjk else r"C:\Windows\Fonts\msyh.ttc",
                     "latin": latin, "bold": latin_bold}[key]
             font = ImageFont.truetype(path, 100)
             _FONT_CACHE[key] = font
@@ -1845,7 +1905,7 @@ def trend_items_fit(cats: list[dict], item_font: float) -> bool:
 
 
 def trend_css(tok: dict, f: dict, title: str, row_pad_mm: float) -> str:
-    return f"""
+    return cjk_font_face_css() + f"""
 @page {{
   size: A4 portrait;
   margin: {TREND_TOP_MM}mm {TREND_MARGIN_MM}mm {TREND_BOTTOM_MM}mm {TREND_MARGIN_MM}mm;
