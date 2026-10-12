@@ -38,8 +38,9 @@ the plain flow would strand a single question at the top of page two. Pass
 Quadrant matrix sheet (one page per "## " block, 2x2 quadrants per page):
     python scripts/md_to_pdf.py --quad "Business/SWOT Analysis.md"
 
-Chart-language sheet (one sparkline per expression, 2 columns, 2 pages):
+Chart-language sheet (one annotated chart per movement, one page each):
     python scripts/md_to_pdf.py --trend "Business/BEC-图表常用句型.md"
+    python scripts/md_to_pdf.py --trend --pages 4 "Business/BEC-图表常用句型.md"
 """
 
 from __future__ import annotations
@@ -1681,66 +1682,89 @@ def quad_layout_issues(path: Path, pages: list[dict]) -> int:
     return issues
 
 
-# --- Chart-language sheet with one sparkline per expression (--trend) ------
+# --- Chart-language sheet, one annotated chart per movement (--trend) ------
 #
-# MD contract (one "## " block per trend category):
+# MD contract (one "## " block per movement, one "**sub-group**" per band):
 #     # Document title
 #     ## 上升 Upward
-#     **单词 Words**
-#     - go up — 上升 — Delivery orders go up 5% every Friday.
-#     - dip — 短暂下跌 — Sales dipped in February.  <!-- shape=dip -->
+#     **大幅上升**
+#     - surge — 猛增 — Orders surged 40% in one month.
+#     **见顶**  <!-- shape=top_out -->
+#     - top out — 见顶 — Apartment prices topped out in June.
 #
 # Items split on " — " into English, Chinese gloss and an optional micro
-# example. Inside a sub-group the item order IS the intensity order: the
-# sparkline of the n-th item is drawn at intensity n/(len-1), so the picture
-# slides from a vague, almost flat move to a sharp, precise one -- the ranking
-# the sheet claims is the ranking the reader sees. A category heading selects
-# the base shape by keyword; a single item can override it with a shape=
-# comment (needed for peaks/troughs, whose shapes are not one ramp).
+# example. The sub-groups are the bands of the movement's chart, in order:
+# each owns an equal slice of the timeline and a share of the total move,
+# so the band tinted darkest is the one whose words say "sharply", and the
+# list below the chart is laid out in the same order. Within a band the item
+# order IS the intensity order, from the vague word to the precise one.
+# A sub-group's shape= comment decides how its slice moves: `rise`/`fall`
+# take ever larger shares of the move, `top_out`/`bottom_out` flatten off,
+# `level` holds still and `plateau` rises then levels.
 
 TREND_ITEM_SEP = re.compile(r"\s+[—–]\s+")
 TREND_COMMENT = re.compile(r"<!--(.*?)-->", re.S)
 TREND_OVERRIDE = re.compile(r"shape\s*=\s*([a-z_]+)")
-TREND_RAMPED = ("rise", "fall", "flat", "wave", "degree")
 
 TREND_SHAPE_KEYWORDS: tuple[tuple[tuple[str, ...], str], ...] = (
     (("上升", "上涨", "upward"), "rise"),
     (("下降", "下跌", "downward"), "fall"),
-    (("平稳", "稳定", "flat", "steady"), "flat"),
+    (("平稳", "稳定", "flat", "steady"), "level"),
     (("波动", "波动不定", "fluctuat"), "wave"),
     (("峰", "谷", "peak", "trough"), "peaks"),
     (("程度", "速度", "degree", "speed"), "degree"),
 )
 
-TREND_FIXED_SHAPES: dict[str, list[tuple[float, float]]] = {
-    "dip": [(3, 13), (38, 28), (62, 27), (97, 12)],
-    "peak": [(3, 30), (45, 5), (97, 26)],
-    "top_out": [(3, 28), (48, 7), (70, 8), (97, 8)],
-    "bottom_out": [(3, 10), (48, 33), (70, 32), (97, 32)],
-    "rebound": [(3, 12), (45, 32), (97, 6)],
-    "recover": [(3, 12), (45, 32), (97, 17)],
-    "trough": [(3, 6), (52, 34), (97, 15)],
-    "rise_fall": [(3, 30), (22, 17), (45, 6), (70, 19), (97, 30)],
-    "even_out": [(3, 6), (20, 33), (38, 11), (56, 26), (74, 20), (97, 20)],
-    "peak_high": [(3, 32), (40, 4), (70, 9), (97, 9)],
-    "trough_low": [(3, 6), (40, 36), (70, 31), (97, 31)],
+# How one sub-group moves the curve, as (weight, easing). The weight is the
+# share of the full rise this sub-group contributes; ramp sub-groups are
+# scaled up by their position, so the shape a category claims -- "from a
+# vague move to a sharp one" -- is the shape the reader sees.
+TREND_SEG_SPEC: dict[str, tuple[float, str]] = {
+    "rise": (1.0, "linear"),
+    "fall": (1.0, "linear"),
+    "top_out": (0.20, "ease_out"),     # a rise that is already flattening
+    "bottom_out": (0.20, "ease_out"),  # a fall that is already flattening
+    "level": (0.0, "linear"),          # no change at all
+    "plateau": (0.55, "ease_out"),     # no change, then a rise that levels off
 }
+TREND_SEG_DEFAULT = "rise"
+
+# Category-level vertical span of the chart, as a 0-100 index. `rise`/`fall`
+# use the full height; `level` sits high in the plot so a levelling-off tail
+# still reads as flat rather than as a climb.
+TREND_BIG_SPAN = {"rise": (16.0, 92.0), "fall": (92.0, 16.0),
+                  "level": (56.0, 84.0), "wave": (34.0, 78.0)}
+TREND_BIG_FALLBACK_SPAN = (20.0, 84.0)
+TREND_WAVE_MONTHS = 3.0
+TREND_CURVE_SAMPLES = 49  # dense enough to draw a wave, not just chords
+TREND_MONTHS = ("1月", "2月", "3月", "4月", "5月", "6月",
+                "7月", "8月", "9月", "10月", "11月", "12月")
+TREND_MONTH_N = len(TREND_MONTHS)
 
 # Geometry shared by the CSS below and the single-line width check.
 TREND_MARGIN_MM = 10.0
 TREND_TOP_MM = 11.0
 TREND_BOTTOM_MM = 12.0
 TREND_COL_GAP_MM = 5.0
-TREND_SPARK_W_MM = 16.5
-TREND_SPARK_H_MM = 6.6  # keeps the 100:40 viewBox undistorted
-TREND_LI_GAP_MM = 1.6
 # Row padding is the fill knob: the fitter grows it while both pages stay
 # within the page budget, so a short last column is filled with breathing
 # room instead of a bigger (already width-capped) font.
 TREND_ROW_PAD_MM = 0.28
 TREND_ROW_PAD_MAX_MM = 4.0
+# Usable height of a page, used to decide how much a short list may stretch.
+TREND_CONTENT_MM = 297.0 - TREND_TOP_MM - TREND_BOTTOM_MM
 TREND_COL_MM = ((210.0 - 2 * TREND_MARGIN_MM - TREND_COL_GAP_MM) / 2)
-TREND_TEXT_MM = (TREND_COL_MM - TREND_SPARK_W_MM - TREND_LI_GAP_MM) * 0.97
+TREND_TEXT_MM = TREND_COL_MM - 1.5
+# Each category's chart spans the full text width; its 760x256 viewBox is
+# scaled to fit, so it renders 64mm tall. A movement gets a page of its own,
+# which is what buys the chart the height it needs to be read as a chart.
+TREND_BIG_VB_W, TREND_BIG_VB_H = 760.0, 256.0
+TREND_BIG_PLOT = (26.0, 14.0, 734.0, 188.0)  # x0, y0, x1, y1
+TREND_BIG_MONTH_Y = 212.0
+TREND_BIG_LABEL_Y = 238.0
+TREND_BIG_FONT = 11.0   # month row, in viewBox units
+TREND_BIG_LABEL_FONT = 14.0
+TREND_BIG_BAND_OPACITY = (0.022, 0.018)  # first band, and the step per band
 # Shared by the CSS and the bounds check: the masthead spans the full page
 # width, so its text must not be measured against the column edge.
 TREND_MASTHEAD_MM = 11.5
@@ -1760,25 +1784,38 @@ def text_width_mm(text: str, pt: float, bold: bool = False) -> float:
         key = ("bold" if bold else "latin") if ord(ch) < 0x2E80 else "cjk"
         font = _FONT_CACHE.get(key)
         if font is None:
-            # .en is font-weight 600, so measure with the semibold face; the
-            # bold face is the fallback when semibold is unavailable.
-            latin, latin_bold = (r"C:\Windows\Fonts\segoeui.ttf",
-                                 r"C:\Windows\Fonts\seguisb.ttf")
-            if not Path(latin_bold).is_file():
-                latin_bold = r"C:\Windows\Fonts\segoeuib.ttf"
-            # Measure CJK against the same YaHei file the CSS embeds, so the
-            # estimate matches what WeasyPrint actually sets.
-            cjk = find_cjk_fonts().get(400) or find_cjk_fonts().get(700)
-            path = {"cjk": str(cjk) if cjk else r"C:\Windows\Fonts\msyh.ttc",
-                    "latin": latin, "bold": latin_bold}[key]
-            font = ImageFont.truetype(path, 100)
+            paths = measure_font_paths()
+            font = ImageFont.truetype(paths[key], 100)
             _FONT_CACHE[key] = font
         total += font.getlength(ch)
     return total * pt / 100.0 * 25.4 / 72.0
 
 
+def measure_font_paths() -> dict[str, str]:
+    """Font files to measure against, keyed like the width cache.
+
+    Latin text is measured with the same face WeasyPrint will fall back to
+    when the design system's Latin font is absent -- which on this machine
+    is the CJK font -- so the guard still runs off-Windows instead of
+    silently passing every over-long line.
+    """
+    cjk = find_cjk_fonts()
+    cjk_regular = str(cjk.get(400) or cjk.get(700) or "")
+    latin = r"C:\Windows\Fonts\segoeui.ttf"
+    # .en is font-weight 600, so measure with the semibold face; the bold
+    # face is the fallback when semibold is unavailable.
+    latin_bold = r"C:\Windows\Fonts\seguisb.ttf"
+    if not Path(latin_bold).is_file():
+        latin_bold = r"C:\Windows\Fonts\segoeuib.ttf"
+    if not Path(latin).is_file():
+        latin = cjk_regular
+    if not Path(latin_bold).is_file():
+        latin_bold = str(cjk.get(700) or cjk_regular)
+    return {"cjk": cjk_regular, "latin": latin, "bold": latin_bold}
+
+
 def trend_category_shape(name: str) -> str:
-    """Base sparkline shape for a category, taken from its heading text."""
+    """How a movement's chart moves, taken from its heading text."""
     low = name.lower()
     for keywords, shape in TREND_SHAPE_KEYWORDS:
         if any(k in name or k in low for k in keywords):
@@ -1788,63 +1825,117 @@ def trend_category_shape(name: str) -> str:
         "its trend or add a keyword to TREND_SHAPE_KEYWORDS.")
 
 
-def trend_shape_points(shape: str, t: float,
-                       hairline: str) -> tuple[list[tuple[float, float]],
-                                               str]:
-    """Sparkline points in a 100x40 viewBox, plus optional extra SVG.
+def trend_big_value(shape: str, seg_shapes: list[str], u: float) -> float:
+    """Height of the category curve, 0-100, at position u along the axis.
 
-    t is the item's position in its sub-group, 0 = vaguest, 1 = sharpest.
+    Each sub-group owns an equal slice of the timeline and a share of the
+    total move, so the shaded band under a group of words is literally the
+    grade of change those words name. `wave` instead grows a single
+    oscillation, because a fluctuation has no steepness to step up.
     """
-    t = min(1.0, max(0.0, t))
-    x0, x1, mid = 3.0, 97.0, 20.0
-    if shape in ("rise", "degree"):
-        return [(x0, 30.0), (x1, 30.0 - 7.0 - 21.0 * t)], ""
-    if shape == "fall":
-        return [(x0, 10.0), (x1, 10.0 + 7.0 + 21.0 * t)], ""
-    if shape == "flat":
-        n, xs = 9, [x0 + (x1 - x0) * i / 8 for i in range(9)]
-        if t < 0.5:
-            # vaguest items: a small, unspecified wobble around the middle
-            amp = 3.4 * (1.0 - 2.0 * t)
-            return [(x, mid + amp * (1 if i % 2 else -1))
-                    for i, x in enumerate(xs)], ""
-        # pithier items: a leveling-off knee that arrives earlier as t grows
-        knee = 0.78 - 0.56 * (t - 0.5) / 0.5
-        return [(x, 32.0 - 21.0 * min(1.0, i / 8 / knee))
-                for i, x in enumerate(xs)], ""
     if shape == "wave":
-        amp, cycles, n = 2.6 + 9.6 * t, 2.0 + 2.0 * t, 48
-        return [(x0 + (x1 - x0) * i / (n - 1),
-                 mid + amp * math.sin(2 * math.pi * cycles * i / (n - 1)))
-                for i in range(n)], ""
-    if shape in TREND_FIXED_SHAPES:
-        return [(float(x), float(y)) for x, y in TREND_FIXED_SHAPES[shape]], ""
-    if shape == "band":
-        n = 48
-        bounds = "".join(
-            f'<line x1="3" y1="{y}" x2="97" y2="{y}" stroke="{hairline}"'
-            ' stroke-width="1" stroke-dasharray="3 3"/>' for y in (8, 32))
-        return [(x0 + (x1 - x0) * i / (n - 1),
-                 20 + 11 * math.sin(2 * math.pi * 3.0 * i / (n - 1)))
-                for i in range(n)], bounds
-    raise SystemExit(f"--trend: unknown sparkline shape '{shape}'")
+        lo, hi = TREND_BIG_SPAN["wave"]
+        return ((lo + hi) / 2 + (hi - lo) / 2 * (0.30 + 0.70 * u)
+                * math.sin(2 * math.pi * TREND_WAVE_MONTHS * u))
+    k = max(1, len(seg_shapes))
+    lo, hi = TREND_BIG_SPAN.get(shape, TREND_BIG_FALLBACK_SPAN)
+    # Ramp sub-groups take 1, 2, 3... shares of the rise, so later ones are
+    # visibly steeper; a top-out or levelling sub-group takes a fixed sliver.
+    ramps = [i for i, s in enumerate(seg_shapes) if s in ("rise", "fall")]
+    weights = []
+    for i, s in enumerate(seg_shapes):
+        weight, _ = TREND_SEG_SPEC.get(s, TREND_SEG_SPEC[TREND_SEG_DEFAULT])
+        if s in ("rise", "fall"):
+            weight *= ramps.index(i) + 1
+        weights.append(weight)
+    total = sum(weights) or 1.0
+    cum = [0.0]
+    for w in weights:
+        cum.append(cum[-1] + w / total)
+    s = min(k - 1, int(u * k))
+    v = u * k - s
+    if TREND_SEG_SPEC.get(seg_shapes[s], ("", "linear"))[1] == "ease_out":
+        v = 1.0 - (1.0 - v) ** 2.4
+    return lo + (hi - lo) * (cum[s] + (cum[s + 1] - cum[s]) * v)
 
 
-def trend_svg(shape: str, t: float, tok: dict) -> str:
-    """One inline sparkline (WeasyPrint renders inline SVG as vectors)."""
-    pts, extra = trend_shape_points(shape, t, tok["hairline"])
-    d = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
-    stroke = 2.2 + 1.3 * t if shape in TREND_RAMPED else 2.6
+def trend_big_samples(shape: str, seg_shapes: list[str],
+                      count: int) -> list[float]:
+    return [trend_big_value(shape, seg_shapes, i / (count - 1))
+            for i in range(count)]
+
+
+def trend_svg_text(x: float, y: float, text: str, size: float, fill: str,
+                   font: str, anchor: str = "middle") -> str:
+    return (f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="{anchor}"'
+            f' font-size="{size}" fill="{fill}"'
+            f' font-family={json.dumps(font)}>{html.escape(text)}</text>')
+
+
+def trend_big_svg(shape: str, subs: list[dict], tok: dict) -> str:
+    """The category chart: one curve, cut into bands by grade of change.
+
+    Each band is a sub-group of the sheet, tinted a little darker than the
+    one before and named underneath, so the words listed below the chart
+    are shown against the stretch of the move they describe.
+    """
+    labels = [s["label"] for s in subs]
+    seg_shapes = [s["shape"] for s in subs]
+    x0, y0, x1, y1 = TREND_BIG_PLOT
+    k = len(labels)
+    # The curve is sampled finer than the month ticks so an oscillation
+    # reads as a wave rather than as twelve straight chords; only the
+    # monthly positions carry a dot.
+    def to_pt(u: float, v: float) -> tuple[float, float]:
+        return (x0 + (x1 - x0) * u, y1 - (y1 - y0) * v / 100.0)
+
+    pts = [to_pt(i / (TREND_CURVE_SAMPLES - 1), v) for i, v in enumerate(
+        trend_big_samples(shape, seg_shapes, TREND_CURVE_SAMPLES))]
+    months = [to_pt(i / (TREND_MONTH_N - 1), v) for i, v in enumerate(
+        trend_big_samples(shape, seg_shapes, TREND_MONTH_N))]
+    bands, band_labels = [], []
+    for i, label in enumerate(labels):
+        bx0 = x0 + (x1 - x0) * i / k
+        bx1 = x0 + (x1 - x0) * (i + 1) / k
+        bands.append(
+            f'<rect x="{bx0:.1f}" y="{y0:.1f}" width="{bx1 - bx0:.1f}"'
+            f' height="{y1 - y0:.1f}" fill="{tok["ink"]}"'
+            f' fill-opacity="{TREND_BIG_BAND_OPACITY[0] + i * TREND_BIG_BAND_OPACITY[1]:.3f}"/>')
+        if i:
+            bands.append(f'<line x1="{bx0:.1f}" y1="{y0:.1f}" x2="{bx0:.1f}"'
+                         f' y2="{y1:.1f}" stroke="{tok["canvas"]}"'
+                         ' stroke-width="2"/>')
+        band_labels.append(trend_svg_text(
+            (bx0 + bx1) / 2, TREND_BIG_LABEL_Y, label,
+            TREND_BIG_LABEL_FONT, tok["ink"], tok["font_body"]))
+    grid = "".join(
+        f'<line x1="{x0}" y1="{y1 - (y1 - y0) * v / 100.0:.1f}"'
+        f' x2="{x1}" y2="{y1 - (y1 - y0) * v / 100.0:.1f}"'
+        f' stroke="{tok["hairline"]}" stroke-width="1"/>'
+        for v in (25, 50, 75, 100))
+    labels_svg = "".join(
+        trend_svg_text(x, TREND_BIG_MONTH_Y, m, TREND_BIG_FONT, tok["muted"],
+                       tok["font_body"])
+        for (x, _), m in zip(months, TREND_MONTHS))
+    line = " ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
+    area = f"M {x0:.1f} {y1:.1f} L " + line + f" L {x1:.1f} {y1:.1f} Z"
+    ticks = "".join(f'<line x1="{x:.1f}" y1="{y1}" x2="{x:.1f}" y2="{y1 + 5}"'
+                    f' stroke="{tok["hairline"]}" stroke-width="1"/>'
+                    for x, _ in months)
+    dots = "".join(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3"'
+                   f' fill="{tok["ink"]}"/>' for x, y in months)
     return (
-        f'<svg class="spark" width="{TREND_SPARK_W_MM}mm" '
-        f'height="{TREND_SPARK_H_MM}mm" viewBox="0 0 100 40" '
-        'xmlns="http://www.w3.org/2000/svg">'
-        f'<line x1="0" y1="34" x2="100" y2="34" stroke="{tok["hairline"]}"'
-        ' stroke-width="1"/>'
-        f'{extra}'
-        f'<path d="{d}" fill="none" stroke="{tok["ink"]}"'
-        f' stroke-width="{stroke:.1f}" stroke-linejoin="round"'
-        ' stroke-linecap="round"/></svg>')
+        f'<svg viewBox="0 0 {TREND_BIG_VB_W:.0f} {TREND_BIG_VB_H:.0f}"'
+        ' xmlns="http://www.w3.org/2000/svg">'
+        f'{"".join(bands)}{grid}'
+        f'<path d="{area}" fill="{tok["ink"]}" fill-opacity="0.05"/>'
+        f'<line x1="{x0}" y1="{y1}" x2="{x1}" y2="{y1}"'
+        f' stroke="{tok["muted"]}" stroke-width="1.2"/>'
+        f'{ticks}'
+        f'<path d="M {line}" fill="none" stroke="{tok["ink"]}"'
+        ' stroke-width="2.8" stroke-linejoin="round"'
+        ' stroke-linecap="round"/>'
+        f'{dots}{labels_svg}{"".join(band_labels)}</svg>')
 
 
 def parse_trend_md(text: str) -> tuple[str, list[dict]]:
@@ -1866,38 +1957,25 @@ def parse_trend_md(text: str) -> tuple[str, list[dict]]:
         if line.startswith("# "):
             title = line[2:].strip()
             continue
-        m = re.fullmatch(r"\*\*(.+?)\*\*", line)
+        m = re.fullmatch(r"\*\*(.+?)\*\*(?:\s*<!--(.*?)-->)?", line)
         if m and cat is not None:
-            sub = {"label": m.group(1).strip(), "items": []}
+            # The sub-group's shape drives its slice of the category curve,
+            # so a category can hold two moves (flat, then levelling off).
+            om = TREND_OVERRIDE.search(m.group(2) or "")
+            sub = {"label": m.group(1).strip(),
+                   "shape": om.group(1).lower() if om else None, "items": []}
             cat["subs"].append(sub)
             continue
         if line.startswith("- ") and sub is not None:
-            body = line[2:].strip()
-            override = None
-            cm = TREND_COMMENT.search(body)
-            if cm:
-                om = TREND_OVERRIDE.search(cm.group(1))
-                override = om.group(1).lower() if om else None
-                body = TREND_COMMENT.sub("", body).strip()
+            body = TREND_COMMENT.sub("", line[2:].strip()).strip()
             parts = [p.strip() for p in TREND_ITEM_SEP.split(body, maxsplit=2)]
             sub["items"].append({"en": parts[0],
                                  "zh": parts[1] if len(parts) > 1 else "",
-                                 "ex": parts[2] if len(parts) > 2 else "",
-                                 "shape": override})
-    unshaped = []
+                                 "ex": parts[2] if len(parts) > 2 else ""})
+    base = {"rise": "rise", "fall": "fall", "wave": "wave", "level": "level"}
     for c in cats:
         for s in c["subs"]:
-            n = len(s["items"])
-            for i, item in enumerate(s["items"]):
-                item["t"] = i / (n - 1) if n > 1 else 1.0
-                item["shape"] = item["shape"] or c["shape"]
-                if item["shape"] == "peaks":
-                    unshaped.append(item["en"])
-                    item["shape"] = "peak"
-    if unshaped:
-        print(f"--trend: {len(unshaped)} item(s) in a peaks category had no "
-              f"shape= override, defaulted to 'peak': "
-              + ", ".join(unshaped), file=sys.stderr)
+            s["shape"] = s["shape"] or base.get(c["shape"], TREND_SEG_DEFAULT)
     return title, cats
 
 
@@ -1962,29 +2040,45 @@ h1 {{
   border-bottom: 2.2pt solid {tok['accent']};
   display: inline-block; padding-bottom: 1.1mm;
 }}
-.cols {{ column-count: 2; column-gap: {TREND_COL_GAP_MM}mm;
-        column-fill: auto; }}
-.cat {{ margin-bottom: 2.6mm; }}
+/* One movement per page: a full-width chart, then the expressions that
+   describe each band of it in two columns. */
+.cat {{ break-before: page; page-break-before: always; }}
+/* The masthead, not the first category, is body's first child -- so the
+   opening movement is the one immediately after it. */
+.masthead + .cat {{ break-before: auto; page-break-before: auto; }}
+.cathead {{ break-inside: avoid; page-break-inside: avoid;
+            break-after: avoid; page-break-after: avoid; }}
 .cat h2 {{
   font-size: {f['cat']}pt; font-weight: 600; color: {tok['ink']};
   border-bottom: 0.8pt solid {tok['hairline']};
-  padding-bottom: 0.7mm; margin-bottom: 1.2mm;
+  padding-bottom: 0.7mm; margin-bottom: 1.8mm;
   break-after: avoid; page-break-after: avoid;
 }}
-.sub {{ margin-bottom: 1.7mm; }}
+.chart {{ margin-bottom: 2.4mm; }}
+.chart svg {{ display: block; width: 100%; height: auto; }}
+/* Balance, not auto: an auto-filled multicol takes the whole remaining page
+   height, which pushes the next category onto a new page and leaves one
+   column empty. */
+.subs {{ column-count: 2; column-gap: {TREND_COL_GAP_MM}mm;
+         column-fill: balance; }}
+.sub {{ margin-bottom: 2.2mm; break-inside: avoid; }}
 .sub:last-child {{ margin-bottom: 0; }}
+/* The sub-group heading names a band of the chart above, so it carries the
+   same tint step the band does. */
 .slabel {{
   font-size: {f['label']}pt; font-weight: 700; letter-spacing: 0.3pt;
-  color: {tok['muted']}; margin-bottom: 0.5mm;
+  color: {tok['ink']};
+  border-bottom: 0.7pt solid {tok['hairline']};
+  padding-bottom: 0.5mm; margin-bottom: 0.9mm;
 }}
 ul {{ list-style: none; }}
 li {{
-  display: flex; align-items: center; gap: {TREND_LI_GAP_MM}mm;
-  padding: {row_pad_mm}mm 0;
+  /* --row-pad is set per category so a short list fills its page instead of
+     leaving the chart floating above a half-empty sheet. */
+  padding: var(--row-pad, {row_pad_mm}mm) 0;
   break-inside: avoid; page-break-inside: avoid;
 }}
-.spark {{ flex: 0 0 {TREND_SPARK_W_MM}mm; }}
-.txt {{ flex: 1; min-width: 0; white-space: nowrap; }}
+.txt {{ white-space: nowrap; }}
 .en {{ color: {tok['ink']}; font-weight: 600; }}
 .zh {{ color: {tok['muted']}; font-size: {f['zh']}pt; margin-left: 1mm; }}
 .ex {{
@@ -1996,12 +2090,13 @@ li {{
 
 def render_trend_html(title: str, cats: list[dict], design: dict,
                       item_font: float,
-                      row_pad_mm: float = TREND_ROW_PAD_MM) -> str:
-    """Chart-language sheet: sparkline + expression + gloss + micro example."""
+                      row_pads: list[float] | None = None) -> str:
+    """Chart-language sheet: one chart per movement, its bands described below."""
     tok = design_tokens(design)
     f = trend_fonts(item_font)
+    pads = row_pads or [TREND_ROW_PAD_MM] * len(cats)
     blocks = []
-    for cat in cats:
+    for cat, pad in zip(cats, pads):
         subs = []
         for sub in cat["subs"]:
             lis = []
@@ -2011,24 +2106,23 @@ def render_trend_html(title: str, cats: list[dict], design: dict,
                 example = (f'<span class="ex">{html.escape(item["ex"])}</span>'
                            if item["ex"] else "")
                 lis.append(
-                    f'<li>{trend_svg(item["shape"], item["t"], tok)}'
-                    f'<span class="txt"><span class="en">'
+                    f'<li><span class="txt"><span class="en">'
                     f'{html.escape(item["en"])}</span>{gloss}{example}</span></li>')
             subs.append(f'<div class="sub"><div class="slabel">'
                         f'{html.escape(sub["label"])}</div>'
                         f'<ul>{"".join(lis)}</ul></div>')
-        blocks.append(f'<section class="cat">'
-                      f'<h2>{html.escape(cat["name"])}</h2>'
-                      f'{"".join(subs)}</section>')
+        chart = trend_big_svg(cat["shape"], cat["subs"], tok)
+        blocks.append(f'<section class="cat" style="--row-pad:{pad:.2f}mm">'
+                      f'<div class="cathead"><h2>{html.escape(cat["name"])}</h2>'
+                      f'<div class="chart">{chart}</div></div>'
+                      f'<div class="subs">{"".join(subs)}</div></section>')
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><style>
-{trend_css(tok, f, title, row_pad_mm)}
+{trend_css(tok, f, title, TREND_ROW_PAD_MM)}
 </style></head>
 <body>
 <div class="masthead"><h1>{html.escape(title)}</h1></div>
-<div class="cols">
 {''.join(blocks)}
-</div>
 </body></html>"""
 
 
@@ -2047,21 +2141,45 @@ def fit_trend_layout(render, cats: list[dict],
     return fallback or (5.0, render(5.0))
 
 
-def fit_trend_row_gap(render, item_font: float,
-                      target_pages: int) -> float:
-    """Largest row padding that still fits the target page count.
+def trend_page_height(html_text: str) -> float | None:
+    """Height in mm of the type on the first page, or None without pdfplumber."""
+    try:
+        import pdfplumber
+    except ImportError:
+        return None
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "measure.pdf"
+        HTML(string=html_text).write_pdf(path)
+        mm = 72.0 / 25.4
+        with pdfplumber.open(path) as pdf:
+            page = pdf.pages[0]
+            bottoms = [w["bottom"] for w in page.extract_words()
+                       if w["text"] != "1"]
+            return max(bottoms) / mm - TREND_TOP_MM if bottoms else 0.0
 
-    The font is already capped by the widest expression, so the leftover
-    space on the last page is spent on row breathing room instead.
+
+def fit_trend_row_pads(title: str, cats: list[dict], design: dict,
+                       item_font: float) -> list[float]:
+    """Per-category row padding, sized to fill each movement's own page.
+
+    The font is capped by the widest expression, so whatever height a short
+    category leaves over goes into the spacing between its rows -- measured
+    rather than guessed, because the number of rows per column depends on
+    how the sub-groups balance.
     """
-    lo, hi, best = TREND_ROW_PAD_MM, TREND_ROW_PAD_MAX_MM, TREND_ROW_PAD_MM
-    while hi - lo > 0.05:
-        mid = round((lo + hi) / 2, 2)
-        if render(item_font, mid) <= target_pages:
-            best, lo = mid, mid
-        else:
-            hi = mid
-    return best
+    pads = [TREND_ROW_PAD_MM] * len(cats)
+    for i, cat in enumerate(cats):
+        height = trend_page_height(render_trend_html(title, [cat], design,
+                                                     item_font))
+        if height is None:
+            break
+        spare = TREND_CONTENT_MM - height
+        rows = max(1, (max(len(s["items"]) for s in cat["subs"])
+                       + sum(len(s["items"]) for s in cat["subs"])) // 2)
+        pad = TREND_ROW_PAD_MM + spare / (2 * rows)
+        pads[i] = round(max(TREND_ROW_PAD_MM,
+                            min(TREND_ROW_PAD_MAX_MM, pad)), 2)
+    return pads
 
 
 def trend_layout_issues(path: Path, cats: list[dict], target_pages: int,
@@ -2069,17 +2187,17 @@ def trend_layout_issues(path: Path, cats: list[dict], target_pages: int,
     """Return bitmask: 1 = text out of bounds, 2 = an expression wrapped.
 
     Wrapping is impossible by construction (the CSS forbids it), so an item
-    that does not fit shows up as text crossing its column edge. Sparklines
-    are counted too: each paints exactly two vector objects (baseline + path),
-    plus two dashed bounds for shape=band, so a dropped chart is visible.
+    that does not fit shows up as text crossing its column edge. Each
+    category chart paints bands, gridlines and a series; its exact object
+    count depends on the renderer, so it is checked as a floor -- one that
+    catches a chart dropped entirely.
     """
     try:
         import pdfplumber
     except ImportError:
         return 0
     items = [it for cat in cats for sub in cat["subs"] for it in sub["items"]]
-    expect_ops = 2 * len(items) + 2 * sum(1 for it in items
-                                          if it["shape"] == "band")
+    expect_ops = 12 * len(cats)
     mm = 72.0 / 25.4
     left_col_edge = (TREND_MARGIN_MM + TREND_COL_MM) * mm
     page_right = (210.0 - TREND_MARGIN_MM) * mm
@@ -2109,9 +2227,9 @@ def trend_layout_issues(path: Path, cats: list[dict], target_pages: int,
                     print(f"  page {i + 1}: '{w['text']}' runs past the bottom "
                           f"({w['bottom']:.1f}pt > {bottom:.1f}pt)")
                     issues |= 1
-    if ops != expect_ops:
-        print(f"--trend: {ops} vector objects, expected {expect_ops} -- a "
-              "sparkline is missing")
+    if ops < expect_ops:
+        print(f"--trend: {ops} vector objects, expected at least "
+              f"{expect_ops} -- a category chart is missing")
         issues |= 2
     missing = [it["en"] for it in items if it["en"] not in text_all]
     if missing:
@@ -2173,11 +2291,11 @@ def main() -> int:
                              "2x2 quadrants (one '### ' each), with '**Group**' "
                              "sub-lists and '- English — 中文' items.")
     parser.add_argument("--trend", action="store_true",
-                        help="Chart-language sheet: one sparkline per "
-                             "expression, drawn at the item's intensity rank "
-                             "inside its category.")
-    parser.add_argument("--pages", type=int, default=2,
-                        help="Trend sheet: target page count (default: 2).")
+                        help="Chart-language sheet: one annotated chart per "
+                             "movement, described band by band below it.")
+    parser.add_argument("--pages", type=int, default=None,
+                        help="Trend sheet: target page count (default: one "
+                             "page per movement).")
     args = parser.parse_args()
 
     md_path = args.md_file.resolve()
@@ -2211,7 +2329,9 @@ def main() -> int:
                   file=sys.stderr)
             return 1
         title = clean_title(trend_title or md_title, md_path.stem)
-        target = max(1, args.pages)
+        # Each movement gets its own page: the chart has to be wide and tall
+        # enough that the grade of change reads off the slope.
+        target = args.pages or len(trend_cats)
 
         def t_render(item_font: float) -> int:
             return page_count(render_trend_html(
@@ -2219,13 +2339,11 @@ def main() -> int:
 
         item_font, _ = fit_trend_layout(t_render, trend_cats, target)
         out = md_path.with_suffix(".pdf")
-        pages, issues, row_pad = 0, 0, TREND_ROW_PAD_MM
+        pages, issues, row_pads = 0, 0, [TREND_ROW_PAD_MM] * len(trend_cats)
         for _ in range(4):
-            row_pad = fit_trend_row_gap(
-                lambda f, p: page_count(render_trend_html(
-                    title, trend_cats, design, f, p)), item_font, target)
+            row_pads = fit_trend_row_pads(title, trend_cats, design, item_font)
             final_html = render_trend_html(
-                title, trend_cats, design, item_font, row_pad)
+                title, trend_cats, design, item_font, row_pads)
             pages = page_count(final_html)
             HTML(string=final_html).write_pdf(out)
             issues = trend_layout_issues(out, trend_cats, target, pages)
@@ -2240,8 +2358,9 @@ def main() -> int:
         print(f"Title     : {title}")
         print(f"Design    : {design['name']} ({design['source']})")
         print(f"Items     : {count}")
-        print(f"Layout    : trend {item_font}pt, {n_cats} categories, "
-              f"row gap {row_pad}mm, one sparkline + one line per item")
+        print(f"Layout    : trend {item_font}pt, {n_cats} movements, "
+              f"one chart + two columns each, row gap "
+              f"{min(row_pads)}-{max(row_pads)}mm")
         print(f"Pages     : {pages}")
         if args.keep_html:
             html_out = Path(tempfile.gettempdir()) / (md_path.stem + ".qa.html")
