@@ -1,109 +1,86 @@
-- Car vs. Bus Travel
+# Travel Debates
 
-\- Car or bus: which do you prefer?
+**Car or Bus**
 
-\- Is a car faster than a bus?
+- Car or bus: which do you prefer for a long trip?
+- Is a car really faster than a bus?
+- Which one is more comfortable on a hot day?
+- How do you usually get around your city?
 
-\- Is a car more comfortable?
+**Beaches or Mountains**
 
-\- What is your favorite transportation?
+- Beaches or mountains: which do you prefer?
+- What do you actually do at the beach all day?
+- Is mountain hiking fun, or just tiring?
+- Do you like swimming in the sea? Why or why not?
+- Which would you choose for a five-day holiday?
 
-- Beaches vs. Mountains
+**Hotels or Hostels**
 
-\- Beaches or mountains: which do you prefer?
+- Hotels or hostels: which do you like better?
+- Is a hotel always more expensive than a hostel?
+- Are hostels a good choice for families?
+- Is a hotel always better than a hostel?
 
-\- What activities are at the beach?
+**Summer Travel**
 
-\- Is mountain hiking fun?
+- Summer or winter travel: which is better?
+- Is summer too hot for traveling in China?
+- What can you only do in summer?
+- Do you prefer cold weather or warm weather?
 
-\- Do you like swimming in the sea?
+**Travel Photos**
 
-\- What is your favorite destination?
+- Do you take a lot of photos when you travel?
+- Camera or phone: which do you use for photos?
+- Are photos a necessary part of a trip?
+- Do you ever put the phone down and just look?
 
-- Hotels vs. Hostels
+**Flights or Trains**
 
-\- Hotels or hostels: which do you like?
+- Flying or the train: which is faster door to door?
+- Is flying always more expensive?
+- Do you enjoy watching the view from a train window?
+- Which one would you take for a 1,000 km trip?
 
-\- Is a hotel cheaper than a hostel?
+**Alone, with Friends, or with Family**
 
-\- Are hostels good for families?
+- Alone, with friends, or with family: which is more fun?
+- Is planning a trip easier when you go alone?
+- Are group trips more enjoyable, or more stressful?
+- Who do you usually travel with? Why?
 
-\- Is a hotel always better than a hostel?
+**Souvenirs**
 
-- Summer Travel
+- Do you buy souvenirs when you travel?
+- Are souvenirs usually too expensive?
+- What souvenirs do you actually like?
+- Do souvenirs help you remember a trip?
 
-\- Summer or winter travel: which is better?
+**Travel to Learn Cultures**
 
-\- Is summer too hot for travel?
+- What counts as a cultural experience for you?
+- Is trying new food an important part of travel?
+- Do you make friends with local people while traveling?
+- What did you learn from your last trip?
 
-\- What can you do in summer?
+**Social Media and Travel**
 
-\- Do you prefer cold or warm weather?
+- Do people travel mainly for social media photos now?
+- How has social media changed the way we travel?
+- Are famous spots ruined by crowds and selfie sticks?
+- Can you have a real experience while posting about it?
 
-- Importance of Travel Photos
+**Travel vs. Classroom Learning**
 
-\- Do you take photos when traveling?
+- What can travel teach that a classroom cannot?
+- Is learning a language abroad better than studying it at home?
+- Does travel build life skills? Which ones?
+- Can virtual tours replace real travel?
 
-\- Camera or phone for photos?
+**Tourism Today**
 
-\- Are photos necessary?
-
-- Flying vs. Train for Long Trips
-
-\- Flying or train: which is faster?
-
-\- Is flying more expensive?
-
-\- Do you enjoy train window views?
-
-- Traveling Alone vs. With Friends vs. With family
-
-\- Alone or with friends: which is more fun?
-
-\- Is planning easier alone?
-
-\- Are group trips more enjoyable?
-
-- Souvenirs: Worth It?
-
-\- Do you buy souvenirs?
-
-\- Are souvenirs too costly?
-
-\- What souvenirs do you like?
-
-\- Do souvenirs help remember trips?
-
-- Travel to Learn Cultures
-
-\- What are cultural experiences?
-
-\- Is trying new food important?
-
-\- Do you make friends while traveling?
-
-- Social Media's Impact on Travel
-
-\- Do people travel for social media photos?
-
-\- How has social media changed travel?
-
-\- Are tourist spots ruined by crowds?
-
-\- Can you have authentic experiences while posting?
-
-- Travel vs. Classroom Learning
-
-\- What can travel teach that school can't?
-
-\- Is language learning abroad better?
-
-\- Does travel build life skills?
-
-\- Can virtual tours replace real travel?
-
-- Status of tourism
-
-\- Have you ever felt disappointed?
-
-\- What are the current trends?
+- Have you ever felt disappointed by a famous place?
+- What are the current travel trends in China?
+- Is overtourism a problem in the places you visit?
+- Would you pay more to travel in a quieter season?

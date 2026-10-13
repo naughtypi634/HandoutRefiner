@@ -1,101 +1,56 @@
-How often do you use social media? Which platform/app do you use the
-most? What do you do there?
+# Social Media
 
-What type of accounts do you like to follow? (Art, Sports, Fashion, Cute
-Animals, etc.)
+**Popular Terms**
 
-Do you know anyone who is addicted to social media?
+- 网红 — influencer
+- 流量密码 — the secret to going viral
+- 标题党 — clickbait
+- 引战 — ragebait
+- 热搜话题 — trending topic
+- 热词 — buzzword
+- 喷子 — haters
+- 软文 — soft ad
+- 水军 — paid commenters
+- 私信 — direct message
+- 限流 — shadow banning
+- 键盘侠 — keyboard warrior
+- 八卦 — gossip
+- 内卷 — rat race
+- 羊毛党 — deal hunter
+- 永远的神 — the GOAT
+- 一般般 — mid
+- 社恐 — social anxiety
+- 社牛 — social butterfly
+- 社死 — a cringe moment
+- 凡尔赛 — humblebrag
+- 破防 — to crash out
+- 带节奏 — to stir things up
+- 绝绝子 — peak
+- 真实 — based
+- 氛围感 — a vibe
+- 脑残 — brainrot
+- 不骗你 — no cap
+- 狂热粉丝 — a stan
 
-Do you think social media can be dangerous? Give an example.
+**Discussion**
 
-Have you ever met someone in person that you first met online?
-
-Do you think social media is good/bad for a person\'s self-esteem?
-
-What is the most annoying thing to you on social media?
-
-What app do you think will be less popular soon? Why?
-
-Do you think you can make 'real' friends on social media? What do you
-think makes a 'real' friend?
-
-Do you have family members on social media? Are there people you do not
-add? Why?
-
-Do you remember how your social media experience evolved over the years?
-
-How old do you think children should be before they are allowed to use
-social media? Why?
-
-Do you think social media can be educational? Give an example.
-
-Do you prefer to post your own content or watch comments on other
-people\'s content?
-
-Is it easy or hard to get followers? What do you think is the fastest
-way to get new followers?
-
-Do you follow any celebrities on social media? Do you take their advice
-when buying products?
-
-**Popular terms**
-
-网红 Influencer celebrity
-
-流量密码 virality hack
-
-标题党 Clickbait
-
-引战 Ragebait
-
-热搜话题 Trending hashtag
-
-热词 Buzzword
-
-喷子 Haters
-
-软文 Soft ad/ Puff piece
-
-水军 Review bombers
-
-私信 Private/Direct Message
-
-限流 Shadow banning
-
-键盘侠 Keyboard warrior
-
-八卦 (来点八卦吧 = spill the tea) Tea
-
-内卷 Rat race
-
-羊毛党 Deal-hunter
-
-永远的神 (you\'re my GOAT) GOAT (greatest of all time)
-
-一般般很平庸 Mid
-
-社恐 Social phobia
-
-社牛 Social butterfly
-
-后悔一秒 (社死瞬间) Ohnosecond
-
-凡尔赛 humblebrag
-
-社死 Cringe moment
-
-破防 Crash out
-
-带节奏 Flaming
-
-绝绝子 peak
-
-真实 based
-
-氛围感 vibe
-
-Brainrot 脑残 / 过度上网导致脑子坏掉
-
-不骗你 No cap
-
-XX狂热粉丝 XX Stan
+- How often do you use social media? Which app do you use most, and what for?
+- What kind of accounts do you follow — art, sports, fashion, or cute animals?
+- Do you know anyone who is addicted to social media?
+- Do you think social media can be dangerous? Give a real example.
+- Have you ever met in person someone you first met online?
+- Is social media good or bad for a person's self-esteem?
+- What is the most annoying thing to you on social media?
+- Which app do you think will lose popularity soon, and why?
+- Can you make real friends on social media? What makes a real friend?
+- Do you have family members on social media? Anyone you do not add?
+- How has your own social media use changed over the years?
+- How old should children be before they can use social media?
+- Can social media teach you anything useful? Give an example.
+- Do you prefer posting your own content or watching other people's?
+- Is it easy or hard to gain followers? What is the fastest way?
+- Do you follow celebrities? Do you buy what they recommend?
+- How much time do you spend on social media in a day? Is it too much?
+- Have you ever deleted an app for a while? How did you feel?
+- Would you ever take a break from social media for a month?
+- What would you miss most if social media disappeared tomorrow?

@@ -1,192 +1,70 @@
-NVC consists of four key components:
+# Nonviolent Communication
 
-1.  **Observation**: This involves stating what you observe in a
-    situation without judgment or evaluation. It focuses on facts rather
-    than interpretations.
+**Four Steps**
 
-2.  **Feelings**: Here, you express your feelings in response to what
-    you have observed. This step emphasizes emotional awareness and
-    honesty.
+| **Step** | **What It Means** |
+| --- | --- |
+| Observation | Say what you see, without judging it. |
+| Feelings | Say how it makes you feel. |
+| Needs | Name the need behind the feeling. |
+| Request | Ask clearly for what would help. |
 
-3.  **Needs**: This component involves identifying and articulating the
-    underlying needs or values that are connected to your feelings.
-    Recognizing these needs helps clarify what is important to you.
+**Between Colleagues**
 
-4.  **Requests**: Finally, you make a clear and specific request for
-    action that would help meet your needs. This request should be
-    framed positively and be actionable.
+| **Violent Communication** | **Nonviolent Communication** |
+| --- | --- |
+| "You never do your part; you're so lazy!" | "I've noticed some tasks aren't getting done. Can we talk about how to share the workload?" |
+| "This is a stupid idea; it will never work." | "I have some concerns about this idea. Can we look at the challenges together?" |
+| "You're always messing things up!" | "I see a few mistakes in the report. Let's review it together." |
+| "I can't believe you'd say that; you're clueless!" | "I didn't understand your point. Could you explain it further?" |
+| "You need to stop being so difficult." | "I feel frustrated when we disagree. Can we find a better way to communicate?" |
+| "You're just trying to make me look bad." | "I feel uncomfortable when our talks turn into blame. Can we focus on solutions?" |
+| "If you don't change, this team will fail." | "I think we need some changes to improve how the team works. What are your thoughts?" |
+| "You're not qualified to make that decision." | "I think we should hear all sides before deciding. Can we talk it through?" |
+| "You always interrupt me; it's so rude!" | "I feel overlooked when I'm interrupted. Can we let each other finish speaking?" |
+| "This project is doomed because of your mistakes." | "I think we have some challenges with this project. Let's find the issues and work on solutions together." |
 
-***[Between Colleagues]{.underline}***
+**Leaders**
 
-  -----------------------------------------------------------------------
-  **Violent Communication** **Non-Violent Communication**
-  ------------------------- ---------------------------------------------
-  1\. \"You never do your   1\. \"I\'ve noticed that some tasks are not
-  part; you\'re so lazy!\"  getting done. Can we discuss how to share the
-                            workload?\"
+| **Violent Communication** | **Nonviolent Communication** |
+| --- | --- |
+| "You need to get your act together!" | "I've noticed some challenges in your recent work. How can I support you?" |
+| "This is unacceptable; you're letting the team down!" | "I see some issues with the project. Let's look at how we can fix them together." |
+| "You should know better than to make that mistake!" | "Mistakes happen. Let's review what went wrong and how to prevent it." |
+| "I don't have time to babysit you!" | "I want you to succeed. Let's set up regular check-ins so you have the support you need." |
+| "You're not meeting expectations; this is disappointing." | "I'd like to talk about your performance and align on expectations going forward." |
+| "Why can't you just follow instructions?" | "I noticed some steps were missed. Can we talk about what got in the way?" |
+| "You're always late with your reports!" | "I've noticed the reports are often late. Is there a way to adjust the deadlines or the process?" |
+| "If you can't handle this, maybe you're in the wrong job." | "I believe you can excel in this role. Let's talk about what's blocking you." |
+| "Stop complaining and start working!" | "Thanks for your feedback. Let's talk about your concerns and how we can address them." |
+| "I don't want to hear any excuses!" | "I understand that challenges come up. Let's focus on finding solutions together." |
 
-  2\. \"This is a stupid    2\. \"I have some concerns about this idea.
-  idea; it will never       Can we explore potential challenges
-  work.\"                   together?\"
+**Parents and Children**
 
-  3\. \"You\'re always      3\. \"I see that there were some mistakes in
-  messing things up!\"      the report. Let\'s review it together to
-                            improve it.\"
+| **Violent Communication** | **Nonviolent Communication** |
+| --- | --- |
+| "You never listen to me!" | "I feel frustrated when I don't feel heard. Can we talk about it?" |
+| "Why can't you be more like your sibling?" | "You have your own strengths. Let's focus on those." |
+| "You're such a disappointment!" | "I'm worried about some of your choices. Can we talk about how you're feeling?" |
+| "Stop being so lazy and finish your homework!" | "I can see you're finding your homework hard. How can I help?" |
+| "You always make a mess of things!" | "I noticed things are a bit messy. Can we tidy up together?" |
+| "You're grounded for life if you do that again!" | "I'm worried about your behavior. Let's talk about the consequences and how to avoid them." |
+| "You'll never amount to anything if you keep this up!" | "I believe in you. Let's set some goals together to help you succeed." |
+| "Why do you always have to be so difficult?" | "I feel overwhelmed when we disagree. Can we find a better way to talk?" |
+| "You're just being dramatic!" | "I can see you're upset. I want to understand how you feel." |
+| "If you don't stop crying, I'll give you something to cry about!" | "I can see you're really upset. Let's take a moment and talk about what's bothering you." |
 
-  4\. \"I can\'t believe    4\. \"I didn\'t understand your point. Can
-  you would say that;       you explain it further?\"
-  you\'re clueless!\"       
+**Partners**
 
-  5\. \"You need to stop    5\. \"I feel frustrated when we disagree. Can
-  being so difficult.\"     we find a way to communicate better?\"
-
-  6\. \"You\'re just trying 6\. \"I feel uncomfortable when our
-  to make me look bad.\"    discussions turn into blame. Can we focus on
-                            solutions instead?\"
-
-  7\. \"If you don\'t       7\. \"I think we need to make some changes to
-  change, this team will    improve our team\'s performance. What are
-  fail.\"                   your thoughts?\"
-
-  8\. \"You\'re not         8\. \"I believe we should consider all
-  qualified to make that    perspectives before making a decision. Can we
-  decision.\"               discuss this further?\"
-
-  9\. \"You always          9\. \"I feel overlooked when I\'m
-  interrupt me; it\'s so    interrupted. Can we work on allowing each
-  rude!\"                   other to finish speaking?\"
-
-  10\. \"This project is    10\. \"I think we have some challenges with
-  doomed because of your    this project. Let\'s identify the issues and
-  mistakes.\"               work on solutions together.\"
-  -----------------------------------------------------------------------
-
-***[Leaders]{.underline}***
-
-  -----------------------------------------------------------------------
-  **Violent Communication** **Non-Violent Communication**
-  ------------------------- ---------------------------------------------
-  1\. \"You need to get     1\. \"I\'ve noticed some challenges in your
-  your act together!\"      recent work. How can I support you in
-                            improving?\"
-
-  2\. \"This is             2\. \"I see that there are some issues with
-  unacceptable; you're      the project. Let\'s discuss how we can
-  letting the team down!\"  address them together.\"
-
-  3\. \"You should know     3\. \"Mistakes happen. Let\'s review what
-  better than to make that  went wrong and how we can prevent it in the
-  mistake!\"                future.\"
-
-  4\. \"I don't have time   4\. \"I want to help you succeed. Let's set
-  to babysit you!\"         up regular check-ins to ensure you have the
-                            support you need.\"
-
-  5\. \"You're not meeting  5\. \"I'd like to talk about your performance
-  expectations; this is     and see how we can align on expectations
-  disappointing.\"          moving forward.\"
-
-  6\. \"Why can't you just  6\. \"I noticed there were some deviations
-  follow instructions?\"    from the instructions. Can we discuss what
-                            challenges you faced?\"
-
-  7\. \"You're always late  7\. \"I've noticed that reports are often
-  with your reports!\"      submitted late. Is there a way we can adjust
-                            deadlines or processes?\"
-
-  8\. \"If you can't handle 8\. \"I believe you have the potential to
-  this, maybe you're in the excel in this role. Let's talk about any
-  wrong job.\"              obstacles you're facing.\"
-
-  9\. \"You need to stop    9\. \"I appreciate your feedback. Let's
-  complaining and start     discuss any concerns you have and how we can
-  working!\"                address them.\"
-
-  10\. \"I don't want to    10\. \"I understand that challenges arise.
-  hear any excuses!\"       Let's focus on finding solutions together.\"
-  -----------------------------------------------------------------------
-
-***[Parents and children]{.underline}***
-
-  -----------------------------------------------------------------------
-  **Violent Communication**    **Non-Violent Communication**
-  ---------------------------- ------------------------------------------
-  1\. \"You never listen to    1\. \"I feel frustrated when I don't feel
-  me!\"                        heard. Can we talk about this?\"
-
-  2\. \"Why can't you be more  2\. \"I appreciate your unique qualities.
-  like your sibling?\"         Let's focus on your strengths.\"
-
-  3\. \"You're such a          3\. \"I'm concerned about your choices.
-  disappointment!\"            Can we discuss how you're feeling?\"
-
-  4\. \"Stop being so lazy and 4\. \"I see that you're struggling with
-  get your homework done!\"    your homework. How can I help you?\"
-
-  5\. \"You always make a mess 5\. \"I noticed that things are a bit
-  of things!\"                 messy. Can we work together to tidy up?\"
-
-  6\. \"You're grounded for    6\. \"I'm worried about your behavior.
-  life if you do that again!\" Let's talk about the consequences and how
-                               we can avoid them.\"
-
-  7\. \"You'll never amount to 7\. \"I believe in your potential. Let's
-  anything if you keep this    set some goals together to help you
-  up!\"                        succeed.\"
-
-  8\. \"Why do you always have 8\. \"I feel overwhelmed when we disagree.
-  to be so difficult?\"        Can we find a way to communicate better?\"
-
-  9\. \"You're just being      9\. \"I can see that you're upset. I want
-  dramatic!\"                  to understand what you're feeling.\"
-
-  10\. \"If you don't stop     10\. \"I see that you're really upset.
-  crying, I'll give you        Let's take a moment to talk about what's
-  something to cry about!\"    bothering you.\"
-  -----------------------------------------------------------------------
-
-***[Partners]{.underline}***
-
-  -----------------------------------------------------------------------
-  **Violent           **Non-Violent Communication**
-  Communication**     
-  ------------------- ---------------------------------------------------
-  1\. \"You never     1\. \"I feel unappreciated when my efforts go
-  appreciate anything unnoticed. Can we talk about how we can show
-  I do!\"             appreciation for each other?\"
-
-  2\. \"Why can't you 2\. \"I need more support from you during tough
-  just be more        times. Can we discuss how you can help me?\"
-  supportive?\"       
-
-  3\. \"You always    3\. \"I feel overlooked when our conversations
-  make everything     focus solely on one person. Can we make sure to
-  about you!\"        share the space?\"
-
-  4\. \"You're so     4\. \"I feel hurt when my needs aren't considered.
-  selfish!\"          Can we find a balance that works for both of us?\"
-
-  5\. \"I can't       5\. \"I'm concerned about the repeated issue. Can
-  believe you did     we talk about what's happening and how to resolve
-  that again!\"       it?\"
-
-  6\. \"You're        6\. \"I feel frustrated when we can't communicate
-  impossible to talk  effectively. Let's find a better way to talk about
-  to!\"               our feelings.\"
-
-  7\. \"You always    7\. \"I feel disappointed when our plans change
-  ruin our plans!\"   unexpectedly. Can we discuss how to handle changes
-                      together?\"
-
-  8\. \"You don't     8\. \"I need you to understand my feelings better.
-  care about my       Can we talk about what I'm experiencing?\"
-  feelings!\"         
-
-  9\. \"You're just   9\. \"I see that you're feeling strongly about
-  being dramatic!\"   this. I want to understand your perspective
-                      better.\"
-
-  10\. \"If you loved 10\. \"I would feel more loved if we could work on
-  me, you would do    this together. Can we discuss how we can meet each
-  this!\"             other's needs?\"
-  -----------------------------------------------------------------------
+| **Violent Communication** | **Nonviolent Communication** |
+| --- | --- |
+| "You never appreciate anything I do!" | "I feel unappreciated when my efforts go unnoticed. Can we talk about how we show appreciation?" |
+| "Why can't you just be more supportive?" | "I need more support from you during tough times. Can we talk about how you can help?" |
+| "You always make everything about you!" | "I feel overlooked when conversations focus on one person. Can we make sure we both share?" |
+| "You're so selfish!" | "I feel hurt when my needs aren't considered. Can we find a balance?" |
+| "I can't believe you did that again!" | "I'm concerned about this coming up again. Can we talk about what's happening and how to fix it?" |
+| "You're impossible to talk to!" | "I feel frustrated when we can't communicate well. Let's find a better way to talk about our feelings." |
+| "You always ruin our plans!" | "I feel disappointed when our plans change at the last minute. Can we talk about how to handle changes?" |
+| "You don't care about my feelings!" | "I need you to understand how I feel better. Can we talk about it?" |
+| "You're just being dramatic!" | "I can see you feel strongly about this. I want to understand your side better." |
+| "If you loved me, you would do this!" | "I'd feel more loved if we could work on this together. Can we talk about what we both need?" |

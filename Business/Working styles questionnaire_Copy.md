@@ -1,108 +1,71 @@
 # Working Styles Questionnaire
 
-> **INSTRUCTIONS**
->
-> Please mark in rank order of your preference for each question, where
-> "1" notes what matters most to me and "4" notes what matters least to
-> you.
+**Instructions**
 
-## When performing a job, it is most important to me to
+- Rank each set of four options from 1 to 4.
+- 1 = matters most to you; 4 = matters least.
 
-a.  do it correctly, regardless of the time involved.
+**1. When I do a job, what matters most to me is to**
 
-b.  set deadlines and get it done.
+- a. do it correctly, however long it takes.
+- b. set a deadline and get it done.
+- c. work as a team with others.
+- d. show my talent and enthusiasm.
 
-c.  work as a team, cooperatively with others.
+**2. The most enjoyable part of a job is**
 
-d.  demonstrate my talents and enthusiasm.
+- a. getting the information I need to do it.
+- b. the results I achieve when it's done.
+- c. the people I meet and work with.
+- d. seeing how the job moves us forward.
 
-## The most enjoyable part of working on a job is
+**3. When I have several ways to get a job done, I usually**
 
-a.  the information you need to do it.
+- a. weigh the pros and cons and choose.
+- b. pick one I can start on right away.
+- c. ask others and go with the favorite.
+- d. follow my gut about what will work best.
 
-b.  the results you achieve when it's done.
+**4. On a long-term job, what matters most to me is to**
 
-c.  the people you meet or work with.
+- a. finish each step before starting the next.
+- b. find the fastest, most efficient way.
+- c. work on it with a team.
+- d. keep it fresh and exciting.
 
-d.  seeing how the job contributes to progress.
+**5. I will take a risk if**
 
-## When I have several ways to get a job done, I usually
+- a. the facts support it.
+- b. it gets the job done.
+- c. it won't hurt anyone's feelings.
+- d. it just feels right for the situation.
 
-a.  review the pros and cons of each way and choose.
+**Score Sheet**
 
-b.  choose a way that I can begin to work immediately.
+- 1.  A ＿  B ＿  C ＿  D ＿
+- 2.  A ＿  B ＿  C ＿  D ＿
+- 3.  A ＿  B ＿  C ＿  D ＿
+- 4.  A ＿  B ＿  C ＿  D ＿
+- 5.  A ＿  B ＿  C ＿  D ＿
+- Total  A ＿  B ＿  C ＿  D ＿
 
-c.  discuss ways with others and choose the one most favored.
+**Your Result**
 
-d.  review the ways and follow my "gut" sense about what will work the
-    best.
+- Your lowest total is your main working style.
+- If two totals tie, pick the one that feels most like you.
 
-## In working on a long-term job, it is most important to me to
+**A · Analytical**
 
-a.  understand and complete each step before going to the next step.
+- Precise, logical, cautious, objective; decides on data.
 
-b.  seek a fast, efficient way to complete it.
+**B · Driver**
 
-c.  work on it with others in a team.
+- Decisive, goal-focused, confident, efficient; pushes things forward.
 
-d.  keep the job stimulating and exciting.
+**C · Amiable**
 
-## I am willing to take a risky action if
+- Friendly, patient, supportive, harmonious; keeps the team together.
 
-a.  there are facts to support my action.
+**D · Expressive**
 
-b.  it gets the job done.
-
-c.  it will not hurt others' feelings.
-
-d.  it feels right for the situation.
-
-# Working Styles Score Sheet
-
-> Transfer the answers from the Working Styles Questionnaire onto the
-> scoring grid below by entering the number you chose for each letter.
-> Next, total the columns and record the answers in the space provided.
-
-1.  A. B. C. D.
-
-2.  A. B. C. D.
-
-3.  A. B. C. D.
-
-4.  A. B. C. D.
-
-5.  A. B. C. D.
-
-## TOTALS: A. B. C. D. 
-
-Your **LOWEST** score is your preferred or dominant working style.
-
-In the case of a tied score, you should pick the working style you feel
-is most like you.
-
-**A=ANALYTICAL**
-
-precise, logical, cautious, objective, detail-oriented
-
-He prefers making decisions based on data analysis.
-
-**B=DRIVER**
-
-decisive, goal-oriented, confident, assertive, efficient
-
-She quickly pushes projects forward.
-
-**C=AMIABLE**
-
-friendly, cooperative, patient, harmonious, supportive
-
-He values team relationships and avoids conflict.
-
-**D=EXPRESSIVE**
-
-enthusiastic, outgoing, creative, persuasive, sociable
-
-She inspires others with vivid communication.
-
-My preferred working style is
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_.
+- Outgoing, creative, persuasive, sociable; inspires people.

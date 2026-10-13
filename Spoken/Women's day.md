@@ -1,44 +1,61 @@
-- What does International Women\'s Day mean to you?
+# Women's Day
 
-- What was your earliest memory of it? What comes to your mind when you
-  hear about it?
+**What It Means**
 
-- What did you do on Women's Day? What are you doing this year and in
-  the future?
+- What does International Women's Day mean to you?
+- What was your earliest memory of it? What comes to mind now?
+- What did you do last Women's Day? What will you do this year?
+- Do you give gifts or flowers on this day? To whom, and why?
+- Is it a real holiday for you, or just another working day?
+- How is the day marked at your workplace or school?
+- What do you wish more people understood about this day?
 
-- Can you name a woman who has inspired you? Why?
+**Women Who Inspire You**
 
-- Who was the most important woman in our history? What did she do?
+- Can you name a woman who has inspired you? Why her?
+- Who is the most important woman in Chinese history? What did she do?
+- Name a woman you admire today — apart from mothers, wives and daughters.
+- Is there a woman in your family who changed your life? Tell us about her.
+- What makes someone a role model for young women in China now?
+- Have you ever thanked a woman who helped your career or study?
+- Which woman alive today would you most like to have dinner with?
 
-- Who is the most important/famous woman now? Why? Apart from our
-  mothers, daughters, wives.
+**Work and Leadership**
 
-- What are women's roles in society? Has it changed over time?
+- Do you prefer a male or a female leader? What shapes that feeling?
+- What advantages do female leaders have? What about drawbacks?
+- Are women treated fairly at your workplace? Give an example.
+- Why are there still so few women in top management in China?
+- Do women and men bring different strengths to a team?
+- How have women's jobs and pay changed over the past ten years?
+- If you ran a company, what would you change for women employees?
 
-- In your opinion, what is the most urgent matter for women now in our
-  country?
+**Equality at Home and Work**
 
-- What does gender equality mean to you? Be as specific as possible.
+- What does gender equality mean to you? Be as specific as you can.
+- Who does most of the housework in your home? Is that fair?
+- Should both parents take parental leave? What stops them?
+- What can we do to make workplaces fairer? Name one real change.
+- Do women and men get equal pay for the same job? What do you think?
+- Who usually looks after elderly parents in most families?
+- What would you change first to help working mothers in China?
 
-- Why isn't there a men's day?
+**Media and Culture**
 
-- What can we do to achieve gender equality? In what areas? Be specific.
+- Have you heard the term "male gaze"? What do you think of it?
+- How do films and TV shows usually show women? Give an example.
+- Is there a men's day? Why or why not?
+- Do ads use women's bodies to sell products? Is that changing?
+- Which women's voices do you follow on social media, and why?
+- Are beauty standards for women getting fairer or stricter?
+- How does your family talk about a woman's career and marriage?
 
-- Have you heard of the term 'Male gaze'? As a woman, what do you think
-  about this? As a man, what's your take?
+**Change for the Future**
 
-- Do you prefer a male or female leader?
-
-- What advantages do female leaders have? What about shortcomings?
-
-- Are there some things that YOU THINK women do better than men and vice
-  versa? Are they true?
-
-- What would you like to change the most for women at the moment?
-
-- What does feminist and feminism mean for you? How do they translate
-  into movies and TVs?
-
-- Do commercial events diminish the importance of this date?
-
-- What's your take on the so-called feminism economy?
+- What is the most urgent issue for women in China today?
+- What is the one thing you would most like to change for women?
+- What does feminism mean to you? Where did you learn about it?
+- Do commercial events weaken the meaning of Women's Day?
+- What's your take on the so-called "feminism economy"?
+- What should girls and boys be taught about equality at school?
+- What do you hope Women's Day looks like for your children?

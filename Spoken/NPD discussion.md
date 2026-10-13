@@ -1,36 +1,59 @@
-Warm up
+# NPD Discussion
 
-What variety shows do you watch? How often? On TV or on your
-phone/tablet?
+**Reality and Variety Shows**
 
-Who do you share your thoughts with?
+- What variety shows do you watch? How often?
+- Do you watch them on TV or on your phone?
+- Do you pay for early access to episodes? Why or why not?
+- Do you watch every episode as it comes out, or binge a whole season?
+- Do you follow online discussions about the show?
+- Do you comment or post about the shows you watch? Where?
+- Which show do you watch with your family? What do you talk about?
 
-You pay for early access? Do you watch every episode when it comes out?
-Or do you binge watch the whole season/series?
+**The Show Everyone Talks About**
 
-You follow online discussions?
+- Have you watched a reality show that went viral? Which one?
+- Why do you think a show becomes an online sensation?
+- Do the people around you talk about it? What do they say?
+- What quotes from a show have you seen shared online?
+- Do you follow the cast on social media? Why?
+- Have you ever changed your opinion about a cast member? How?
+- Would you ever want to be on a reality show? Why or why not?
 
-Are you a keyboard warrior? Do you fight with random trolls online? What
-if it's someone you really like?
+**Personality and Behavior**
 
-***['See you again']{.underline}***
+- How much do you know about NPD, or narcissistic personality disorder?
+- Do you know other common conditions, like OCD, ADHD, or PTSD?
+- How would you describe a "toxic" person in English?
+- What traits make a person hard to be around?
+- Can you tell if someone is toxic after meeting them once?
+- Do you think everyone has a little of these traits? Why?
+- How can you describe difficult behavior politely in English?
 
-Have you watched it? If not, have you heard of it? How much do you know
-about the show and the 'quotes' that went viral.
+**Keyboard Warriors and Strangers Online**
 
-Why do you think it became an online phenomenon/sensation?
+- Are you a keyboard warrior? Do you argue with strangers online?
+- What makes you jump into a fight in the comments?
+- Would you argue with a troll if it was someone you liked?
+- Have you ever been attacked online? How did you handle it?
+- Why are people braver online than face to face?
+- Do you ever regret something you posted? What happened?
+- What would make you block or report someone online?
 
-Do people around you talk about it? Do you see discussions on social
-media that you follow?
+**Living and Working with Difficult People**
 
-How much do you know about NPD? Do you know other common D(isorders)?
-OCD, ADHD, PTSD, Eating disorder, etc.
+- What can you do to live with a difficult person if you have no choice?
+- When is it better to just avoid someone completely?
+- Have you worked with a colleague you could not stand? What happened?
+- How do you stay calm when someone pushes your buttons?
+- What is the best way to set a boundary with a difficult person?
+- Have you ever cut someone out of your life? Was it the right call?
+- How would you support a friend who is stuck with a toxic person?
 
-- **Find the most popular/iconic quotes from the show on social media
-  and try to say it in English.**
+**Getting Along**
 
-- **Find the traits of NPD and examples in workplace and in a
-  relationship. How do we use English to describe it.**
-
-What can we do to work/live with people with NPD if we don't have a
-choice. The obvious is to get away from them.
+- What English phrases help you stay polite when you are angry?
+- Do you give people a second chance? Why or why not?
+- What is a sign that a relationship is not healthy?
+- How do you end a conversation with someone difficult?
+- Who is the easiest person in your life to talk to? Why?

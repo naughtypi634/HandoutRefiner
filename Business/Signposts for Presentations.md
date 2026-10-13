@@ -1,148 +1,59 @@
-Signposts are words or phrases that guide the listener during a
-presentation. They let the listener know what has happened so far, and
-what is going to happen next.
+# Signposts for Presentations
 
-**Signposts for the Introduction of a Presentation**
+**Introduction**
 
-  ----------------------------------------------------------------------------
-                  Formal                          Informal
-  --------------- ------------------------------- ----------------------------
-  Introducing     •Good                           •Hi everyone, I'm (name and
-  yourself:       morning/afternoon/evening. On   title). Thanks for coming.
-                  behalf of (company, department, 
-                  etc.), I'd like to welcome      
-                  you.\                           
-                  My name is (name) and I am      
-                  (position).                     
+**Situation**  **Formal**  **Informal**
+-----------  --------  --------
+Opening the talk  Good morning, everyone. Thank you all for coming.  Morning, everyone — thanks for making the time.
+Introducing yourself  On behalf of [company], I'm [name], [position].  Hi everyone, I'm [name] from the [team] team.
+Introducing the topic  The focus of today's presentation is...  I'm here today to talk to you about...
+Outlining the talk  The presentation is divided into three parts. First... Following that... Finally...  I'll cover three things today. I'll start with... Then... I'll finish with...
+Talking about timing  My talk will last about twenty minutes, and we'll have time for questions afterwards.  I'll keep this to fifteen minutes so we have room for your questions.
+Inviting early questions  Please don't hesitate to interrupt me with your questions.  If you have any questions, please ask as we go.
+Housekeeping   Before we start, please make sure your microphone is muted.  Can everyone see my screen? Give me a thumbs-up if you can.
 
-  Introducing the •I'm going to give you an       •I'm going to talk to you
-  topic:          overview of\...\                about...\
-                  •The focus of today's           •I'm going to be talking a
-                  presentation is...              little bit about...\
-                                                  •I'm here today to talk to
-                                                  you about...
+**Main Body**
 
-  Outlining your  •The presentation today is      •I'm going to talk about
-  presentation:   divided into three parts.       three things today. I'll
-                  First, I'll\... Following that  start with... Then I'll talk
-                  I'll\... Finally, I'll...       a little bit about... I'll
-                                                  finish with...
+**Situation**  **Formal**  **Informal**
+-----------  --------  --------
+Introducing the first section  I'd like to begin by...  Let's start by looking at...
+Moving to a new section  We've looked at... Now I'd like to discuss...  We've looked at... Now let's talk about...
+Expanding on a point  I'd like to elaborate on...  Let me tell you a little more about...
+Giving an example  To illustrate this point, let me give you an example from our Shanghai office.  Take our Shanghai office, for example — last quarter it did surprisingly well.
+Comparing two things  In contrast to the first option, the second one costs less.  Compare these two — the second one is way cheaper.
+Earlier or later points  As I mentioned earlier... More on this later.  As I said earlier... I'll talk more about this later.
+Listeners' prior knowledge  As you may be aware of...  I'm sure a lot of you already know that...
 
-  Inviting        •Please don't hesitate to       •If you have any questions
-  questions:      interrupt me if you have any    during the presentation,
-                  questions.                      please ask.
-  ----------------------------------------------------------------------------
+**Visuals and Data**
 
-**\
-Signposts for the Middle of a Presentation**
+**Situation**  **Formal**  **Informal**
+-----------  --------  --------
+Focusing on a visual  May I direct your attention to this chart...  Take a look at this slide. You can see that...
+Presenting figures  According to our latest figures, sales rose by twelve percent.  Our numbers show a jump of about twelve percent.
+Describing a trend  This graph shows a steady rise since March.  If you look here, it's been going up since March.
+Comparing two sets  In contrast to the first quarter, the second quarter...  Compare these two bars — the left one is over twice as high.
+Highlighting a key point  The important thing to remember is...  If you remember one thing today, make it this...
 
-  -----------------------------------------------------------------------
-                          Formal                  Informal
-  ----------------------- ----------------------- -----------------------
-  Introducing the first   •I'd like to            •Let's start/begin by
-  section of your         start/begin by...       looking at...
-  presentation:                                   
+**Handling Questions**
 
-  Finishing a section and •Well, we've looked     •Well, I've told you
-  starting a new one:     at\... Now, I'd like to about... Now I'll move
-                          discuss...\             on to...\
-                          •Having discussed...    •Well, we've looked
-                          I'd like to move on     at... Now, let's talk
-                          to....                  about...\
-                                                  •So, that was\... Now,
-                                                  let's...
+**Situation**  **Formal**  **Informal**
+-----------  --------  --------
+Opening the Q&A  We now have time for questions.  Okay, let's open it up — what would you like to know?
+Buying time to think  That's a good question. Let me think for a moment.  Good question — give me a second to think.
+Clarifying a question  Could you be more specific about what you mean by...?  Sorry, which part do you mean exactly?
+A question you didn't catch  Could you repeat that, please?  Sorry, I didn't catch that. Are you saying...?
+A question you can't answer  I don't have that with me. Could I send a full reply by email?  I don't have that with me. Email me and I'll follow up today.
+A difficult question  That's a fair point. Let me give you my honest view.  Good question. Honestly, it depends...
+Handling an interruption  That's a good point. I'll come back to it in a moment.  Good point — can I finish this bit first?
 
-  Expanding or            •I'd like to expand     •Let me tell you a
-  elaborating:            on...\                  little more about...\
-                          •I'd like to elaborate  •Let me give you some
-                          on...\                  more
-                          •Let's consider this in details/information
-                          more detail.            about\...
+**Time, Closing and Next Steps**
 
-  Talking about earlier   later:\                 later:\
-  or later points in your •I will elaborate on    •More on this later.\
-  presentation:           this later in the       •I'm going to talk more
-                          presentation.\          about this later.\
-                          •I'll provide you with  earlier:\
-                          a more detailed         •Do you remember I
-                          explanation later in    said\...?\
-                          the presentation.\      •As I said earlier...
-                          earlier:\               
-                          •To repeat what I said  
-                          earlier...\             
-                          •As I mentioned         
-                          earlier...              
-
-  Recognizing your        •As you may be aware    •You might already know
-  listeners\' prior       of...\                  that...\
-  knowledge:              •As you may know...\    •I'm sure a lot of you
-                          •I know many of you are know that...\
-                          familiar with...        •I'm sure a lot of you
-                                                  know about...\
-                                                  •I'm sure a lot of you
-                                                  have heard...
-
-  Focusing audience\'s    •May I focus your       •Take a look at this
-  attention on visuals:   attention on the...You  slide/chart/graphic
-                          will notice that...\    etc. You can see
-                          •Please direct your     that...\
-                          attention to the        •Okay, here we can see
-                          slide/chart/etc.        that...
-  -----------------------------------------------------------------------
-
-**\
-Signposts for the Conclusion of a Presentation**
-
-  -----------------------------------------------------------------------
-                          Formal                  Informal
-  ----------------------- ----------------------- -----------------------
-  Summarizing and         •Finally, let's         •Let's summarize/recap
-  concluding the          summarize some of the   what we looked at
-  presentation:           main points.\           today.\
-                          •To conclude, I'd like  •Finally, let's look
-                          to summarize.           back at what we covered
-                                                  today.\
-                                                  •So, to remind you of
-                                                  what we looked at
-                                                  today\...
-
-  Inviting final          •Does anyone have any   •Does anyone have any
-  questions:              questions or comments   final questions?\
-                          before we conclude      •Okay, does anyone have
-                          today?\                 any questions or
-                          •If you'd like me to    comments?
-                          elaborate or clarify    
-                          anything we covered     
-                          today, please ask.      
-
-  Responding to tough     a question you don't    a question you don't
-  questions:              have the answer to:\    have the answer to:\
-                          •I want to answer your  •I don't have that
-                          question completely,    information with me.
-                          but I don't have that   Can you give me your
-                          information with me     email and I'll send you
-                          right now. Could you    an answer later today?\
-                          give me your email      a question you didn't
-                          after the presentation  understand:\
-                          so I can send you a     •Could/Can you repeat
-                          complete response?\     that, please?\
-                          a question you didn't   •Sorry, I didn't catch
-                          understand:\            that.\
-                          •Could you repeat that, •Are you saying
-                          please?\                that...?
-                          •Could you rephrase     
-                          that, please?\          
-                          •Let me make sure I     
-                          understand you          
-                          completely. Do you mean 
-                          that...?                
-
-  Finishing and saying    •If there are no        •Well, I think that's
-  goodbye:                further questions, I'd  about it. Thanks for
-                          like to thank you very  listening. Please
-                          much for your           contact me later if you
-                          attention. If you think have any additional
-                          of any additional       questions or want more
-                          questions, please feel  information.
-                          free to contact me.     
-  -----------------------------------------------------------------------
+**Situation**  **Formal**  **Informal**
+-----------  --------  --------
+Managing time  We're running a little short on time, so I'll move on.  I'm almost out of time, so I'll be quick.
+Bringing the talk back on track  Let's return to the main point.  Anyway — back to the main point.
+Summarizing and concluding  To conclude, I'd like to summarize the main points.  Let's recap what we looked at today.
+Making a recommendation  In my view, we should go with the first option.  I think Option A is the way to go.
+Finishing and saying goodbye  If there are no further questions, thank you for your attention.  Well, that's about it. Thanks for listening.
+Offering next steps  I'll send the slides and a short summary by Friday.  I'll drop the slides in the group chat after this.
+Giving contact details  You can reach me at [email] if anything comes up.  Just message me on WeChat if you have questions.

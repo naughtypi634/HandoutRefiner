@@ -1,138 +1,46 @@
-**Cyberbullying**
+# Cyberbullying
 
-Cyberbullying is a form of bullying that occurs
-**[online]{.underline}**, using **[electronic devices]{.underline}**
-such as **[phones]{.underline}**, **[computers]{.underline}** or
-**[tablets]{.underline}**. It can involve sending hurtful messages,
-sharing embarrassing photos or videos, spreading rumors or lies, or even
-impersonating someone else.
+**Online Harassment Terms**
 
-Cyberbullying can happen on social media platforms, in chat rooms,
-through messaging apps or email. The impact of cyberbullying can be
-severe and long-lasting, causing emotional distress, anxiety, depression
-and can even lead to suicide.
+- Cyberbullying — bullying online with phones or computers: hurtful messages, fake photos or lies.
+- Cancel culture — shaming someone in public online and cutting them off for what they did.
+- Cyberstalking — repeatedly sending threatening messages to frighten someone and invade their privacy.
+- Doxing — finding and posting someone's private details, like their address, for others to see.
+- Exclusion — leaving one person out of a group chat or an event on purpose.
+- Flaming — sending angry, insulting messages online; the back-and-forth becomes a "flame war".
+- Ghosting — cutting off all contact with someone and disappearing, often to end a friendship.
+- Harassment — repeatedly sending rude or abusive messages, in public or in private.
+- Revenge porn — posting private sexual images of a former partner without their consent.
+- Sextortion — threatening to share a private image unless the person does what you want.
+- Trolling — posting upsetting comments on purpose to start a fight or get a reaction.
+- Griefing — ruining other players' game on purpose in an online multiplayer game.
 
-**Cancel Culture**
+**Vocabulary**
 
-An online movement to publicly shame and remove celebrity status or
-value from a person, place or thing based on an unacceptable, offensive
-act or transgression. People can even be 'cancelled' for past
-transgressions that come to light years later, often causing significant
-damage to their reputation.
+- troll — noun, someone who posts to anger others
+- threaten — verb, to say you will hurt someone
+- speak out — phrasal verb, to say openly what you think is wrong
+- hurtful — adjective, causing pain or sadness
+- offensive — adjective, rude and insulting
+- hate speech — noun, cruel words aimed at a whole group
+- abusive — adjective, very cruel and harmful
+- bully — verb, to frighten or hurt someone weaker
 
-**Cyberstalking**
+**Discussion**
 
-Consistently harassing someone by electronic means with threatening or
-intimidating messages that invade that person's privacy and affect their
-mental health. 
-
-**Doxing**
-
-involves searching for and revealing private or identifying information
-about someone (ie. their address or bank account details) for everyone
-to see -- usually with malicious intent.
-
-**Exclusion**
-
-Social exclusion can be a subtle and indirect form of bullying when a
-person is deliberately left out or excluded from an event, activity or
-online group chat with their friends or classmates.
-
-**Flaming**
-
-Sending angry or obscene message to an individual or group online,
-either privately or in a public setting. If this escalates, it becomes
-known as a 'flame war' with 'flames' being sent back and forth.
-
-**Ghosting**
-
-Most commonly used to end romantic relationships, ghosting can also
-occur between friend groups when one or more of them completely ignores
-a once-close friend, breaking off all contact and disappearing from all
-interactions.
-
-**\*Happy Slapping**
-
-Predominantly seen in the UK, this is an extreme form of bullying where
-physical assaults are recorded and shared online for public consumption.
-
-**Harassment **
-
-Repeatedly sending unsolicited, rude, offensive or abusive messages to
-someone, either via public or private channels.
-
-**Revenge Porn**
-
-This is the practice of posting or distributing sexual videos or images
-of a previous partner without their consent -- often after a painful or
-non-mutual breakup.
-
-**Sextortion**
-
-This occurs when someone threatens to expose a sexual or compromising
-image of another person in order to make them do something or for other
-reasons, such as revenge or humiliation.
-
-**Trolling**
-
-Deliberately posting inflammatory comments or information to entice
-genuine people or their followers to respond (often emotionally). Often
-done simply to provoke outrage or inspire a backlash.
-
-**Griefing**
-
-Manipulating the playing experience of players in a multiplayer online
-game with the intent of ruining the playing experience of the
-participants -can include bad language, cheating
-
-## Vocabulary 
-
-- **troll** (noun)
-
-- **threaten** (verb)
-
-- **speak out** (phrasal verb)
-
-- **hurtful** (adjective)
-
-- **offensive** (adjective)
-
-- **hate speech** (noun)
-
-- **abusive** (adjective)
-
-- **bully** (verb)
-
-## 
-
-## Questions About **Cyberbullying**
-
-- What is cyberbullying, and how does it differ from traditional
-  bullying?
-
-- Have you or someone you know experienced cyberbullying? How did it
-  impact you/them?
-
-- How can cyberbullying affect a person\'s mental health and well-being?
-
-- What are some examples of cyberbullying that you can think of?
-
-- Should cyberbullying be considered a criminal offense?
-
-- Does anonymity on the internet contribute to an increase in
-  cyberbullying incidents?
-
-- What are some ways to prevent cyberbullying from happening?
-
-- Should cyberbullying be punishable by imprisonment or fines?
-
-- How can we create a safer and more respectful online environment?
-
-- Should social media companies be held accountable for cyberbullying
-  that takes place on their platforms?
-
-- Should parents be held responsible for their child\'s cyberbullying
-  behavior?
-
-- Should schools be responsible for addressing cyberbullying incidents
-  that happen outside of school?
+- What is cyberbullying, and how is it different from old-fashioned bullying?
+- Have you or someone you know been bullied online? What happened?
+- How can being bullied online affect a young person's mental health?
+- Can you think of a recent case of cyberbullying you saw online?
+- Should cyberbullying be a crime? Why or why not?
+- Does being anonymous online make people crueler than they are in person?
+- What can schools and parents do to stop cyberbullying?
+- Should apps like WeChat or Douyin be responsible for what users post?
+- If your friend were being trolled, what would you tell them to do?
+- Have you ever seen a "keyboard warrior" attack someone in the comments?
+- Should parents be held responsible for what their children do online?
+- Why do some people join in when they see someone being piled on?
+- Is it ever right to shame someone publicly for something they said?
+- What should you do if a private photo of you were shared without your consent?
+- How can you tell the difference between a joke and real harassment?
+- What would make the internet a kinder place for young people?

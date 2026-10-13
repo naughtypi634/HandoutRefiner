@@ -1,48 +1,33 @@
-Entrepreneurship
+# Entrepreneurship
 
-Definition:
+**Definition**
 
-**a person who makes money by starting or running businesses, especially
-when it involves taking [financial risks.]{.underline}**
+- A person who makes money by starting or running a business, especially by taking financial risks.
 
-Discussion
+**Common Traits**
 
-Have you heard of this term before? What does it mean to you?
+- Passion — they believe in themselves and in their product
+- Optimism — they celebrate the small wins
+- Resilience — they can take a hundred no's, or "we won't invest"
+- Introspective — they know their own weaknesses
+- Methodical — they set goals and track them properly
+- Direct — you don't get what you don't ask for
+- Focused — a deep understanding of one thing beats shallow knowledge of many
+- Resourceful — creative and frugal with whatever they have
+- Patient — good ideas take years, not weeks
+- Curious — they keep asking why until they really understand
+- Decisive — they make the call and move on
+- Honest — they admit what they don't know
 
-How does it differ from being a business owner or a founder?
+**Discussion**
 
-Who are the most famous and successful Entrepreneurs in China? What
-about in the world?
-
-What environmental factors contribute to their success?
-
-What are their characteristics?
-
-![10 Characteristics of Successful
-Entrepreneurs](media/image1.png){width="7.268055555555556in"
-height="7.268055555555556in"}
-
-What lessons can we learn from their experiences?
-
-What is the most recent inconvenience you ran into? Any idea how to
-improve?
-
-- passion (belief in themselves and their product)
-
-- optimism (celebrate the small wins)
-
-- resilience (can take 100s of no/we won't invest/etc.)
-
-- introspective (know their weaknesses)
-
-- methodical (goals are important to track and set properly)
-
-- direct (you don't get what you don't ask for)
-
-- focused (you have a deep/focused understanding vs wide/shallow)
-
-- resourceful (be creative, frugal, etc. as long as you can)
-
-- ......
-
-What else can you think of?
+- Have you heard of this term before? What does it mean to you?
+- How is an entrepreneur different from a business owner or a founder?
+- Who are the most famous entrepreneurs in China today? What about the rest of the world?
+- What helped them succeed — timing, talent, luck, or the people they knew?
+- What lessons can you learn from their stories?
+- Which of these traits do you already have, and which would you work on?
+- Would you rather start your own business or join a big company? Why?
+- What is the biggest risk of starting a business in your city?
+- What is the most recent inconvenience you ran into, and how would you fix it?
+- What else do you think makes a good entrepreneur?

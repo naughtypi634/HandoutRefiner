@@ -1,61 +1,34 @@
-# Vocabulary
+# Workplace Discrimination
 
-race
+**Vocabulary**
 
-sex
+- race
+- sex
+- marital status
+- pregnancy
+- sexual orientation
+- religion
+- hometown
+- disability
+- age
+- citizenship
+- minority
+- majority
+- diversity
+- diverse
+- stereotypes
+- prejudice
+- the glass ceiling
 
-marital status
+**Conversation Questions**
 
-pregnancy
-
-sexual orientation
-
-religion
-
-hometown
-
-disability
-
-age
-
-citizenship
-
-minority
-
-majority
-
-diversity
-
-diverse
-
-stereotypes
-
-prejudice
-
-the glass ceiling
-
-# 
-
-# Conversation Questions
-
-1.  What laws are there in your country against workplace
-    discrimination?
-
-2.  In the United States, an employer cannot ask a job applicant certain
-    questions. These include questions about a person's religion, date
-    of birth (except to establish a minimum age requirement),
-    nationality, marital status, physical or mental disabilities. Do
-    similar laws exist in your country? What do you think of these laws?
-    Do they protect people who are looking for a job?
-
-3.  What corporate policies or programs does your company have in place
-    to combat discrimination? What does your company do to promote a
-    diverse workforce?
-
-4.  Do you think that workplace discrimination is decreasing? Do you
-    think it is increasing? Are some types decreasing but not others?
-
-5.  How can we reduce workplace discrimination in the future? Where
-    should solutions come from (governments, corporations, consumers,
-    etc.)? What specific things need to happen to end workplace
-    discrimination?
+- What laws against workplace discrimination exist in your country?
+- In the US, an employer cannot ask about religion, date of birth, nationality, marital status, or disability. Do similar rules exist here? Do they protect job seekers?
+- What policies does your company have to fight discrimination and build a diverse workforce?
+- Is workplace discrimination getting better or worse? Are some types improving while others get worse?
+- How can we reduce workplace discrimination? Should the push come from government, companies, or consumers?
+- Have you ever seen or experienced discrimination at work? What happened?
+- Is it harder to find a job at a certain age in your field? How so?
+- Do height or appearance requirements in job ads bother you? Are they fair?
+- What would you do if a colleague made a joke about someone's hometown?
+- What one rule would you add to make hiring fairer?

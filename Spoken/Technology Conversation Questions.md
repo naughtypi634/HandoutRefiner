@@ -1,67 +1,61 @@
-**Technology Conversation Questions**
+# Technology
 
-**Warm-up Task:**\
-\
-What could be the *most important technological advance of all time?*
-Give a reason why you think it\'s important. Here are some suggestions:
-the steam engine, the printing press, the internet, modern plumbing,
-antibiotic medicine, electricity.
+**Everyday Tech**
 
-**Discussion Questions:**
+- Are you excited by new technology? What kind of tech interests you most?
+- How much time do you spend online each week? Is that too much, or fine?
+- Which app do you open first in the morning, and what do you check?
+- What is your favorite app or website, and what do you use it for?
+- Do you read e-books? How do they compare with paper books for you?
+- Which electronics brands do you trust? Are you loyal to one brand?
+- What would you miss most if you lost your phone for a whole day?
 
-1.  Are you excited by new technology? What kinds of technology interest
-    you?
+**Phones and Screens**
 
-2.  Is technology developing faster than it used to? Are you worried
-    about being *left behind*?
+- How do you feel when you leave your phone at home by mistake?
+- How many times a day do you check your phone? Is that a habit you like?
+- Do you sleep with your phone next to your bed? What do you do first?
+- Do you use your phone during meals or while watching TV with family?
+- Which app takes up most of your screen time? What could you cut back on?
+- Have you ever tried a digital detox? How did the first day feel?
+- Do you answer work messages late at night? Should you have to?
 
-3.  When you get a new product, do you read the instruction manual? Or
-    do you just *figure it out*?
+**New Gadgets and Upgrades**
 
-4.  How much time do you spend online each week? Is it too much time, or
-    a reasonable amount?
+- When you buy a new device, do you read the manual, or just figure it out?
+- Are you an early adopter? What are the risks of buying the newest product?
+- Is there a tech product you want right now? How would it improve your life?
+- How long do you keep a phone before you replace it, and why?
+- Do you buy the latest model, or wait until the price drops?
+- Have you ever bought a gadget you barely used? What was it?
+- Do you play computer games? What do you say to people who call them a waste of time?
 
-5.  What are some of your favorite websites? What can you do on them?
+**Technology and Society**
 
-6.  Advances in medical technology mean people are living longer. What
-    are some of the downsides of this? How old do you hope to live?
+- Is technology developing faster than before? Are you worried about being left behind?
+- Medical tech helps people live longer. What are the downsides of that?
+- How old do you hope to live? What would make a long life good or hard?
+- Which social apps do you use most? What do you like and dislike about them?
+- Do you know anyone who fears or dislikes technology? What is their reason?
+- Some people choose to live with less technology. Can you understand why?
+- Are cash and cards disappearing? How do you pay for things now?
 
-![A woman hands are holding an iPhone next to a
-MacBook.](media/image1.jpeg){width="5.768055555555556in"
-height="3.826388888888889in"}
+**Work and Study**
 
-7.  How do you feel if you forget your mobile phone and leave it
-    somewhere?
+- Has technology made your work easier or more stressful? Give an example.
+- Do you use AI tools at work or for study? What do you use them for?
+- Could your job be done by AI one day? How do you feel about that?
+- Do you study better online or in a classroom? What makes the difference?
+- Would you take a fully remote job? What would be hard about it?
+- How do you stop getting distracted when you work on a laptop?
+- If you could delete one app from your work life, which would it be?
 
-8.  Which electronics brands do you trust most? Are you loyal to one
-    brand?
+**The Future**
 
-9.  Are you an *early adopter*? Do you like to have *cutting edge*
-    technology? Are there any disadvantages to buying the latest
-    product?
-
-10. Some people dislike or fear technology. Do you know anyone like
-    this?
-
-11. Do you read e-books? What are their advantages and disadvantages
-    when compared with paper books?
-
-12. Is there a tech product you want these days? What is it? How will it
-    make your life better?
-
-13. Do you play computer games? What do you say to people who believe
-    they are a waste of time?
-
-14. What crazy future technology are you looking forward to? For
-    example, *flying cars* or *personal robots*.
-
-15. Which social networking services (SNS) do you use? What do you like
-    or dislike about them?
-
-16. How do you feel about dating websites/apps? Would you use one?
-
-17. Some people prefer to live with less technology in their lives. Can
-    you understand the desire to live *a simpler life*?
-
-18. Many science fiction movies present a dark vision of the future. Are
-    you optimistic or pessimistic about the future of humanity?
+- What do you think is the most important invention of all time, and why?
+- What future tech are you looking forward to — flying cars, personal robots?
+- How do you feel about dating apps? Would you ever use one?
+- Would you ride in a driverless car? What worries you about it?
+- Many science fiction films show a dark future. Are you optimistic or pessimistic?
+- Would you want a smart home that listens to you? What would it switch on?
+- In ten years, how do you think your daily routine will have changed?

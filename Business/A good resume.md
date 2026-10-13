@@ -1,38 +1,41 @@
-What do you think a **good** resume should look like?\
-What information should be **included** in a resume?\
-Should you use a **template**, or is it better to create one **from
-scratch**?
+# A Good Resume
 
-Here are some of the **Dos and Don'ts** when writing a resume, do you
-agree?
+**Dos**
 
-+-----------------------------------+-----------------------------------+
-| **Dos**                           | **Don'ts**                        |
-+===================================+===================================+
-| - Keep your resume clear and      | - Don\'t include unnecessary      |
-|   concise                         |   personal information            |
-|                                   |                                   |
-| - Limit your resume to 1 page     | - Don\'t include a picture of     |
-|                                   |   yourself                        |
-| - Tailor to suit the position you |                                   |
-|   are applying for                | - Don\'t use too many bullets     |
-|                                   |                                   |
-| - Highlight what you have         | - Don\'t make general statements  |
-|   accomplished                    |                                   |
-|                                   | - Don\'t include reasons for      |
-| - Quantify your achievements      |   leaving previous jobs           |
-|                                   |                                   |
-| - Be honest and don\'t overstate  | - Don\'t include hobbies or       |
-|   or exaggerate                   |   interests                       |
-|                                   |                                   |
-| - Use simple words and action     | - Don't use too many colors       |
-|   verbs                           |                                   |
-|                                   | - Don't use 'unprofessional       |
-| - Include unpaid work that show   |   emails'                         |
-|   off your skills                 |                                   |
-|                                   | **...**                           |
-| ...                               |                                   |
-+-----------------------------------+-----------------------------------+
+- Keep it clear and concise
+- Limit it to one page — two at most
+- Tailor it to the exact job you are applying for
+- Highlight what you have accomplished, not just your daily duties
+- Quantify results — "cut delivery time by 20%" beats "improved service"
+- Be honest; never overstate or exaggerate your experience
+- Use simple words and strong action verbs
+- Include unpaid or volunteer work that shows off your skills
 
-Let's write a resume for your dream job and give advice based on **peer
-review**.
+**Don'ts**
+
+- Don't add personal details like age, height, or marital status
+- Don't attach a photo unless the employer asks for one
+- Don't stuff the page with too many bullet points
+- Don't write general statements that could describe anyone
+- Don't explain why you left your previous jobs
+- Don't fill space with hobbies and interests
+- Don't use too many colors or fonts
+- Don't list an unprofessional email address
+
+**Practice**
+
+- Write three bullet points for your current job, each with a number in it.
+- Swap resumes with a partner and mark one line you would cut.
+- Rewrite your weakest line as a short, concrete achievement.
+
+**Discussion**
+
+- What do you think a good resume should look like?
+- Which information should go on a resume, and what should stay off it?
+- Is it better to use a template, or to build one from scratch?
+- An HR manager says they spend ten seconds on a resume. What do they see first?
+- What makes a resume stand out when you have little work experience?
+- Should a resume look the same in every country, or change from place to place?
+- Have you ever helped a friend fix their resume? What did you change?
+- Would you use AI to write your resume? Where would you draw the line?
+- What is the biggest mistake you have seen on a resume?

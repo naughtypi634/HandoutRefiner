@@ -1,60 +1,47 @@
-1\. Has anyone ever offended you by accident?  How?\
-2. Have you ever offended anyone by accident?  How?
+# Saying No Politely
 
-**Polite Ways to Say No**
+**A Polite No Has Three Parts**
 
-**1. Make a statement of regret.**\
-(I'm sorry..., I'd really like to, but...I appreciate the offer, but...,
-etc.)\
-**2. Explain why the answer is no.**\
-(I'm really busy right now, We aren't available that weekend, etc.)\
-**3. Offer an alternative, if possible.**\
-(I might be able to do it next week, John might be able to help you with
-that, etc.)
+- Say you are sorry — I'm sorry..., I'd really like to, but..., I appreciate the offer, but...
+- Explain why the answer is no — I'm really busy right now, We aren't free that weekend...
+- Offer an alternative — I might be able to next week, John might be able to help...
 
-Give your class some examples of expressions we use to say no.
+**Saying No to a Request**
 
- 
+- I'd love to help you, but right now I'm really busy with...
+- I wish I could, but right now I need to focus on...
+- Normally I'd be able to, but right now I have to...
 
-**Polite ways to say no to a request**
+**Saying No to an Offer**
 
-I'd love to help you, but right now I'm really busy with...\
-I wish I could, but right now I need to focus on...\
-Normally I'd be able to, but right now I have to....
+- I appreciate the offer, but...
+- That would be great, but I'm already working on...
+- Thank you for the offer, but my schedule is full at the moment.
 
-**Polite ways to say no to an offer**
+**Saying No to an Invitation**
 
-I appreciate the offer, but...\
-That would be great, but I'm already working on...\
-Thank you for the offer, but my schedule is full at the moment.
-
-**Polite ways to say no to invitations to social events**
-
-That sounds great, but....\
-I'm sorry I can't that night. I have to....\
-I really appreciate the invite, but...
+- That sounds great, but...
+- I'm sorry, I can't make that night. I have to...
+- I really appreciate the invite, but...
 
 **Practice**
 
-**Directions:** Read the following situations. For each situation, write
-what you think would be a good way to say no.
+- A coworker asks you out for drinks on Friday. You don't drink and don't like bars.
+- Just as you leave for lunch, a coworker asks you to review some financial documents first.
+- A former client calls and wants to hire you again. You are busy and don't want the job.
+- Mike asks you to join a conference call to help him close a sale. You have no time to help.
+- Two coworkers ask you to join the company softball team. You would rather be with your family.
+- An acquaintance who just started a business wants you to design his website. You don't think it is worth your time.
 
-1\.  One of your coworkers has just asked you to go out for drinks on
-Friday night after work. You don't drink and don't like going to bars.\
-2. You are about to leave for your lunch break when one of your
-coworkers stops you. He wants to know if you can review some financial
-documents with him before you leave to take your break.\
-3. You are a graphic designer working as a private contractor. One of
-your former clients calls you on the phone. She wants to know if you
-would be interested in doing another job for her. You are busy and don't
-want the assignment.\
-4. You work in sales. Mike, one of your coworkers, has a conference call
-with an important customer. Since you know more about the product than
-your coworker, Mike asks you to join the conference call and help him
-make the sale. You are busy and don't have the time to help Mike.\
-5. Two of your coworkers approach you and ask if you want to be on the
-company softball team. You don't like softball very much and like to
-spend your free time with your family.\
-6. An acquaintance of yours has just started his own business. He wants
-to hire you to design his website. You don't think it would be worth
-your time.
+**Discussion**
+
+- Has anyone ever offended you by accident? How?
+- Have you ever offended someone by accident, by saying no the wrong way?
+- When is it hard for you to say no at work?
+- Have you ever agreed to something you didn't want to do? What happened?
+- How do you say no to your boss without sounding rude?
+- A close friend asks for a big favour. How do you turn them down?
+- Is it OK to say no to a customer? How would you do it?
+- Do you find it easier to say no in Chinese or in English? Why?
+- When someone says no to you, what makes it easier to accept?
+- What is a polite way to say no without giving a reason?

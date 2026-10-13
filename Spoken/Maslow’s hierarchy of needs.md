@@ -1,79 +1,60 @@
-![Maslow\'s hierarchy of needs is a model for understanding the
-motivations for human behavior. It maps different motivations onto a
-pyramid, with each level representing a different human need. These
-include physiological needs, safety, love and belonging, esteem, and
-self-actualization.](media/image1.jpeg){width="6.8in"
-height="3.6993055555555556in"}
+# Maslow's Hierarchy of Needs
 
 **Physiological Needs**
 
-1.  **Food**:​ What do you usually eat? Is your diet healthy? Do you
-    worry about food safety?
-
-2.  **Environment**: Saving water? What's your take on "environment
-    protection"?
-
-3.  **Housing**:​ What are the advantages and disadvantages of buying a
-    house versus renting an apartment?
-
-4.  **Sleep**:​ When do you usually go to bed and wake up? Do you often
-    stay up late? Is your schedule healthy?
-
-5.  **Family**:​ Do you want to have children? Do you think people need
-    kids? Do siblings usually get along?
+- What do you usually eat on a normal day — home cooking or takeout?
+- Is your diet healthy? Do you worry about food safety?
+- Do you cook for yourself, or does someone cook for you?
+- Do you try to save water or sort your rubbish at home? Why?
+- What are the pros and cons of buying a flat versus renting one?
+- When do you go to bed? Do you often stay up late on your phone?
+- Do you want children one day? Do you think people need them?
 
 **Safety Needs**
 
-1.  **Job Security**:​ Do you ever worry about losing your job? What
-    would you do if you lost it suddenly?
-
-2.  **Health**:​ What small habits do you have to keep your body and mind
-    healthy?
-
-3.  **Public Safety**:​ Do you generally feel safe when you go out? Are
-    you afraid of dangerous situations?
-
-4.  **Money**:​ Where do you keep your savings? Have you tried risky
-    investments like stocks or gambling?
+- Do you ever worry about losing your job? What would you do if you did?
+- What small habits keep your body and mind healthy?
+- Do you feel safe walking home alone at night in your city?
+- Where do you keep your savings — the bank, a fund, or a phone app?
+- Have you ever tried a risky investment, like stocks or crypto?
+- Is your home safe from fire or theft? What do you do about it?
+- Do you have health insurance? Is it worth the money?
 
 **Love and Belonging**
 
-1.  **Support**:​ Who do you talk to when you feel sad or upset? Why do
-    you choose that person?
-
-2.  **Socializing**:​ Do you like joining groups and making new friends?
-    Do you hate feeling lonely or left out?
-
-3.  **Solitude vs. Company**:​ What are the benefits of spending time
-    alone? What about being with others?
-
-4.  **Relationships**:​ Who are the most important people in your life?
-    Your parents, your friends, or your partner?
+- Who do you call first when you feel sad or upset? Why that person?
+- Do you like meeting new people, or does it make you nervous?
+- Do you ever feel lonely even when you are around other people?
+- What is the good side of time alone? What about time with others?
+- Who matters most to you — your parents, your friends, or your partner?
+- Who would you ask for help if you were sick for a whole week?
+- Do you belong to any group or club? How does that feel?
 
 **Esteem Needs**
 
-1.  **Achievement**:​ When was the last time you felt really proud of
-    something you did?
-
-2.  **Recognition**:​ How do you feel when other people tell you that you
-    work hard?
-
-3.  **Skills**:​ What new skills could help you feel more confident? Why?
-
-4.  **Criticism**:​ How do negative comments affect you? How do you
-    handle criticism from others?
+- When did you last feel really proud of something you did?
+- How do you feel when someone says you did a good job?
+- Which new skill would make you feel more confident? Why?
+- Do you need praise from others, or can you praise yourself?
+- How do you deal with criticism or negative comments?
+- Do you compare yourself with others online? How does it feel?
+- What does success mean to you — money, respect, or something else?
 
 **Self-Actualization**
 
-1.  **Future Self**:​ What kind of person do you hope to become in the
-    future?
+- What kind of person do you hope to become in ten years?
+- How do you set small goals to improve yourself? Do they work?
+- Do you need many hobbies to enjoy life, or just one or two?
+- How are you different from who you were ten years ago?
+- Is there something you want to learn that has nothing to do with work?
+- What would you do with your life if money were not a problem?
+- Do you feel you are growing, or just getting through each day?
 
-2.  **Goals**:​ How do you set small goals to improve yourself?
+**Looking at the Pyramid**
 
-3.  **Hobbies**:​ Do you need a lot of hobbies to enjoy life? How did you
-    start your current hobbies?
-
-4.  **Growth**:​ Are you very different from who you were ten years ago?
-    In what ways?
-
-Do you agree with the hierarchy?
+- Do you agree with the order of this pyramid? Which level matters most?
+- Can a person be happy without money or a safe home?
+- Which level do you think most people in your city are stuck on?
+- Is love or respect harder to find in modern life?
+- Does chasing the top of the pyramid ever make us unhappy?
+- What is one thing you would put at the bottom of your own pyramid?

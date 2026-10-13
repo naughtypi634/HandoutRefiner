@@ -1,77 +1,59 @@
-- If you can know 1 thing about the future, what would it be?
+# Predictions
 
-- What do you predict that the weather will be like tomorrow? Why do you
-  think so?
+**Weather and Fortune Tellers**
 
-- How has weather forecast changed over the years?
+- What do you predict the weather will be like tomorrow? Why?
+- How has the weather forecast changed over the years?
+- Have you ever been to see a fortune teller? What did they say?
+- How did fortune tellers predict the future in the past, and now?
+- Do you believe in horoscopes or anything similar? Why or why not?
+- What would you do if the forecast was always wrong?
+- Do you trust the weather app on your phone? How much?
 
-- Have you ever been to see a fortune teller? What did they say about
-  your future?
+**Everyday Predictions**
 
-- How did fortune tellers predict the future in the past? What about
-  now? What about in the future?
+- If you could know one thing about your future, what would it be?
+- Would you like to know the age you will live to? Why or why not?
+- Do you ever buy lottery tickets? What are your chances of winning?
+- What is the most unpredictable thing in your life right now?
+- What is something in your daily life that you find too predictable?
+- What is something you will never try to predict? Why not?
+- How do you plan a trip when you don't know the weather?
 
-- Do you believe in **horoscopes** or anything similar that claims to
-  predict the future?
+**Money, Sport and Jobs**
 
-- What information would you want to know to make a prediction about a
-  sports game?
+- How do people predict the stock market and make money bets?
+- What do you think of the link between prediction and empiricism?
+- Which jobs involve making predictions? How are they made?
+- What information would you want to predict a sports game?
+- Do experts predict the economy better than ordinary people do?
+- Would you trust an AI to predict your future? Why or why not?
+- Have you ever spotted a trend early and turned out to be right?
 
-- What do you think of the relationship between predictions and
-  **empiricism?**
+**Big and Bold Predictions**
 
-- How do you think that people make predictions about money and the
-  stock market?
+- How do you feel about doomsday preppers and catastrophe predictions?
+- What is the most positive prediction you have heard or made recently?
+- What is a prediction you wanted to happen but did not? Why not?
+- What do you predict the world will be like in a thousand years? In ten?
+- Can predicting something actually make it happen? Give an example.
+- If the media predicts a trend and it happens, did it cause the trend?
+- Cyberpunk or digital cloud — which future do you expect?
 
-- Would you like to know the age that you will live to? Why or why not?
+**You as a Predictor**
 
-- Which jobs involve making predictions? How are these predictions made?
+- Who is a very predictable person that you know? What can you expect?
+- How did you predict Beijing would change when you were younger?
+- What is a prediction you made that turned out to be true?
+- What role does intuition play? Do you believe in a sixth sense?
+- Are you predictable? Do the "suggested for you" feeds know you?
+- Are you good at predictions? Give an example.
+- Do you agree that with all the data, a person could predict everything?
 
-- How do you feel about doomsday preppers and people who predict
-  catastrophes?
+**Prediction in Daily Life**
 
-- Do you ever buy lottery tickets? What do you think your chances of
-  winning are?
-
-- What would you say is the most unpredictable thing in your life right
-  now?
-
-- How did you predict Beijing would change when you were younger? Was it
-  different from now?
-
-- What is a prediction you made in the past that turned out to be true?
-  How?
-
-- What is the most positive prediction that you have heard/made in
-  recent years?
-
-- What is a prediction that you really wanted to happen but did not? Why
-  didn't it?
-
-- Who is a very predictable person that you know? What about them can
-  you predict?
-
-- What is something that you find too predictable?
-
-- What is something that you will never try to predict? Why not?
-
-- What do you predict the world will be like in 1000 years from now?
-  What about 100, or 10?
-
-- What role do you think intuition plays in prediction? Do you believe
-  in 6^th^ sense?
-
-- Are you a predictable person? What about the apps you use? Do you
-  think they know you? Like the 'suggested for you' section and the
-  'people you may know/want to know'?
-
-- Are you good at predictions? How so?
-
-- 'If one can have all the data and variables, he can predict
-  everything.' Do you agree?
-
-- Let's say the mainstream media predicted something will be popular,
-  and then it became true, was prediction the cause of the result? What
-  do you think of **Self-fulfilling prophecies.**
-
-- Cyberpunk or digital cloud?
+- Do you always carry an umbrella just in case? Why?
+- How do you predict how a friend will react to your news?
+- Have you ever predicted a problem and prevented it? How?
+- What is a prediction about your city you hope comes true?
+- What is one prediction you are sure about for next year?

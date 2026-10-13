@@ -1,119 +1,59 @@
-- What does \"flexible job\" mean to you?​ Is your job flexible? Why do
-  you think so?
+# Job Flexibility
 
-- What jobs are usually more flexible than others?
+**What Flexible Means**
+
+- What does a "flexible job" mean to you? Is your job flexible?
+- Which jobs are usually more flexible than others? Why?
+- What are the good and bad sides of a flexible job?
+- Sales, doctors, or teachers — which job is more flexible? Why?
+- Does a flexible job mean fewer hours, or just different hours?
+- Can a small company give its staff flexible hours? Why or why not?
+- Would you rather choose your hours or your workplace? Why?
+
+**Office, Home, or Hybrid**
 
 - Do you prefer working in an office or at home? Why?
+- What do you think of hybrid work — three days in, two days home?
+- When you work from home, how do you stop phone and TV distractions?
+- Who in a company can never work from home? Why not?
+- Do you work better in a quiet room or with people around you?
+- What do you miss most when you work from home for a whole week?
+- Is it fair that office staff get to work from home but factory staff cannot?
 
-- Do you prefer flexible jobs?
+**Boundaries and Burnout**
 
-- What are the advantages and disadvantages of flexible jobs?
+- How has the "always-on" culture changed the way people work?
+- Do you check work messages after hours? Why or why not?
+- Have you ever felt burned out because work and home life mixed?
+- If work and home are in the same room, when does your day end?
+- Do you turn off notifications at night, or keep them on?
+- Is it rude to message a colleague at 11 p.m.? Why?
+- What is one rule you set to protect your evenings?
 
-- **Which jobs are more flexible: Sales or doctors or teachers? Why?​**
+**Money and Choice**
 
-- What about 9-5 jobs?
+- Is flexibility more important to you than a higher salary?
+- When would you accept a job with no flexibility at all?
+- Should a company pay people less if they work from home?
+- Would you take a pay cut for a four-day week? Why?
+- Which matters more to you: free time or a bigger paycheck?
+- How much of your salary would you trade for full remote work?
 
-- What do you think of hybrid work model (e.g., 3 days in-office, 2 days
-  remote)?
+**Temp and Side Gigs**
 
-- **Do you think more people will work from home in the future? Why? Who
-  won't?​**​
+- Have you or a friend ever done a temporary job? Why do people do it?
+- How do people find temp work — friends, apps, or agencies?
+- What is the difference between part-time, full-time, and a side gig?
+- Which of the three would you choose, and why?
+- Is a side gig a good idea, or does it just mean less rest?
+- Have you ever seen a temp worker treated badly at a company?
+- Would you do a temp job while looking for a full-time one?
 
-- How do you manage distractions at home while working remotely? Any
-  tools you found effective?
+**The Future of Work**
 
-- Do you prioritize job flexibility over others? Under what
-  circumstances would you compromise?
-
-- How has the \"always-on\" culture impacted mental health despite
-  flexible schedules? **Do you check messages after work hours? Why or
-  why not?​**
-
-- Have you experienced \"burnout\" from blurred work-life boundaries?
-  How did you address it?
-
-- Have you ever done or heard anyone doing a temporary job? Why?
-
-- How do people find temporary jobs? Friend's referral? Temp Agency? Job
-  ads?
-
-- **Part-time and full-time and side gig comparison**
-
-**\**
-
-- What is a "flexible job" for you? Is your job flexible?
-
-- Which jobs are usually very flexible?
-
-- Do you like working in an office or at home? Why?
-
-- Do you want a flexible work? Yes or no? Why?
-
-- What are good things and bad things about flexible jobs?
-
-- Sales, doctors, or teachers -- which job is more flexible? Why?
-
-- What do you think about normal 9-to-5 jobs?
-
-- Do you like hybrid work (some days office, some days home)? Why?
-
-- In the future, will more people work from home? Why? Who will not?
-
-- When you work at home, how do you stop distractions (phone, TV,
-  family)?
-
-- Is flexibility the most important for you when you choose a job? When
-  would you accept a non-flexible job?
-
-- Do flexible jobs sometimes make people feel tired or stressed? Why? Do
-  you check work messages after work time?
-
-- Have you ever felt "burnout" (very very tired) because work and home
-  life mix together? What did you do?
-
-- Have you or your friends ever done a temporary (short-time) job? Why
-  do people do it?
-
-- How do people find temporary jobs? (friends, websites, agencies...)
-
-- What is the difference between part-time, full-time, and side gig?
-  Which do you like best? Why?
-
-- Flexible job = choose your time/place. My job is flexible because I
-  work from home.
-
-- Freelance, programmer, writer, online teacher -- very flexible.
-
-- I like working at home. Quiet, no travel, comfortable.
-
-- Yes, I want flexible job. More free time for family.
-
-- Good: save time, happy life. Bad: lonely, hard to stop working.
-
-- Sales most flexible (work anywhere). Doctors/teachers less (must go to
-  hospital/school).
-
-- 9-to-5 jobs = fixed hours, stable money, but no freedom.
-
-- Hybrid is good! Best of both -- see people + stay home sometimes.
-
-- Yes, more people will work from home. Technology better. Only drivers,
-  doctors, shop workers cannot.
-
-- I turn off phone, use Pomodoro timer, work in quiet room.
-
-- Flexibility very important, but I accept office job for high salary.
-
-- Yes, always-on makes stress. I check messages after work because boss
-  expects.
-
-- Yes, I had burnout. I fixed it: no phone after 7 pm, take weekend off.
-
-- Yes, I did summer job in café. People do temp jobs for quick money or
-  try new work.
-
-- Websites (Indeed), temp agencies, friends tell friends.
-
-- Full-time = 40 hours, good money. Part-time = 20 hours, more free time
-  Side gig = extra job evenings/weekends I like side gig -- extra
-  money + keep main job.
+- In ten years, will more people work from home? Who won't?
+- Will flexible work grow, or will companies pull people back in?
+- Could AI and better tools make every job flexible?
+- Would you like to work from another city or another country?
+- Which job of the future will be the most flexible?
+- Do you think your children will work a normal 9-to-5?
