@@ -877,6 +877,11 @@ td {{
 td.cn {{ width: 22%; color: {tok['ink']}; }}
 td.en {{ width: 38%; color: {tok['body']}; }}
 td.gl {{ width: 40%; color: {tok['body']}; }}
+table.c1 td.cn {{ width: 100%; }}
+/* A two-column table keeps the same 22% label column as a three-column
+   one, so every table's first column lines up down the sheet. */
+table.c2 td.cn {{ width: 22%; }}
+table.c2 td.en {{ width: 78%; }}
 td.head {{ background: {tok['hairline']}; color: {tok['ink']}; font-weight: 700; }}
 tr:nth-child(even) td {{ background: {tok['surface_soft']}; }}
 ol {{ list-style: none; }}
@@ -897,10 +902,16 @@ def render_hybrid_html(title: str, sections, design: dict,
         if not tables:
             continue
         rows = []
+        # Every table in a section shares one grid, sized from the widest
+        # row there. A 2-column section rendered into the 3-column grid
+        # would otherwise end in an empty bordered cell, because the
+        # per-class widths (22% / 38% / 40%) only add up at three columns.
+        ncols = max((len(row) for it in tables for row in it["rows"]),
+                    default=2)
         for it in tables:
             for row in it["rows"]:
                 cells = []
-                for i, cls in enumerate(("cn", "en", "gl")):
+                for i, cls in enumerate(("cn", "en", "gl")[:ncols]):
                     text = row[i] if i < len(row) else ""
                     inner, is_head = table_cell_html(text)
                     if is_head:
@@ -912,7 +923,7 @@ def render_hybrid_html(title: str, sections, design: dict,
                 rows.append(f'<tr>{"".join(cells)}</tr>')
         tables_html.append(
             f'<section class="sec"><h2>{html.escape(name)}</h2>'
-            f'<table>{"".join(rows)}</table></section>')
+            f'<table class="c{ncols}">{"".join(rows)}</table></section>')
     questions = [it["text"] for _, items in sections
                  for it in items if it["kind"] == "question"]
     n = len(questions)
