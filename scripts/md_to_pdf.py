@@ -702,6 +702,7 @@ h2 {{
 }}
 table {{ width: 100%; border-collapse: collapse; }}
 tr {{ break-inside: avoid; page-break-inside: avoid; }}
+tbody.grp {{ break-inside: avoid; page-break-inside: avoid; }}
 td {{
   border: 0.55pt solid {tok['hairline']};
   padding: 1.3mm 2.4mm; vertical-align: top;
@@ -744,34 +745,84 @@ def table_cell_html(text: str) -> tuple[str, bool]:
     return wrap_cjk_runs(html.escape(m.group(1) if m else stripped)), bool(m)
 
 
+def label_spans(labels: list[str]) -> list[int]:
+    """Rowspan per row for a label column, 0 where the cell is merged away.
+
+    Neighbouring rows that repeat the same non-empty label (``Cold 感冒``
+    four rows running) collapse into one cell, so the label column reads as
+    a group name instead of the same words stamped down the page.
+    """
+    spans = [1] * len(labels)
+    start = 0
+    for i, label in enumerate(labels):
+        if i and label and label == labels[i - 1]:
+            spans[start] += 1
+            spans[i] = 0
+        else:
+            start = i
+    return spans
+
+
 def table_rows_html(rows, label_pct: float | None = None) -> str:
     """Rows as <thead>/<tbody>; the first row becomes a repeating header.
 
     ``label_pct`` pins the first column's width on the header row, which is
-    what a fixed-layout table uses to size that column.
+    what a fixed-layout table uses to size that column. Repeated labels in
+    the first column are merged into one cell spanning their rows, and each
+    such group gets its own <tbody> so a page break can never strip the
+    label from the rows that carry on overleaf.
     """
+    parsed: list[tuple[list[tuple[str, bool]], bool]] = []
+    for row in rows:
+        cells = [table_cell_html(cell) for cell in row]
+        parsed.append((cells, bool(cells) and all(h for _, h in cells)))
     head: list[str] = []
-    body: list[str] = []
-    for r_i, row in enumerate(rows):
-        tds = []
-        header_cells = 0
-        for i, cell in enumerate(row):
-            inner, is_head = table_cell_html(cell)
-            header_cells += is_head
-            classes = "cn" if i == 0 else "en"
-            if is_head:
-                classes += " head"
-                inner = f"<b>{inner}</b>"
-            style = (f' style="width:{label_pct:.1f}%"'
-                     if i == 0 and r_i == 0 and label_pct else "")
-            tds.append(f'<td class="{classes}"{style}>{inner}</td>')
-        tr = f"<tr>{''.join(tds)}</tr>"
-        if r_i == 0 and header_cells == len(row):
-            head.append(tr)
+    body: list[list[tuple[str, bool]]] = []
+    for r_i, (cells, is_head_row) in enumerate(parsed):
+        if r_i == 0 and is_head_row:
+            head.append("<tr>" + "".join(
+                _table_td(c, i, True, label_pct)
+                for i, c in enumerate(cells)) + "</tr>")
         else:
-            body.append(tr)
+            body.append(cells)
+    spans = label_spans([cells[0][0].strip() if cells else ""
+                         for cells in body])
+    groups: list[tuple[bool, list[str]]] = []
+    r_i = 0
+    while r_i < len(body):
+        n = spans[r_i] or 1  # a merged-away row belongs to the group above
+        keep = n > 1
+        trs = []
+        for r in range(r_i, r_i + n):
+            span = spans[r]
+            trs.append("<tr>" + "".join(
+                _table_td(c, i, False, label_pct, span=span if i == 0 else 1)
+                for i, c in enumerate(body[r]) if i or span) + "</tr>")
+        if not keep and groups and not groups[-1][0]:
+            groups[-1][1].extend(trs)
+        else:
+            groups.append((keep, trs))
+        r_i += n
     thead = f"<thead>{''.join(head)}</thead>" if head else ""
-    return f"{thead}<tbody>{''.join(body)}</tbody>"
+    body_html = "".join(
+        f'<tbody class="grp">{"".join(trs)}</tbody>' if keep
+        else f'<tbody>{"".join(trs)}</tbody>' for keep, trs in groups)
+    return f"{thead}{body_html}"
+
+
+def _table_td(cell: tuple[str, bool], i: int, first_row: bool,
+              label_pct: float | None, span: int = 1) -> str:
+    inner, is_head = cell
+    classes = "cn" if i == 0 else "en"
+    if span > 1:
+        classes += " grp"
+    if is_head:
+        classes += " head"
+        inner = f"<b>{inner}</b>"
+    attrs = f' rowspan="{span}"' if span > 1 else ""
+    if i == 0 and first_row and label_pct:
+        attrs += f' style="width:{label_pct:.1f}%"'
+    return f'<td class="{classes}"{attrs}>{inner}</td>'
 
 
 def render_tables_html(title: str, sections, design: dict,
@@ -869,6 +920,7 @@ h2 {{
 }}
 table {{ width: 100%; border-collapse: collapse; }}
 tr {{ break-inside: avoid; page-break-inside: avoid; }}
+tbody.grp {{ break-inside: avoid; page-break-inside: avoid; }}
 td {{
   border: 0.5pt solid {tok['hairline']};
   padding: 0.4mm 1.4mm; vertical-align: top;

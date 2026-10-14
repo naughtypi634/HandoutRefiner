@@ -2,43 +2,43 @@
 
 **Discomforts and Symptoms 不适与症状**
 
-**Discomfort 不适**          **Symptom 症状**               **What to Say 可以这样说**                   
----------------------------  -----------------------------  ---------------------------------------------
-Motion Sickness 晕车/晕船    Nausea 恶心                    I feel nauseous.                             
-Motion Sickness 晕车/晕船    Vomiting 呕吐                  I think I'm going to throw up.               
-Motion Sickness 晕车/晕船    Dizziness 头晕                 I feel dizzy.                                
-Cold 感冒                    Sore Throat 喉咙痛             I have a sore throat.                        
-Cold 感冒                    Runny Nose 流鼻涕              I have a runny nose.                         
-Cold 感冒                    Cough 咳嗽                     I have a bad cough.                          
-Cold 感冒                    Fever 发热                     I have a slight fever. / I have a high fever.
-Diarrhea 腹泻                Abdominal Pain 腹痛            I have a stomachache.                        
-Diarrhea 腹泻                Dehydration 脱水               I feel weak and thirsty.                     
-Allergies 过敏               Rash 皮疹                      I have a rash on my arms.                    
-Allergies 过敏               Itching 瘙痒                   My skin is really itchy.                     
-Headache 头痛                Head Pain 头部疼痛             I have a dull pain. / I have a sharp pain.   
-Headache 头痛                Sensitivity to Light 对光敏感  Bright light hurts my eyes.                  
-Sunburn 晒伤                 Redness of Skin 皮肤红肿       My skin is red and sore.                     
-Sunburn 晒伤                 Pain 疼痛                      It hurts when I touch it.                    
-Dehydration 脱水             Thirst 口渴                    I'm really thirsty.                          
-Dehydration 脱水             Fatigue 乏力                   I have no energy.                            
-Insect Bites 虫咬            Redness 红肿                   The bite is red and swollen.                 
-Insect Bites 虫咬            Itching 瘙痒                   It itches so much.                           
-Food Poisoning 食物中毒      Nausea 恶心                    I feel sick.                                 
-Food Poisoning 食物中毒      Vomiting 呕吐                  I've been throwing up all night.             
-Food Poisoning 食物中毒      Abdominal Pain 腹痛            I have bad stomach cramps.                   
-Altitude Sickness 高原反应   Headache 头痛                  I have a bad headache.                       
-Altitude Sickness 高原反应   Nausea 恶心                    I feel like throwing up.                     
-Altitude Sickness 高原反应   Fatigue 乏力                   I get out of breath easily.                  
-Muscle Soreness 肌肉酸痛     Pain 疼痛                      My legs ache after the hike.                 
-Muscle Soreness 肌肉酸痛     Stiffness 僵硬                 My neck feels stiff.                         
-Fatigue 疲劳                 Exhaustion 乏力                I'm worn out.                                
-Fatigue 疲劳                 Drowsiness 嗜睡                I can't keep my eyes open.                   
-Traveler's Illness 水土不服  Abdominal Pain 腹痛            My stomach hurts.                            
-Traveler's Illness 水土不服  Nausea 恶心                    I feel sick to my stomach.                   
-Traveler's Illness 水土不服  Diarrhea 腹泻                  I have diarrhea.                             
-Jet Lag 时差反应             Fatigue 疲劳                   I'm exhausted, but I can't sleep.            
-Jet Lag 时差反应             Insomnia 失眠                  I wake up at 3 a.m. every night.             
-Jet Lag 时差反应             Headache 头痛                  I have a headache from lack of sleep.        
+**Discomfort 不适**              **Symptom 症状**                     **What to Say 可以这样说**                       
+---------------------------  -----------------------------    ---------------------------------------------
+Motion Sickness 晕车/晕船    Nausea 恶心                      I feel nauseous.                             
+Motion Sickness 晕车/晕船    Vomiting 呕吐                    I think I'm going to throw up.               
+Motion Sickness 晕车/晕船    Dizziness 头晕                   I feel dizzy.                                
+Cold 感冒                    Sore Throat 喉咙痛               I have a sore throat.                        
+Cold 感冒                    Runny Nose 流鼻涕                I have a runny nose.                         
+Cold 感冒                    Cough 咳嗽                       I have a bad cough.                          
+Cold 感冒                    Fever 发热                       I have a slight fever. / I have a high fever.
+Diarrhea 腹泻                Abdominal Pain 腹痛              I have a stomachache.                        
+Diarrhea 腹泻                Loss of Appetite 没胃口          I can't eat anything.                        
+Allergies 过敏               Rash 皮疹                        I have a rash on my arms.                    
+Allergies 过敏               Itching 瘙痒                     My skin is really itchy.                     
+Headache 头痛                Head Pain 头部疼痛               I have a dull pain. / I have a sharp pain.   
+Headache 头痛                Sensitivity to Light 对光敏感    Bright light hurts my eyes.                  
+Sunburn 晒伤                 Redness of Skin 皮肤红肿         My skin is red and sore.                     
+Sunburn 晒伤                 Pain 疼痛                        It hurts when I touch it.                    
+Dehydration 脱水             Thirst 口渴                      I'm really thirsty.                          
+Dehydration 脱水             Weakness 虚弱                    I feel weak and thirsty.                     
+Insect Bites 虫咬            Redness 红肿                     The bite is red and swollen.                 
+Insect Bites 虫咬            Itching 瘙痒                     It itches so much.                           
+Food Poisoning 食物中毒      Nausea 恶心                      I feel sick.                                 
+Food Poisoning 食物中毒      Vomiting 呕吐                    I've been throwing up all night.             
+Food Poisoning 食物中毒      Abdominal Pain 腹痛              I have bad stomach cramps.                   
+Altitude Sickness 高原反应   Shortness of Breath 呼吸急促     I can't catch my breath.                     
+Altitude Sickness 高原反应   Nausea 恶心                      I feel like throwing up.                     
+Altitude Sickness 高原反应   Fast Heartbeat 心跳加快          My heart is racing.                          
+Muscle Soreness 肌肉酸痛     Pain 疼痛                        My legs ache after the hike.                 
+Muscle Soreness 肌肉酸痛     Stiffness 僵硬                   My neck feels stiff.                         
+Fatigue 疲劳                 Exhaustion 乏力                  I'm worn out.                                
+Fatigue 疲劳                 Drowsiness 嗜睡                  I can't keep my eyes open.                   
+Traveler's Illness 水土不服  Abdominal Pain 腹痛              My stomach hurts.                            
+Traveler's Illness 水土不服  Nausea 恶心                      I feel sick to my stomach.                   
+Traveler's Illness 水土不服  Upset Stomach 肠胃不适           My stomach has been upset for two days.      
+Jet Lag 时差反应             Grogginess 昏昏沉沉              I'm exhausted, but I can't sleep.            
+Jet Lag 时差反应             Insomnia 失眠                    I wake up at 3 a.m. every night.             
+Jet Lag 时差反应             Poor Concentration 注意力不集中  I can't focus on anything today.             
 
 **Describing Symptoms 描述症状**
 
